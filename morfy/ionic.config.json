@@ -1,0 +1,7 @@
+{
+  "name": "morfy",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
