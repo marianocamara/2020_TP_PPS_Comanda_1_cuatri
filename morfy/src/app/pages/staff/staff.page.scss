@@ -1,0 +1,175 @@
+@import url('https://fonts.googleapis.com/css?family=Rubik&display=swap');
+
+
+.bg {
+    // background: var(--ion-color-light);
+    --background: var(--ion-color-light);
+    --ion-font-family: 'Rubik', sans-serif;
+    display: flex; //ver
+    flex-flow: column; //ver
+    height: 100%; //ver
+
+}
+
+ion-toolbar {
+    --background: var(--ion-color-light);
+    padding: 20px 20px 10px 20px;
+}
+ion-title {
+    font-size: 3vh;
+    font-weight: 500;
+}
+
+
+.row-cards {
+    flex-wrap: nowrap;
+    padding: 20px 20px 10px 40px;
+    overflow-y: scroll;
+    // margin-top: 30px;
+
+    .card {
+        border-radius: 25px;
+        color: white;
+        height: 180px;
+        width: 320px;
+        box-shadow: 0px 3px 14px -6px rgba(0,0,0,0.75);
+        position: relative;
+        margin-right: 20px;
+
+        .card-number {
+            font-size: 14px;
+            margin-bottom: 30px;
+            margin-top: 20px;
+        }
+        .card-holder {
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+        .card-person-name {
+            font-size: 12px;
+        }
+        .visa-logo {
+            position: absolute;
+            bottom: 0;
+            right: 5px;
+            width: 60px;
+        }
+    }
+}
+
+.gradient-1 {
+    background: linear-gradient(48deg, rgba(150,231,235,1) 0%, rgba(104,116,207,1) 100%);
+    --background: linear-gradient(48deg, rgba(150,231,235,1) 0%, rgba(104,116,207,1) 100%);
+}
+.gradient-2 {
+    background: linear-gradient(48deg, rgba(150,192,235,1) 0%, rgba(161,104,207,1) 100%);
+    --background: linear-gradient(48deg, rgba(150,192,235,1) 0%, rgba(161,104,207,1) 100%);
+}
+.gradient-3 {
+    background: linear-gradient(48deg, rgba(150,235,221,1) 0%, rgba(116,207,104,1) 100%);
+    --background: linear-gradient(48deg, rgba(150,235,221,1) 0%, rgba(116,207,104,1) 100%);
+}
+
+
+.list-transactions {
+    background: none;
+    --background: none;
+
+    ion-item {
+        border-radius: 10px;
+        margin-bottom: 10px;
+        --padding-start:10px;
+    }
+}
+
+.section-title {
+    padding: 20px 20px 0 40px;
+}
+
+
+
+.row-cards-emp {
+    flex-wrap: nowrap;
+    padding: 20px 20px 0 40px;
+    overflow-y: scroll;
+    text-align: center;
+
+    .card-plus {
+        border-radius: 15px;
+        color: black;
+        border-style: solid;
+        border-width: medium;
+        border-color: black;
+        height: 45px;
+        width: 45px;
+        // box-shadow: 0px 3px 14px -6px rgba(0,0,0,0.1);
+        position: relative;
+        margin-right: 20px;
+    }
+
+    .card {
+        border-radius: 10px;
+        color: black;
+        background-color: white;
+        height: 105px;
+        width: 90px;
+        box-shadow: 0px 3px 14px -6px rgba(0,0,0,0.1);
+        position: relative;
+        margin-right: 20px;
+
+        ion-avatar {
+            margin: 0;
+            text-align: center;
+            height: 50px;
+            width: 50px;
+        }
+        
+        .card-person-name {
+            text-align: center;
+            font-size: 12px;
+        }
+    }
+}
+
+.gestion {
+    background-color: white;
+    --background: white;
+    border-top-left-radius: 50px;
+    border-top-right-radius: 50px;
+    margin-top: 40px;
+    padding: 20px 20px 0 20px;
+    box-shadow: 0px -4px 20px 0px rgba(168, 168, 168, 0.1);
+    // min-height: 320px;
+    flex-grow : 1; //ver
+
+    ion-item-sliding {
+            margin-bottom: 20px;
+        
+    }
+}
+
+
+
+
+
+$bgColor: #f8f9fb;
+$textColor: #9ca3c0;
+
+
+.text-bold { font-weight: bold; }
+a {color: $textColor !important;}
+
+.text-custom { color: $textColor !important; }
+.text-medium { color: var(--ion-color-medium) }
+.text-primary { color: var(--ion-color-dark) }
+.text-success { color: var(--ion-color-success-shade) }
+
+.text-8pt { font-size: 8pt; }
+.text-9pt { font-size: 9pt; }
+.text-10pt { font-size: 10pt; }
+.text-11pt { font-size: 11pt; }
+.text-12pt { font-size: 12pt; }
+
+.width-100percent {
+    width: 100%;
+}

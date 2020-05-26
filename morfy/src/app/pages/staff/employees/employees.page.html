@@ -1,0 +1,108 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="ion-no-border">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      Personal
+    </ion-title>
+    <ion-avatar slot="end" style="height:40px; width: 40px; margin-right: 8px;" *ngIf="user">
+      <img [src]="user ? user.imageUrl : 'Loading...'" (click)="goToProfile()">
+    </ion-avatar>
+    <ion-buttons slot="start">
+      <ion-buttons slot="start">
+          <ion-back-button defaultHref="staff"></ion-back-button>
+      </ion-buttons>
+  </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="bg">
+
+    <ion-grid class="ion-no-padding">
+      <ion-row class="row-cards">
+        <ion-col>
+          <div class="card gradient-1 ion-padding">
+            <div class="card-number">XXXX XXXX XXXX 1234</div>
+            <div class="card-holder">Card Holder</div>
+            <div class="card-person-name">Name of person</div>
+
+            <img src="" class="visa-logo">
+          </div>
+        </ion-col>
+
+        <ion-col>
+          <div class="card gradient-2 ion-padding">
+            <div class="card-number">XXXX XXXX XXXX 1234</div>
+            <div class="card-holder">Card Holder</div>
+            <div class="card-person-name">Name of person</div>
+          
+            <img src="" class="visa-logo">
+          </div>
+        </ion-col>
+
+        <ion-col>
+          <div class="card gradient-3 ion-padding">
+            <div class="card-number">XXXX XXXX XXXX 1234</div>
+            <div class="card-holder">Card Holder</div>
+            <div class="card-person-name">Name of person</div>
+        
+            <img src="" class="visa-logo">
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <div class="padding-20">
+      <h6>Recent transactions</h6>
+      <p>Today</p>
+
+      <ion-list lines="none" class="list-transactions">
+        
+        <ion-item>
+          <ion-thumbnail slot="start">
+            <img src="http://bdatechnical.com/wp-content/uploads/2019/06/empty-profile-250x250.jpg" />
+          </ion-thumbnail>
+          <ion-label>
+            <h2>Braian Cardozo</h2>
+            <p>Cocinero</p>
+          </ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-thumbnail slot="start">
+            <img
+              src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg" />
+          </ion-thumbnail>
+          <ion-label>
+            <h2>Mariano Camara</h2>
+            <p>Mozo</p>
+          </ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-thumbnail slot="start">
+            <img
+              src="http://bdatechnical.com/wp-content/uploads/2019/06/empty-profile-250x250.jpg" />
+          </ion-thumbnail>
+          <ion-label>
+            <h2>Ariel Traut</h2>
+            <p>Dueño</p>
+          </ion-label>
+        </ion-item>
+        
+        <ion-item>
+          <ion-thumbnail slot="start">
+            <img src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg" />
+          </ion-thumbnail>
+          <ion-label>
+            <h2>Pepe Pepon</h2>
+            <p>Supervisor</p>
+          </ion-label>
+        </ion-item>
+
+      </ion-list>
+
+    </div>
+
+</ion-content>
