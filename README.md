@@ -12,16 +12,16 @@ Integrantes:<br>
 <h1>[Sprint 1] 23/05/2020 - 30/05/2020</h1>
 <br>
 Objetivos planteados: 
-1 - Generación del Repositorio.
-2 - Generación de la estructura del proyecto.
-3 - Establecer y coordinar flujo de trabajo en Git.
-4 - Diseño y selección de Icono.
-5 - Busqueda de estructura estetica de nuestro proyecto. 
-6 - Servicio de Firebase.
-7 - Generación del Login.
-8 - Generación del dashboard de empleados.
-9 - Diagrama de flujo de las pantallas.
-10 - Planteo de modelo de datos a utilizar. 
+1 - Generación del Repositorio.<br>
+2 - Generación de la estructura del proyecto.<br>
+3 - Establecer y coordinar flujo de trabajo en Git.<br>
+4 - Diseño y selección de Icono.<br>
+5 - Busqueda de estructura estetica de nuestro proyecto. <br>
+6 - Servicio de Firebase.<br>
+7 - Generación del Login.<br>
+8 - Generación del dashboard de empleados.<br>
+9 - Diagrama de flujo de las pantallas.<br>
+10 - Planteo de modelo de datos a utilizar. <br><br>
 
 9) Diagrama de Flujo:
 
