@@ -26,4 +26,4 @@ Objetivos planteados:
 10 - Planteo de modelo de datos a utilizar. <br><br>
 
 9) Diagrama de Flujo:
-![Imagen de flujo de pagina](./morfy/src/assets/general%20resources/flow-v2.JPG)
+![Imagen de flujo de pagina](./morfy/src/assets/general resources/flow-v2.png)
