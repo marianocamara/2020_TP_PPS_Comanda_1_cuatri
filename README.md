@@ -3,10 +3,12 @@
 <p>El equipo de Morfy esta ampliamente interesado en que todo usuario que utilice la aplicación pueda acceder sin ningun tipo de inconveniente a cada una de las funcionalidades que la misma tiene. 
 Queremos que todo el trabajo que realicemos garantice la comodidad de la totalidad de nuestros usuario y genere una grata mejora en su experiencia de visitar alguno de los locales de nuestros clientes. </p>
 <br>
-Integrantes:<br>
-<h5>Mariano Camara</h5>
-<h5>Ariel Traut</h5>
-<h5>Braian Cardozo</h5>
+<h3>Integrantes:</h3><br>
+<ul>
+  <li>Mariano Camara</li>
+  <li>Ariel Traut</li>
+  <li>Braian Cardozo</li>
+</ul>
 
 <br>
 <h1>[Sprint 1] 23/05/2020 - 30/05/2020</h1>
@@ -24,4 +26,4 @@ Objetivos planteados:
 10 - Planteo de modelo de datos a utilizar. <br><br>
 
 9) Diagrama de Flujo:
-<img src="\CardozoBraianEzequiel\2020_TP_PPS_Comanda_1_cuatri\blob\master\morfy\src\assets\general%20resources\flow-v2.png" style="max-width:100%;">
+![Imagen de flujo de pagina](./morfy/src/assets/general%20resources/flow-v2.JPG)
