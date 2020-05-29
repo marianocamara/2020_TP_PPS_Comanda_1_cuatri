@@ -24,5 +24,5 @@ Objetivos planteados:
 10 - Planteo de modelo de datos a utilizar. <br><br>
 
 9) Diagrama de Flujo:
-
+https://github.com/CardozoBraianEzequiel/2020_TP_PPS_Comanda_1_cuatri/blob/master/morfy/src/assets/general%20resources/flow-v2.png
 
