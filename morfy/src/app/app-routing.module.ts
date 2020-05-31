@@ -8,7 +8,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'welcome',
     pathMatch: 'full'
   },
   {
@@ -19,6 +19,20 @@ const routes: Routes = [
     path: 'customer',
     loadChildren: () => import('./pages/customer/customer.module').then( m => m.CustomerPageModule)
   },
+  {
+    path: 'signin',
+    loadChildren: () => import('./pages/authentication/signin/signin.module').then( m => m.SigninPageModule)
+  },
+  {
+    path: 'signup',
+    loadChildren: () => import('./pages/authentication/signup/signup.module').then( m => m.SignupPageModule)
+  },
+  {
+    path: 'welcome',
+    loadChildren: () => import('./pages/authentication/welcome/welcome.module').then( m => m.WelcomePageModule)
+  },
+
+
 
 ];
 

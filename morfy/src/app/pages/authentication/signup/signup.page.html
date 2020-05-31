@@ -1,0 +1,133 @@
+<ion-content class="">
+
+  <ion-row class="page-header">
+    <ion-col>
+      <ion-toolbar class="bg-none">
+        <ion-icon (click)="navCtrl.navigateForward('/')" class="back-button" name="arrow-back-outline"></ion-icon>
+        <div class="welcome-message">
+          <h1>Crea tu <br>cuenta.</h1>  
+        </div>  
+      </ion-toolbar> 
+    </ion-col>
+  </ion-row>
+
+  <div class="ion-padding">
+    <div style="width: 100%;">
+      <ion-row>
+        <ion-col>
+          
+          <form class="form" [formGroup]="validationsForm">
+
+            <ion-col size-sm="8" offset-sm="2" style="padding-top: 20px;">
+              <app-image-picker
+                [showPreview]="validationsForm.get('image').value"
+                (imagePick)="onImagePicked($event)"
+              ></app-image-picker>
+            </ion-col>
+            
+            <div class="two-column">
+            <ion-item class="ion-margin-bottom column-one">
+              <ion-label  position="floating">Nombre</ion-label>
+              <ion-input type="text" formControlName="name" required></ion-input>
+            </ion-item>
+            
+            <ion-item class="ion-margin-bottom column-two">
+              <ion-label  position="floating">Apellido</ion-label>
+              <ion-input type="text" formControlName="lastName" required></ion-input>
+            </ion-item>
+          </div>
+            
+            <ion-row class="anonymous ion-align-items-center">  
+              <ion-col size="8"> <p>Registrarme como anonimo</p></ion-col>  
+              <ion-col class="ion-text-end"><ion-toggle color="morfy"  [(ngModel)]="isAnonymous" [ngModelOptions]="{standalone: true}"></ion-toggle></ion-col>
+            </ion-row>
+            
+            <ion-item class="ion-margin-bottom" *ngIf="!isAnonymous">
+              <ion-label  position="floating">DNI</ion-label>
+              <ion-input type="number" formControlName="dni" pattern="[0-9]{8}"></ion-input>
+            </ion-item>
+            
+            <div class="validation-errors">
+              <ng-container *ngFor="let validation of validation_messages.dni">
+                <div
+                class="error-message" 
+                *ngIf="validationsForm.get('dni').hasError(validation.type) 
+                && (validationsForm.get('dni').dirty 
+                || validationsForm.get('dni').touched)">
+                {{ validation.message }}
+              </div>
+            </ng-container>
+          </div>
+          
+          <ion-item class="ion-margin-bottom"  *ngIf="!isAnonymous">
+            <ion-label  position="floating">Correo</ion-label>
+            <ion-input type="text" formControlName="email"></ion-input>
+          </ion-item>
+          
+          <div class="validation-errors">
+            <ng-container *ngFor="let validation of validation_messages.email">
+              <div
+              class="error-message" 
+              *ngIf="validationsForm.get('email').hasError(validation.type) 
+              && (validationsForm.get('email').dirty 
+              || validationsForm.get('email').touched)">
+              {{ validation.message }}
+            </div>
+          </ng-container>
+        </div>
+        
+        <ion-item class="ion-margin-bottom pass"  *ngIf="!isAnonymous">
+          <ion-label  position="floating">Contraseña</ion-label>
+          <ion-input *ngIf="!showPasswordText"type="password" formControlName="password" class="form-controll" required></ion-input>
+          <ion-input *ngIf="showPasswordText" type="text" formControlName="password" class="form-controll" required></ion-input>
+          <button class="eye" slot="end" ion-button icon-only type="button" (click)="showPasswordText = !showPasswordText">
+            <ion-icon *ngIf="!showPasswordText" name="eye-outline"> </ion-icon>
+            <ion-icon *ngIf="showPasswordText" name="eye-off-outline"> </ion-icon>
+          </button>
+        </ion-item>
+        
+        <div class="validation-errors">
+          <ng-container *ngFor="let validation of validation_messages.password">
+            <div 
+            class="error-message" 
+            *ngIf="validationsForm.get('password').hasError(validation.type) 
+            && (validationsForm.get('password').dirty 
+            || validationsForm.get('password').touched)">
+            {{ validation.message }}
+          </div>
+        </ng-container>
+      </div>
+      
+      <ion-button
+      *ngIf="!isAnonymous"
+      mode="ios"
+      expand="block" 
+      class="ion-margin-top enter" 
+      (click)="createUser(validationsForm.value)" 
+      [disabled]="!validationsForm.valid || !validationsForm.get('image').value">
+      Continuar
+    </ion-button>
+
+    <ion-button
+    *ngIf="isAnonymous"
+      mode="ios"
+      expand="block" 
+      class="ion-margin-top enter" 
+      (click)="createUser(validationsForm.value)">
+      Continuar
+    </ion-button>
+    
+    <div class="error-message-2">{{errorMessage}}</div>
+  </form> 
+</ion-col>
+
+</ion-row>
+
+<ion-row class="signup">  
+  <ion-col><span class="question-sign">?</span>Ya tienes cuenta?</ion-col>  
+  <ion-col class="ion-text-end" (click)="goToSignInPage()"><strong>Ingresa</strong></ion-col>
+</ion-row>
+</div>
+</div>
+
+</ion-content>
