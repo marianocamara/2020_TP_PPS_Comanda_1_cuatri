@@ -103,7 +103,7 @@ Objetivos planteados: <br>
 </ul><br>
 
 9) Diagrama de Flujo:
-<img src="https://github.com/CardozoBraianEzequiel/2020_TP_PPS_Comanda_1_cuatri/documents/flow-v2.png" >
+<img src="documents/flow-v2.png" >
 
 <br>
 <h1>[Sprint 2] 30/05/2020 - 06/06/2020</h1>
