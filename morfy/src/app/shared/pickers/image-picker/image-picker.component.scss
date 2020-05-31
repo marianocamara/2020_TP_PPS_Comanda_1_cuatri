@@ -1,0 +1,34 @@
+
+
+.picker {
+    height: 10rem;
+    width: 60%;
+    background-color: rgba(220, 220, 220, 0.3);
+    margin: -5px auto 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    border-radius: 30px;
+    
+}
+
+.image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+input[type='file'] {
+    display: none;
+}
+
+.picker ion-button{
+    height: 4rem;
+    width: 4rem;
+    --border-radius: 30px;
+}
+
+.picker ion-icon{
+    color: white;
+}

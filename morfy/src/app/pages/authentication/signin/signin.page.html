@@ -1,0 +1,94 @@
+<ion-header class="page-header ion-no-border ion-padding">
+  <ion-toolbar class="bg-none">
+    <ion-icon (click)="navCtrl.navigateForward('/')" class="back-button" name="arrow-back-outline"></ion-icon>
+    <div class="welcome-message">
+      <h1>Nos alegra <br>verte de vuelta.</h1>  
+    </div>  
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="centered">
+    <div style="width: 100%;">
+      <ion-row>
+        <ion-col>
+          
+          <form class="form" [formGroup]="validationsForm">
+            
+            <ion-item class="ion-margin-bottom">
+              <ion-label  position="floating">Correo</ion-label>
+              <ion-input type="text" formControlName="email"></ion-input>
+            </ion-item>
+            <div class="validation-errors">
+              <ng-container *ngFor="let validation of validation_messages.email">
+                <div
+                class="error-message" 
+                *ngIf="validationsForm.get('email').hasError(validation.type) 
+                && (validationsForm.get('email').dirty 
+                || validationsForm.get('email').touched)">
+                {{ validation.message }}
+              </div>
+            </ng-container>
+          </div>
+          
+          <ion-item class="ion-margin-bottom pass">
+            <ion-label  position="floating">Contraseña</ion-label>
+            <ion-input *ngIf="!showPasswordText"type="password" formControlName="password" class="form-controll" required></ion-input>
+            <ion-input *ngIf="showPasswordText" type="text" formControlName="password" class="form-controll" required></ion-input>
+            <button class="eye" slot="end" ion-button icon-only type="button" (click)="showPasswordText = !showPasswordText">
+              <ion-icon *ngIf="!showPasswordText" name="eye-outline"> </ion-icon>
+              <ion-icon *ngIf="showPasswordText" name="eye-off-outline"> </ion-icon>
+            </button>
+          </ion-item>
+          
+          <div class="validation-errors">
+            <ng-container *ngFor="let validation of validation_messages.password">
+              <div 
+              class="error-message" 
+              *ngIf="validationsForm.get('password').hasError(validation.type) 
+              && (validationsForm.get('password').dirty 
+              || validationsForm.get('password').touched)">
+              {{ validation.message }}
+            </div>
+          </ng-container>
+        </div>
+        
+        <ion-button
+        mode="ios"
+        expand="block" 
+        class="ion-margin-top enter" 
+        (click)="loginUser(validationsForm.value)" 
+        [disabled]="!validationsForm.valid">
+        Iniciar sesion
+      </ion-button>
+      
+      <div class="error-message-2">{{errorMessage}}</div>
+    </form> 
+  </ion-col>
+  
+</ion-row>
+
+<ion-row class="signup">  
+  <ion-col><span class="question-sign">?</span>No tienes cuenta?</ion-col>  
+  <ion-col class="ion-text-end" (click)="goToSignUpPage()"><strong>Registrate</strong></ion-col>
+</ion-row>
+
+<!--<ion-row  class="social">  
+  <ion-col class="ion-text-center ion-margin-vertical" size="12">Continuar con</ion-col> 
+  <ion-col class="ion-text-center" size="12">
+    <ion-icon name="logo-facebook"></ion-icon>
+    <ion-icon (click)="signInGoogle()" name="logo-google"></ion-icon>
+    <ion-icon name="logo-linkedin"></ion-icon>
+  </ion-col>  
+</ion-row>-->
+
+</div>
+</div>
+
+</ion-content>
+
+<ion-footer class="ion-no-border easy-access"> 
+  <ion-toolbar>
+    <h5 class="ingresos ion-text-center" expand="full" (click)="presentActionSheet()" >Acceso rápido</h5>
+  </ion-toolbar>
+</ion-footer>

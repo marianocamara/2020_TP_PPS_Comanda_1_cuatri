@@ -1,0 +1,93 @@
+Alta producto: no solo lector de qr, sino que lo genere tambien
+
+GitHub de ejemplo: https://github.com/sotomayormatias/2019_TP_PPS_Comanda
+
+
+Cliente Registrado: (generar clientes ya registrado, acceso rapido para test)
+Una vez que este logueado:
+	*1ero que tengo que hacer es leer el qr de entrada del resto.
+		- La lectura de qr una vez logueado te pone en una lista de espera.
+		- La lista de espera se actualiza en el listado del usuario con perfil de "metre"
+
+Cuando se libera una mesa al metre "le asigna una mesa al cliente". 
+(se le cambia de estado al cliente y se borra de la lista de espera)
+Una vez cambia de estado el cliente puede:
+	* Leer el qr de la mesa y ver si esta libre
+		- Si esta libre, ingresa (se relaciona la mesa con el cliente)
+Una vez ingresado lee otra vez el qr y le muestra:
+	* El listado con las comidas y bebidas
+		- (Cada cosa de la mesa tiene 3 fotos)
+		- Siempre visible tiene que tener el precio.
+	* Puede empezar a cargar pedidos.
+	* Solo un unico comensal hace el pedido. 
+	
+Ej.: "Si seleccione ravioles, pongo la cantidad y puedo agregarlo al pedido"
+
+Una vez tengo armado el pedido, y selecciono "Pedir":
+	* Una vez se hace "Pedir" se le asigna a un mozo
+		- (Controlemos nosotros el manejo de los mozos)
+
+Al mozo le aparece:
+	* En su listado que la mesa X tiene el pedido pendiente.
+	* El mozo ve el pedido y 
+	* El mozo le indica al cliente si le confirma el pedido (pregunta fisica, no en la app).
+	* El mozo puede confirmar el pedido 
+	
+Una vez se confirma, se le envia cada pedido a quien corresponda
+	* Cocina, bartender, bachero.. etc
+
+Se hace solo de a 1 pedido.
+
+Cuando el cliente vuelva a leer el qr una vez realizado el pedido:
+	* Se habilita la seccion de juegos y la seccion de encuestas (para la espera)
+	* En cada sector (cocina, bartender.. etc) el listado tiene que aparecer con el pedido cargado
+		- Cuando el elemento del pedido este listo... el bartender lo marca como "listo" 
+		- Una vez listo: le actualiza el pedido que ve el cliente 
+		- Se le pone OK *saca de pendiente* cada elemento.
+
+Una vez todos los items del pedido de la lista, esten OK:
+	* Le aparece al mozo en el listado de LISTOS
+	* El pedido cargado para ser entregado a que mesa.
+	* Debe "marcarlo como entregado" para esa mesa.
+		- Cambia el estado del pedido como entregado.
+
+Para confirmar la entrega, el cliente lee el qr y tiene que darle "Entregado" (leyendo al qr)
+	* Una vez entregado:
+		- Si lee el qr lee visualiza: encuesta, juegos o solicitar cuenta.
+
+Si solicita la cuenta:
+	* Le aparece al mozo que tal cliente solicita la cuenta.
+	* Al cliente le aparece el detalle de pago (pedidos, cantidades, descuentos, propina)
+	* Una vez el cliente pone pagar se "libera la mesa"
+
+Si se liberla la mesa: 
+	* Si el cliente lee el qr otra vez, lo manda a la lista de espera de una.
+	* Es decir si no estas en la lista de espera, no podes ingresar a una mesa.
+
+Por reserva:
+	* Mismo mecanismo, pero el proceso por lista de espera lo hace el supervisor o dueño.
+		- El proceso que hacia el metre, lo hace el supervisor
+	
+Una vez conseguida la reserva (aprobada por perfil supervisor)
+	* Puede sentarse en la meza directamente.
+
+El delivery:
+	* Es igual, aceptado por el supervisor. 
+	* Carga el pedido como si fuese por mesa.
+	* Una vez listo:
+		- El chico del delivery lo ve como ok
+		- Lo retira el.
+
+El cliente que hace pedido por delivery, no tiene ni juegos, ni encuestas.
+(si tiene encuestas son diferenciales, pero no obligatorias).
+Tiene la opcion de propina como TODOS.
+
+Para la semana que viene:
+- Grupo armado con nombre
+- Integrante alfa (Que es el que arma el readme semanal)
+- Ya definido el icono y el splash animado de la app
+* Splash con el nombre de todos los participantes del grupo o nombre del grupo *
+- Formulario de ingreso (alta con nombre apellido y dni)
+- Ingresar a la app
+
+

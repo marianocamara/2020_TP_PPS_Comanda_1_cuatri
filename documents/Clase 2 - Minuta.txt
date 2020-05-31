@@ -1,0 +1,30 @@
+
+#### Clase 30/05/2020 ####
+
+La registracion es obligatoria para todos. 
+A todos los usuarios les va a pedir email, a excepcion del usuario ANONIMO, el cual solo se le pedira "username".
+
+Una vez que se registra un usuario:
+	- Le llega una push notification al supervisor.
+	- Hasta que el supervisor/dueño no lo aprueba, no se le envia el email de confirmacion de ingreso (si corresponde)
+	- Hasta que el supervisor/dueño no lo aprueba, EL CLIENTE NO SE PUEDE LOGUEAR.
+
+
+Una vez se registra el anonimo:
+	- Le llega un push up a todos los mozos
+	- En el listado del metre le aparece que "{{user.username}}" esta en lista de espera 
+	- El usuario anonimo no hace ni reservas, no hace delivery.
+	- Una vez el usuario anonimo realiza el pago, se deberia darle una baja logica (para permitir guardar la estadistica de sus consumos)
+	
+
+* Envio de correo electronico es OBLIGATORIO para sacarse un 6 *
+	- Se puede hacer con Firebase (Tiene una forma de envio de emails) 
+	
+* Tema altas *
+	- Las comidas y bebidas se pueden dar de alta en una primer instancia por db, no es requisito para promocionar (Aunque estaria bueno)
+	- El dueño le da de alta al supervisor y a otros dueños. 
+	- El supervisor le puede dar de alta a cualquier cosa, menos a otro supervisores o a otro dueño.
+	- El resto de los permisos el supervisor los tiene todos (obviamente, el dueño tiene permiso para hacer todo.)
+	
+
+El alumno "ALFA" hace (si quiere) entrega semanal de los progresos.
