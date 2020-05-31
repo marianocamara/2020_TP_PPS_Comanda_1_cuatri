@@ -1,11 +1,46 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>customer</ion-title>
+<ion-header mode="ios" class="ion-no-border">
+  <ion-toolbar class="ion-no-border">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      morfy
+    </ion-title>
+    <ion-avatar slot="end" style="height:40px; width: 40px; margin-right: 8px;" *ngIf="user">
+      <img [src]="user ? user.imageUrl : 'Loading...'" (click)="goToProfile()">
+    </ion-avatar>
+    <ion-buttons slot="start">
+      <ion-buttons slot="start">
+          <ion-back-button text="" defaultHref="staff"></ion-back-button>
+      </ion-buttons>
+  </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
+
 <ion-content>
 
+  <ion-tabs>
+
+    <div class="tabs">
+      <ion-tab-bar slot="bottom" translucent=“true”>
+        <ion-tab-button tab="home">
+          <ion-icon name="home-outline"></ion-icon>
+          <ion-label>Inicio</ion-label>
+        </ion-tab-button>
+
+        <ion-tab-button tab="orders">
+          <ion-icon name="cart-outline"></ion-icon>
+          <ion-label>Pedidos</ion-label>
+        </ion-tab-button>
+
+        <ion-tab-button tab="more">
+          <ion-icon name="ellipsis-horizontal"></ion-icon>
+          <ion-label>Mas</ion-label>
+        </ion-tab-button>
+
+      </ion-tab-bar>
+    </div>
+  </ion-tabs>
+
 </ion-content>
-
-

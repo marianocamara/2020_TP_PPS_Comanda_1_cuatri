@@ -1,0 +1,192 @@
+ion-content {
+    --padding-start: 22px;
+}
+
+.section-title {
+    color: rgba(0, 0, 0, 0.589);
+    font-size: 20px;
+    font-weight: bolder;
+    margin: 20px 0 20px 2px;
+}
+
+.row-cards {
+    flex-wrap: nowrap;
+    padding: 0px 20px 10px 0px;
+    overflow-y: scroll;
+    // margin-top: 30px;
+
+    .card {
+        border-radius: 10px;
+        color: white;
+        height: 260px;
+        width: 300px;
+        padding: 0;
+        overflow: hidden;
+        // box-shadow: 0px 3px 14px -6px rgba(0,0,0,0.75);
+        margin-right: 22px;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        position: relative;
+
+        .details {
+            position: absolute;
+            max-height: 100px;
+            bottom: 0;
+            width: 100%;
+            padding: 15px 8px 20px 20px;
+            
+        }
+        .title {
+            font-size: 14px;
+            margin-bottom: 3px;
+            font-weight: bolder;
+            letter-spacing: 1.5px;
+            // margin-top: 20px;
+        }
+        .subtitle {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.705);
+            letter-spacing: 1px;
+            margin-top: 10px;
+        }
+        .price {
+            float: right;
+            letter-spacing: 1px;
+        }
+    }
+}
+// para customizar algun item en especifico    
+div[img-custom ="0"] {
+    background-position-y: -130px !important;
+}
+
+@supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+    .details {
+        -webkit-backdrop-filter: blur(4px);
+        backdrop-filter: blur(4px);
+        background-color: rgba(0, 0, 0, 0.274);  
+    }
+    .warning {
+        display: none;
+    }
+}
+
+.types {
+    margin-top: 10px;
+    flex-wrap: nowrap;
+    padding: 0 0 15px 3px;
+    overflow-y: scroll;
+    ion-col {
+        margin-right: 20px;
+        p {
+            font-weight: bold;
+            font-size: 13px;
+            color: rgba(0, 0, 0, 0.301);
+        }
+    }
+}
+
+.list {
+    overflow: hidden;
+    height: 150px;
+    margin: 0 22px 40px 0px;
+    .price {
+        color: orange;
+        position: absolute;
+        bottom: 0;
+        margin-bottom: 10px;        
+    }
+    .title {
+        font-weight: bold;
+        font-size: 17px;
+        margin: 0px 20px 5px 0px;
+
+    }
+    .subtitle {
+        color: rgba(0, 0, 0, 0.418);
+        font-size: 14px;
+        margin: 10px 20px 10px 0px;
+        line-height: 1.4;
+    }
+    ion-button {
+        height: 30px;
+        margin-right: 20px;
+        --border-radius: 3px;
+        font-size: 12px;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+    }
+    .list-img {
+        height: 100%;
+        border-radius: 10px;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        position: relative;
+    }
+}
+
+.more {
+    border: 1px solid #6b6b6bc5;
+    border-radius: 15px;
+    height: 40px;
+    width: 40%;
+    padding: 10px;
+    text-align: center;
+    margin: 0 auto;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.drinks-title {
+    color: rgba(0, 0, 0, 0.836);
+    font-size: 18px;
+    font-weight: 900;
+    margin: 20px 0 20px 2px;
+}
+
+.drinks {
+    overflow: hidden;
+    margin: 0 0 40px 0px;
+    ion-col {
+        height: 430px;
+        margin: 0 0px 40px 0;
+    }
+    .price {
+        color: orange;
+        // position: absolute;
+        // bottom: 0;
+        margin: 10px 0 10px 0;        
+    }
+    .title {
+        font-weight: bold;
+        font-size: 17px;
+        margin: 0px 20px 5px 0px;
+
+    }
+    .subtitle {
+        color: rgba(0, 0, 0, 0.418);
+        font-size: 14px;
+        margin: 10px 20px 10px 0px;
+        line-height: 1.4;
+    }
+    ion-button {
+        height: 30px;
+        --border-radius: 3px;
+        font-size: 12px;
+        position: absolute;
+        bottom: 0;
+        margin: 0;
+    }
+    .list-img {
+        height: 250px;
+        width: 90%;
+        border-radius: 10px;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        position: relative;
+    }
+}
