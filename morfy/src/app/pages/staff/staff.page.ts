@@ -1,6 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController, IonItemSliding, LoadingController } from '@ionic/angular';
 
+declare interface RouteInfo {
+  path: string;
+  title: string;
+  icon: string;
+  class: string;
+  type: string;
+}
+export const ROUTES: RouteInfo[] = [
+  { path: '/staff/employees', title: 'Personal',  icon: 'https://image.flaticon.com/icons/svg/2786/2786245.svg', class: '', type: 'supervisor'},
+  { path: '/staff/tables', title: 'Mesas',  icon: 'https://image.flaticon.com/icons/svg/2843/2843652.svg', class: '', type: 'supervisor'},
+  { path: '/staff/delivery', title: 'Delivery',  icon: 'https://image.flaticon.com/icons/svg/2786/2786408.svg', class: '', type: 'all'},
+  { path: '/staff/stats', title: 'Estadisticas',  icon: 'https://image.flaticon.com/icons/svg/2786/2786428.svg', class: '', type: 'supervisor'},
+  { path: '/turnos', title: 'Delivery',  icon: 'https://image.flaticon.com/icons/svg/2786/2786408.svg', class: '', type: 'Admin'},
+  { path: '/empleados', title: 'Empleados',  icon: 'fas fa-user-alt', class: '', type: 'Admin'},
+  { path: '/altas', title: 'Altas',  icon: 'fas fa-user-plus', class: '', type: 'Admin'}
+];
+
+
 @Component({
   selector: 'app-staff',
   templateUrl: './staff.page.html',
@@ -8,31 +26,9 @@ import { NavController, IonItemSliding, LoadingController } from '@ionic/angular
 })
 export class StaffPage implements OnInit {
 
-  user = { imageUrl: 'assets/img/team-4-800x800.jpg'};
+  public user = { imageUrl: 'assets/img/team-4-800x800.jpg', type: 'supervisor'};
+  public menuItems: any[];
 
-  employees = [
-    { name: 'Braian',
-      lastName: 'Cardozo',
-      imgUrl: 'http://bdatechnical.com/wp-content/uploads/2019/06/empty-profile-250x250.jpg'
-    },
-    { name: 'Mariano',
-      lastName: 'Camara',
-      imgUrl: 'https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg'
-    },
-    { name: 'Ariel',
-      lastName: 'Traut',
-      imgUrl: 'http://bdatechnical.com/wp-content/uploads/2019/06/empty-profile-250x250.jpg'
-    },
-    {
-      name: 'Pepe',
-      lastName: 'Pepon',
-      imgUrl: 'https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg'
-    },
-    { name: 'Pepin',
-      lastName: 'Pepon',
-      imgUrl: 'http://bdatechnical.com/wp-content/uploads/2019/06/empty-profile-250x250.jpg'
-    },
-  ];
 
   confirmaciones = [
     { titulo: 'Mesa 7',
@@ -46,26 +42,12 @@ export class StaffPage implements OnInit {
     }
   ];
 
-  constructor( public navCtrl: NavController,
-               private loadingCtrl: LoadingController ) { }
+  constructor( public navCtrl: NavController ) { }
 
   ngOnInit() {
-    this.confirmaciones = [];
+    this.menuItems = ROUTES.filter(menuItem => menuItem.type === this.user.type || menuItem.type === 'all');
   }
 
 
-  goToProfile() {
-  }
-
-
-  confirm(item: IonItemSliding) {
-    item.close();
-    this.loadingCtrl.create({ message: 'Confirmando...' }).then(loadingEl => {
-      loadingEl.present();
-      setTimeout (() => {
-        loadingEl.dismiss();
-     }, 1000);
-    });
-  }
 
 }

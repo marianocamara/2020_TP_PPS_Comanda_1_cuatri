@@ -2,22 +2,51 @@
 
 
 .bg {
-    background: var(--ion-color-light);
-    --background: var(--ion-color-light);
+    // background: var(--ion-color-light);
+    // --background: var(--ion-color-light);
     --ion-font-family: 'Rubik', sans-serif;
 
 }
 
+.types {
+    flex-wrap: nowrap;
+    padding: 0 0 10px 40px;
+    overflow-y: scroll;
+    ion-col {
+        margin-right: 35px;
+        p {
+            font-weight: bold;
+            font-size: 13px;
+            color: rgba(0, 0, 0, 0.301);
+        }
+    }
+}
+
 .row-cards {
     flex-wrap: nowrap;
-    padding: 20px;
+    padding: 20px 20px 20px 40px;
     overflow-y: scroll;
+
+    ion-item {
+        --border-color: transparent!important;
+        padding: 0 !important;
+        --highlight-height: 0;
+        --background: none;
+        background: rgba(0, 0, 0, 0.034);
+        border-radius: 10px;
+        margin-bottom: 10px;
+        ion-icon {
+            color: rgb(158, 158, 158);
+        }
+        ion-input {
+            --color: rgb(158, 158, 158);
+        }
+    }
 
     .card {
         border-radius: 10px;
         color: white;
         height: 135px;
-        width: 235px;
         box-shadow: 0px 3px 14px -6px rgba(0,0,0,0.75);
         position: relative;
         margin-right: 20px;
@@ -41,7 +70,6 @@
             width: 60px;
         }
     }
-
 }
 
 .gradient-1 {
@@ -59,6 +87,7 @@
 
 
 .list-transactions {
+    padding: 0 0 0 30px;
     background: none;
     --background: none;
 
@@ -66,6 +95,13 @@
         border-radius: 10px;
         margin-bottom: 10px;
         --padding-start:10px;
+        h2 {
+            font-weight: bolder;
+            color: rgba(0, 0, 0, 0.705);
+        }
+        p {
+            color: rgba(0, 0, 0, 0.493);
+        }
     }
 }
 
