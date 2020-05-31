@@ -1,0 +1,54 @@
+<ion-header class="page-header ion-no-border">
+  <ion-toolbar class="bg-none">      
+    <ion-slides class="bildins" [options]="slideOptsOne">
+      <ion-slide>
+        <img style="margin-bottom: -5px;" src="../../../../assets//img//welcome-slide/cartel.jpg">
+      </ion-slide>
+      <ion-slide>
+        <img style="margin-bottom: -5px;" src="../../../../assets//img//welcome-slide/cartel2.jpg">
+      </ion-slide>
+    </ion-slides>
+   <!-- <div class="logo">
+      <ion-icon src="../../../../assets/img/logo/morfy(isologo).svg"></ion-icon>
+    </div>-->
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="centered">
+    <div style="width: 100%;">
+      
+      <ion-row class="welcome">
+        <ion-col>
+          <h1>Bienvenido a <span>Morfy</span>.</h1>
+          <h5><strong>Comida que te llena el corazón.</strong></h5>
+        </ion-col>        
+      </ion-row>
+      
+      <ion-row>
+        <ion-col>
+          <ion-button
+          mode="ios"
+          expand="block" 
+          class="ion-margin-top enter" 
+          (click)="navCtrl.navigateForward('/signin')">
+          Iniciar sesión
+        </ion-button>        
+      </ion-col>      
+    </ion-row>
+
+    <ion-item class="signup" lines="none" (click)="navCtrl.navigateForward('/signup')">
+      <p slot="end"><strong>O crea una cuenta</strong></p>
+      <ion-icon slot="end" src="../../../../assets/img/next.svg"></ion-icon>
+    </ion-item>
+    
+  </div>
+</div>
+
+</ion-content>
+
+<!--<ion-footer class="ion-no-border"> 
+  <ion-toolbar>
+    <ion-button class="ingresos" expand="full" (click)="presentActionSheet()" >Ingresar como</ion-button>
+  </ion-toolbar>
+</ion-footer>-->
