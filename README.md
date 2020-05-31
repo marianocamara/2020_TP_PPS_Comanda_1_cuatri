@@ -36,8 +36,20 @@ Objetivos planteados: <br>
   <li>Conclusiones: 
     <ul>
       <li>El proyecto dio el puntapié inicial.</li>
-      <li>Se selecciono el icono y el diseño del proyecto.</li>
-      <li>Nos pusimos de acuerdo en el flujo de las pantallas.</li>
+      <li>Se realizó la puesta en común del flujo git a utilizar.</li>
+      <li>Nos propusimos traer propuestas de flow de pantallas, icono y diseño.</li>
+      <li>Se pactó otra reunión para el 26/05/2020</li>
+    </ul>
+  </li>
+ </ul>
+ <ul>
+  <li>Reunión día: 26/05/2020</li>
+  <li>Canal: Discord</li>
+  <li>Conclusiones: 
+    <ul>
+      <li>Se seleccionó el diseño de la app.</li>
+      <li>Se seleccionó el icono.</li>
+      <li>Se seleccionó el flujo de las pantallas.</li>
     </ul>
   </li>
  </ul>
