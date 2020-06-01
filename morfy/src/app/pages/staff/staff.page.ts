@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController, IonItemSliding, LoadingController } from '@ionic/angular';
+import { Plugins } from '@capacitor/core';
+import { User } from 'src/app/models/user';
+import { AuthService } from 'src/app/services/auth.service';
+
 
 declare interface RouteInfo {
   path: string;
@@ -11,11 +15,11 @@ declare interface RouteInfo {
 export const ROUTES: RouteInfo[] = [
   { path: '/staff/employees', title: 'Personal',  icon: 'https://image.flaticon.com/icons/svg/2786/2786245.svg', class: '', type: 'supervisor'},
   { path: '/staff/tables', title: 'Mesas',  icon: 'https://image.flaticon.com/icons/svg/2843/2843652.svg', class: '', type: 'supervisor'},
-  { path: '/staff/delivery', title: 'Delivery',  icon: 'https://image.flaticon.com/icons/svg/2786/2786408.svg', class: '', type: 'all'},
+  { path: '/staff/delivery', title: 'Delivery',  icon: 'https://image.flaticon.com/icons/svg/2786/2786408.svg', class: '', type: 'todos'},
   { path: '/staff/stats', title: 'Estadisticas',  icon: 'https://image.flaticon.com/icons/svg/2786/2786428.svg', class: '', type: 'supervisor'},
-  { path: '/turnos', title: 'Delivery',  icon: 'https://image.flaticon.com/icons/svg/2786/2786408.svg', class: '', type: 'Admin'},
   { path: '/empleados', title: 'Empleados',  icon: 'fas fa-user-alt', class: '', type: 'Admin'},
-  { path: '/altas', title: 'Altas',  icon: 'fas fa-user-plus', class: '', type: 'Admin'}
+  { path: '/altas', title: 'Altas',  icon: 'fas fa-user-plus', class: '', type: 'Admin'},
+  { path: '', title: 'Salir',  icon: 'https://image.flaticon.com/icons/svg/875/875558.svg', class: '', type: 'todos'},
 ];
 
 
@@ -26,7 +30,8 @@ export const ROUTES: RouteInfo[] = [
 })
 export class StaffPage implements OnInit {
 
-  public user = { imageUrl: 'assets/img/team-4-800x800.jpg', type: 'supervisor'};
+  isLoading = true;
+  public user: User;  // = { imageUrl: 'assets/img/team-4-800x800.jpg', type: 'superviser'};
   public menuItems: any[];
 
 
@@ -42,10 +47,65 @@ export class StaffPage implements OnInit {
     }
   ];
 
-  constructor( public navCtrl: NavController ) { }
+  constructor( public navCtrl: NavController,
+               private authService: AuthService ) { }
 
   ngOnInit() {
-    this.menuItems = ROUTES.filter(menuItem => menuItem.type === this.user.type || menuItem.type === 'all');
+    // this.isLoading = true;
+    // Plugins.Storage.get({ key: 'user-bd' }).then(
+    //   (userData) => {
+    //     if (userData.value) {
+    //       this.user = JSON.parse(userData.value);
+    //       this.menuItems = ROUTES.filter(menuItem => menuItem.type === this.user.type || menuItem.type === 'todos');
+    //       this.isLoading = false;
+    //     }
+    //     else {
+    //       this.logout();
+    //     }
+    //   }, () => {
+    //     this.logout();
+    //   }
+    // );
+  }
+
+
+  ionViewWillEnter() {
+    this.isLoading = true;
+    Plugins.Storage.get({ key: 'user-bd' }).then(
+      (userData) => {
+        if (userData.value) {
+          this.user = JSON.parse(userData.value);
+          this.menuItems = ROUTES.filter(menuItem => menuItem.type === this.user.type || menuItem.type === 'todos');
+          this.isLoading = false;
+        }
+        else {
+          this.logout();
+        }
+      }, () => {
+        this.logout();
+      }
+    );
+  }
+
+
+  logout() {
+    this.authService.logoutUser()
+    .then(res => {
+      // console.log(res);
+      this.navCtrl.navigateBack('');
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  }
+
+
+  gestionAction(menuItem) {
+    if (menuItem.title === 'Salir') {
+      this.logout();
+    } else {
+      this.navCtrl.navigateForward([menuItem.path]);
+    }
   }
 
 
