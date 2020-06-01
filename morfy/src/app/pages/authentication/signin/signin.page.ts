@@ -76,26 +76,47 @@ export class SigninPage implements OnInit {
       const actionSheet = await this.actionSheetController.create({
         cssClass: 'users',
         buttons: [{
-          text: 'Admin',
-          role: 'destructive',
+          text: 'Dueño',
           icon: 'person-add-outline',
           handler: () => {
-            this.validationsForm.controls['email'].setValue("admin@test.com");
-            this.validationsForm.controls['password'].setValue("adminpass");
+            this.validationsForm.controls['email'].setValue("guillermo@dueno.com");
+            this.validationsForm.controls['password'].setValue("guillermopass");
           }
         }, {
-          text: 'Usuario',
+          text: 'Supervisor',
+          role: 'destructive',
           icon: 'person-outline',
           handler: () => {
-            this.validationsForm.controls['email'].setValue("usuario@test.com");
-            this.validationsForm.controls['password'].setValue("usuariopass");
+            this.validationsForm.controls['email'].setValue("tomas@supervisor.com");
+            this.validationsForm.controls['password'].setValue("tomaspass");
           }
         }, {
-          text: 'Anónimo',
+          text: 'Metre',
           icon: 'person-outline',
           handler: () => {
-            this.validationsForm.controls['email'].setValue("anonimo@test.com");
-            this.validationsForm.controls['password'].setValue("anonimopass");
+            this.validationsForm.controls['email'].setValue("sanda@metre.com");
+            this.validationsForm.controls['password'].setValue("sandrapass");
+          }
+        }, {
+          text: 'Mozo',
+          icon: 'person-outline',
+          handler: () => {
+            this.validationsForm.controls['email'].setValue("luciano@mozo.com");
+            this.validationsForm.controls['password'].setValue("lucianopass");
+          } 
+        }, {
+          text: 'Bartender',
+          icon: 'person-outline',
+          handler: () => {
+            this.validationsForm.controls['email'].setValue("alicia@bartender.com");
+            this.validationsForm.controls['password'].setValue("aliciapass");
+          }
+        }, {
+          text: 'Cliente',
+          icon: 'person-outline',
+          handler: () => {
+            this.validationsForm.controls['email'].setValue("nicolas@cliente.com");
+            this.validationsForm.controls['password'].setValue("nicolaspass");
           }
         }, {
           text: 'Cancelar',
