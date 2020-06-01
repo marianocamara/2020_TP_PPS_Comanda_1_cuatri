@@ -8,21 +8,21 @@ import { AngularFireStorage } from '@angular/fire/storage';
   providedIn: 'root'
 })
 export class DatabaseService {
-  
+
   constructor(
     private afs: AngularFirestore,
     private storage: AngularFireStorage
     ) { }
 
-    CreateOne(objeto: any, collection: string) {
-      let id;
-      if (objeto.id) {
-        id = objeto.id;
-      } else {
-        id = this.afs.createId();
-        objeto.id = id;
-      }
-      return this.afs.collection(collection).doc(id).set(objeto);
+  CreateOne(objeto: any, collection: string) {
+    let id;
+    if (objeto.id) {
+      id = objeto.id;
+    } else {
+      id = this.afs.createId();
+      objeto.id = id;
+    }
+    return this.afs.collection(collection).doc(id).set(objeto);
   }
 
 
@@ -34,12 +34,13 @@ export class DatabaseService {
     });
   }
 
+
   GetAll(collection): Observable<any[]> {
     return this.afs.collection<any>(collection).valueChanges()
     .pipe (res => res );
   }
 
-  
+
   UpdateOne(objeto: any, collection: string) {
     const id = objeto.id;
     const objetoDoc = this.afs.doc<any>(`${collection}/${id}`);

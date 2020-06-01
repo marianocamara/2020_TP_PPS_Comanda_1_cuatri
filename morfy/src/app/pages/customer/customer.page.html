@@ -7,7 +7,7 @@
       morfy
     </ion-title>
     <ion-avatar slot="end" style="height:40px; width: 40px; margin-right: 8px;" *ngIf="user">
-      <img [src]="user ? user.imageUrl : 'Loading...'" (click)="goToProfile()">
+      <img [src]="user ? user.imageUrl : 'Loading...'" (click)="logout()">
     </ion-avatar>
     <ion-buttons slot="start">
       <ion-buttons slot="start">
@@ -17,11 +17,10 @@
   </ion-toolbar>
 </ion-header>
 
-
+  
 <ion-content>
 
   <ion-tabs>
-
     <div class="tabs">
       <ion-tab-bar slot="bottom" translucent=“true”>
         <ion-tab-button tab="home">

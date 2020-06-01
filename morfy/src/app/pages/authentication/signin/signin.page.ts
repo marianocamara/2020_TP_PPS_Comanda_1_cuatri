@@ -9,7 +9,7 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./signin.page.scss'],
 })
 export class SigninPage implements OnInit {
-  
+
   constructor(
     public actionSheetController: ActionSheetController,
     private navCtrl: NavController,
@@ -18,12 +18,23 @@ export class SigninPage implements OnInit {
     private loadingCtrl: LoadingController,
     public toastController: ToastController
     ) { }
-    
+
     validationsForm: FormGroup;
     errorMessage = '';
-    
+
+    validation_messages = {
+      email: [
+        { type: 'required', message: 'El email es un campo requerido.' },
+        { type: 'pattern', message: 'Por favor ingrese un email válido.' }
+      ],
+      password: [
+        { type: 'required', message: 'La contraseña es un campo requerido.' },
+        { type: 'minlength', message: 'La contraseña debe tener al menos 6 caracteres.' }
+      ]
+    };
+
     ngOnInit() {
-      
+
       this.validationsForm = this.formBuilder.group({
         email: new FormControl('', Validators.compose([
           Validators.required,
@@ -34,21 +45,10 @@ export class SigninPage implements OnInit {
           Validators.required
         ])),
       });
-      
+
     }
-    
-    validation_messages = {
-      'email': [
-        { type: 'required', message: 'El email es un campo requerido.' },
-        { type: 'pattern', message: 'Por favor ingrese un email válido.' }
-      ],
-      'password': [
-        { type: 'required', message: 'La contraseña es un campo requerido.' },
-        { type: 'minlength', message: 'La contraseña debe tener al menos 6 caracteres.' }
-      ]
-    };
-    
-    
+
+
     loginUser(value) {
       this.loadingCtrl
       .create({ keyboardClose: true, message: 'Ingresando...' })
@@ -59,8 +59,12 @@ export class SigninPage implements OnInit {
           console.log(res);
           this.errorMessage = '';
           this.loadingCtrl.dismiss();
-          this.navCtrl.navigateForward('/home');
-        }, err => {          
+          if ( res === 'cliente') {
+            this.navCtrl.navigateForward('/customer/home');
+          } else {
+            this.navCtrl.navigateForward('/staff');
+          }
+        }, err => {
           this.loadingCtrl.dismiss();
           this.presentToast(this.authService.printErrorByCode (err.code));
         });
@@ -70,7 +74,7 @@ export class SigninPage implements OnInit {
 
     goToSignUpPage() {
       this.navCtrl.navigateForward('/signup');
-    }   
+    }
 
     async presentActionSheet() {
       const actionSheet = await this.actionSheetController.create({
@@ -80,22 +84,22 @@ export class SigninPage implements OnInit {
           role: 'destructive',
           icon: 'person-add-outline',
           handler: () => {
-            this.validationsForm.controls['email'].setValue("admin@test.com");
-            this.validationsForm.controls['password'].setValue("adminpass");
+            this.validationsForm.controls.email.setValue('admin@test.com');
+            this.validationsForm.controls.password.setValue('adminpass');
           }
         }, {
           text: 'Usuario',
           icon: 'person-outline',
           handler: () => {
-            this.validationsForm.controls['email'].setValue("usuario@test.com");
-            this.validationsForm.controls['password'].setValue("usuariopass");
+            this.validationsForm.controls.email.setValue('usuario@test.com');
+            this.validationsForm.controls.password.setValue('usuariopass');
           }
         }, {
           text: 'Anónimo',
           icon: 'person-outline',
           handler: () => {
-            this.validationsForm.controls['email'].setValue("anonimo@test.com");
-            this.validationsForm.controls['password'].setValue("anonimopass");
+            this.validationsForm.controls.email.setValue('anonimo@test.com');
+            this.validationsForm.controls.password.setValue('anonimopass');
           }
         }, {
           text: 'Cancelar',
@@ -120,21 +124,20 @@ export class SigninPage implements OnInit {
           this.errorMessage = '';
           this.loadingCtrl.dismiss();
           this.navCtrl.navigateForward('/home');
-        }, err => {          
+        }, err => {
           this.loadingCtrl.dismiss();
           this.errorMessage =  this.authService.printErrorByCode (err.code);
         });
       });
     }
 
-    async presentToast(message:string) {
+    async presentToast(message: string) {
       const toast = await this.toastController.create({
-        message: message,
+        message,
         duration: 3000
       });
       toast.present();
     }
-    
-    
+
+
   }
-  
