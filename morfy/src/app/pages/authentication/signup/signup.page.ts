@@ -28,7 +28,7 @@ export class SignupPage implements OnInit {
   errorMessage = '';
   isAnonymous = false;
   private optionsQrScanner: BarcodeScannerOptions = {
-    formats: "PDF_417,QR_CODE"
+    formats: "PDF_417"
   };
   validation_messages = {
     email: [
@@ -175,24 +175,16 @@ anonymousToggle(){
   createAnonymousUser(){
   }
   scanCode() {
-    this.barcodeScanner.scan().then(barcodeData => {
-      let auxUser = JSON.parse(barcodeData.text);
-      // this.user = auxUser;
-      this.presentToast(auxUser);
-      console.log("First: " + auxUser);
-      console.log("Second: " + barcodeData.text);
-
-  //  let regexDni = /[0-9]{8}/;
-  // if (dato.match(regexDni))
-    // this.barcodeScanner.scan(this.optionsQrScanner).then(barcodeData => {
-    //   let datosDelDni = barcodeData.text.split('@');
-    //   this.user.nombre = datosDelDni[2];
-    //   this.user.apellido = datosDelDni[1];
-    //   this.user.dni = datosDelDni[4];
-    //   // this.toast.presentToast("El QR corresponde a: " + auxUser.apellido + " " + auxUser.nombre, 2000, "success", "Leido");
-    // }).catch(err => {
-    //   this.toast.presentToast("El QR no corresponde al sistema", 2000, "danger", "QR incorrecto");
-     });
+    this.barcodeScanner.scan(this.optionsQrScanner).then(barcodeData => {
+      let datosDelDni = barcodeData.text.split('@');
+      this.validationsForm.controls.dni.setValue(datosDelDni[4]);
+      this.validationsForm.controls.name.setValue(datosDelDni[2].split(' ')[0]);
+      this.validationsForm.controls.lastName.setValue(datosDelDni[1]);
+     })
+     .catch(err => 
+      {
+        this.presentToast("El codigo QR leido es invalido.");}
+      );
   }
 
   async presentToast(message: string) {
