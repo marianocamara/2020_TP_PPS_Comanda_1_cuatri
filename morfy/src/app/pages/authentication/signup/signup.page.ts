@@ -82,6 +82,17 @@ export class SignupPage implements OnInit {
     return new Blob(byteArrays, { type: contentType });
   }
 
+anonymousToggle(){
+  if(!this.isAnonymous) {
+    this.isAnonymous = true;
+    this.validationsForm.get('dni').setErrors(null);
+      this.validationsForm.get('email').setErrors(null);
+      this.validationsForm.get('password').setErrors(null);
+  }else{
+    this.isAnonymous = false;
+  }
+  
+}
 
   createUser(value) {
     if (!this.validationsForm.get('image').value) {
@@ -115,9 +126,7 @@ export class SignupPage implements OnInit {
         uploadTask.task.snapshot.ref.getDownloadURL().then((downloadURL) => {
           console.log('File available at', downloadURL);
 
-          if (this.isAnonymous) {
-            console.log('anon');
-            this.authService.signUpAnonymous(value, downloadURL)
+            this.authService.signUp(value, downloadURL, this.isAnonymous)
             .then(res => {
               console.log(res);
               this.errorMessage = '';
@@ -127,19 +136,6 @@ export class SignupPage implements OnInit {
               this.loadingCtrl.dismiss();
               this.errorMessage =  this.authService.printErrorByCode (err.code);
             });
-          }else{
-            console.log('not anon');
-            this.authService.signUp(value, downloadURL)
-            .then(res => {
-              console.log(res);
-              this.errorMessage = '';
-              this.loadingCtrl.dismiss();
-              this.navCtrl.navigateForward('/customer/home');
-            }, err => {
-              this.loadingCtrl.dismiss();
-              this.errorMessage =  this.authService.printErrorByCode (err.code);
-            });
-          }
         });
       });
     });
@@ -148,43 +144,6 @@ export class SignupPage implements OnInit {
 
   goToSignInPage() {
     this.navCtrl.navigateForward('/signin');
-  }
-
-
-  async presentActionSheet() {
-    const actionSheet = await this.actionSheetController.create({
-      cssClass: 'users',
-      buttons: [{
-        text: 'Admin',
-        role: 'destructive',
-        icon: 'person-add-outline',
-        handler: () => {
-          this.validationsForm.controls.email.setValue('admin@test.com');
-          this.validationsForm.controls.password.setValue('adminpass');
-        }
-      }, {
-        text: 'Usuario',
-        icon: 'person-outline',
-        handler: () => {
-          this.validationsForm.controls.email.setValue('usuario@test.com');
-          this.validationsForm.controls.password.setValue('usuariopass');
-        }
-      }, {
-        text: 'Anónimo',
-        icon: 'person-outline',
-        handler: () => {
-          this.validationsForm.controls.email.setValue('anonimo@test.com');
-          this.validationsForm.controls.password.setValue('anonimopass');
-        }
-      }, {
-        text: 'Cancelar',
-        icon: 'close',
-        role: 'cancel',
-        handler: () => {
-        }
-      }]
-    });
-    await actionSheet.present();
   }
 
 
