@@ -24,7 +24,9 @@
                 (imagePick)="onImagePicked($event)"
               ></app-image-picker>
             </ion-col>
-            
+            <ion-button class="btnQR" (click)="scanCode()">
+              <img src="../../../../assets/img/qr.png" alt="imagen logo QR">
+            </ion-button>
             <div class="two-column">
             <ion-item class="ion-margin-bottom column-one">
               <ion-label  position="floating">Nombre</ion-label>

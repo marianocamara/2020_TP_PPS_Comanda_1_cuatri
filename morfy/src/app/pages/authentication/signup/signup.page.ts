@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActionSheetController, NavController, LoadingController } from '@ionic/angular';
+import { ActionSheetController, NavController, LoadingController, ToastController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
-
+import { BarcodeScanner, BarcodeScannerOptions } from '@ionic-native/barcode-scanner/ngx';
 import { Plugins } from '@capacitor/core';
 import { DatabaseService } from 'src/app/services/database.service';
 
@@ -20,12 +20,16 @@ export class SignupPage implements OnInit {
     private formBuilder: FormBuilder,
     private loadingCtrl: LoadingController,
     private database: DatabaseService,
+    private toastController: ToastController,
+    private barcodeScanner: BarcodeScanner
   ) { }
 
   validationsForm: FormGroup;
   errorMessage = '';
   isAnonymous = false;
-
+  private optionsQrScanner: BarcodeScannerOptions = {
+    formats: "PDF_417,QR_CODE"
+  };
   validation_messages = {
     email: [
       { type: 'required', message: 'El email es un campo requerido.' },
@@ -211,6 +215,33 @@ export class SignupPage implements OnInit {
 
   createAnonymousUser(){
   }
+  scanCode() {
+    this.barcodeScanner.scan().then(barcodeData => {
+      let auxUser = JSON.parse(barcodeData.text);
+      // this.user = auxUser;
+      this.presentToast(auxUser);
+      console.log("First: " + auxUser);
+      console.log("Second: " + barcodeData.text);
 
+  //  let regexDni = /[0-9]{8}/;
+  // if (dato.match(regexDni))
+    // this.barcodeScanner.scan(this.optionsQrScanner).then(barcodeData => {
+    //   let datosDelDni = barcodeData.text.split('@');
+    //   this.user.nombre = datosDelDni[2];
+    //   this.user.apellido = datosDelDni[1];
+    //   this.user.dni = datosDelDni[4];
+    //   // this.toast.presentToast("El QR corresponde a: " + auxUser.apellido + " " + auxUser.nombre, 2000, "success", "Leido");
+    // }).catch(err => {
+    //   this.toast.presentToast("El QR no corresponde al sistema", 2000, "danger", "QR incorrecto");
+     });
+  }
+
+  async presentToast(message: string) {
+    const toast = await this.toastController.create({
+      message,
+      duration: 3000
+    });
+    toast.present();
+  }
 
 }
