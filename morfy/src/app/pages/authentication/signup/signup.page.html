@@ -33,7 +33,7 @@
             <ion-item class="ion-margin-bottom" *ngIf="!isAnonymous">
               <ion-label  position="floating">DNI</ion-label>
               <ion-input type="number" formControlName="dni" pattern="[0-9]{8}"></ion-input>
-              <button class="dni-qr" slot="end" ion-button icon-only type="button">
+              <button class="dni-qr" (click)="scanCode()" slot="end" ion-button icon-only type="button">
                 <ion-icon name="qr-code-outline"></ion-icon>
               </button>
             </ion-item>

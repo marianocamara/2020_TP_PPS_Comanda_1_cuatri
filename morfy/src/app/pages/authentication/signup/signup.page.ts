@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActionSheetController, NavController, LoadingController } from '@ionic/angular';
+import { ActionSheetController, NavController, LoadingController, ToastController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
-
+import { BarcodeScanner, BarcodeScannerOptions } from '@ionic-native/barcode-scanner/ngx';
 import { Plugins } from '@capacitor/core';
 import { DatabaseService } from 'src/app/services/database.service';
 
@@ -20,12 +20,16 @@ export class SignupPage implements OnInit {
     private formBuilder: FormBuilder,
     private loadingCtrl: LoadingController,
     private database: DatabaseService,
+    private toastController: ToastController,
+    private barcodeScanner: BarcodeScanner
   ) { }
 
   validationsForm: FormGroup;
   errorMessage = '';
   isAnonymous = false;
-
+  private optionsQrScanner: BarcodeScannerOptions = {
+    formats: "PDF_417"
+  };
   validation_messages = {
     email: [
       { type: 'required', message: 'El email es un campo requerido.' },
@@ -170,6 +174,25 @@ anonymousToggle(){
 
   createAnonymousUser(){
   }
+  scanCode() {
+    this.barcodeScanner.scan(this.optionsQrScanner).then(barcodeData => {
+      let datosDelDni = barcodeData.text.split('@');
+      this.validationsForm.controls.dni.setValue(datosDelDni[4]);
+      this.validationsForm.controls.name.setValue(datosDelDni[2].split(' ')[0]);
+      this.validationsForm.controls.lastName.setValue(datosDelDni[1]);
+     })
+     .catch(err => 
+      {
+        this.presentToast("El codigo QR leido es invalido.");}
+      );
+  }
 
+  async presentToast(message: string) {
+    const toast = await this.toastController.create({
+      message,
+      duration: 3000
+    });
+    toast.present();
+  }
 
 }
