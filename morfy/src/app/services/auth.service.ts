@@ -37,14 +37,16 @@ export class AuthService {
   } as MessagesIndex;
 
 
-  signUp(value, imageUrl) {
+  signUp(value, imageUrl, isAnonymous) {
+    let type = isAnonymous ? 'anonimo': 'cliente';     
+
     return new Promise<any>((resolve, reject) => {
-      this.afAuth.createUserWithEmailAndPassword(value.email, value.password)
+      (isAnonymous ? this.afAuth.signInAnonymously() : this.afAuth.createUserWithEmailAndPassword(value.email, value.password))      
       .then(
         result => {
           if (result) {
             this.db.CreateOne({
-              type: 'cliente',
+              type: type,
               name: value.name + ' ' + value.lastName,
               id: result.user.uid,
               dni : value.dni,
@@ -59,16 +61,6 @@ export class AuthService {
       );
     });
   }
-
-
-  signUpAnonymous(value, imageUrl) {
-    return this.db.CreateOne({
-      type: 'anonimo',
-      name: value.name + ' ' + value.lastName,
-      imageUrl},
-      'users');
-  }
-
 
   signIn(value) {
     return new Promise<any>((resolve, reject) => {
@@ -110,7 +102,7 @@ export class AuthService {
       this.db.GetOne('users', user.uid)
       .then(result => {
         Plugins.Storage.set({ key: 'user-bd', value: JSON.stringify(result) });
-        // console.log (JSON.stringify(result));
+        console.log (JSON.stringify(result));
         resolve(result.type);
       });
     });
