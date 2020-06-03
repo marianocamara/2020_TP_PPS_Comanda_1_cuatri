@@ -7,7 +7,11 @@ const routes: Routes = [
   {
     path: '',
     component: HomePage
+  },  {
+    path: 'add-modal',
+    loadChildren: () => import('./add-modal/add-modal.module').then( m => m.AddModalPageModule)
   }
+
 ];
 
 @NgModule({

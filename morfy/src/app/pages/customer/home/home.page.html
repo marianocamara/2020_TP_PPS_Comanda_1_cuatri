@@ -7,7 +7,7 @@
     <ion-row class="row-cards">
       <ion-col *ngFor="let item of featured; let i = index">
         <div class="card ion-padding"
-          [ngStyle]="{'background-image': 'url(' + item.imgUrl + ')'}" 
+          [ngStyle]="{'background-image': 'url(' + item.imageUrl + ')'}" 
           [attr.img-custom]="i">
           <div class="details">
             <ion-row>
@@ -45,11 +45,11 @@
         <div class="price">
           <span>$ {{item.price}}</span>
         </div>
-        <ion-button mode="ios">Agregar</ion-button>
+        <ion-button mode="ios" (click)="openAddModal(item)">Agregar</ion-button>
       </ion-col>
       <ion-col size=5>
         <div class="list-img"
-          [ngStyle]="{'background-image': 'url(' + item.imgUrl + ')'}">
+          [ngStyle]="{'background-image': 'url(' + item.imageUrl + ')'}">
         </div>
       </ion-col>
     </ion-row>
@@ -67,7 +67,7 @@
     <ion-row class="drinks"> <!--(click)="filterEmployees(type)">-->
       <ion-col size="6" *ngFor="let item of products.slice(0, 4); let i = index">
         <div class="list-img"
-          [ngStyle]="{'background-image': 'url(' + item.imgUrl + ')'}">
+          [ngStyle]="{'background-image': 'url(' + item.imageUrl + ')'}">
         </div>
         <div class="price">
           <span>$ {{item.price}}</span>

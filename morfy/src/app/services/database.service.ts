@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 
 import { AngularFirestore, } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { AngularFireStorage } from '@angular/fire/storage';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DatabaseService {
+
+  private orders = new Subject<any>();
 
   constructor(
     private afs: AngularFirestore,
@@ -61,6 +63,16 @@ export class DatabaseService {
     const uploadTask = storageRef.put(image);
 
     return uploadTask;
+  }
+
+
+
+  publishSomeData(data: any) {
+      this.orders.next(data);
+  }
+
+  getObservable(): Subject<any> {
+      return this.orders;
   }
 
 }
