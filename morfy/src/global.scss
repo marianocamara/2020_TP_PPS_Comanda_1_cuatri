@@ -31,3 +31,19 @@
     padding-bottom: 3px;
     display: inline-block;
 }
+
+
+
+.add-product-modal .modal-wrapper {
+    height: 50%;
+    top: 50%;
+    position: absolute; 
+    display: block;  
+    border-radius: 25px 25px 0 0;
+    // --background: var(--ion-color-primary);
+    // background-color: grey !important;
+ }
+
+ .modal-wrapper{
+    background: transparent !important;
+}

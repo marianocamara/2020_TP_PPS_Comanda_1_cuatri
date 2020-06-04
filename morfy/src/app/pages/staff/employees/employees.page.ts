@@ -70,7 +70,7 @@ export class EmployeesPage implements OnInit, OnDestroy {
   ngOnInit() {
     this.isLoading = true;
     this.employeesSub = this.database.GetAll('users').subscribe(data => {
-      this.employees = data;
+      this.employees = data.filter(e => e.type !== 'cliente' && e.type !== 'anonimo');
       this.filterEmployees('Todos');
       this.isLoading = false;
     });
@@ -92,7 +92,6 @@ export class EmployeesPage implements OnInit, OnDestroy {
       }
     );
   }
-
 
 
   logout() {
