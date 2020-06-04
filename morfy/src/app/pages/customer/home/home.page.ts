@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { AuthService } from 'src/app/services/auth.service';
+import { User } from 'src/app/models/user';
+import { Plugins } from '@capacitor/core';
+import { NavController, ModalController } from '@ionic/angular';
 import { AddModalPage } from './add-modal/add-modal.page';
 
 @Component({
@@ -8,6 +11,8 @@ import { AddModalPage } from './add-modal/add-modal.page';
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
+
+  user: User;
 
   products = [
     {
@@ -52,14 +57,43 @@ export class HomePage implements OnInit {
     'pizzas'
   ];
 
-  public received: any;
 
-  constructor( private modalController: ModalController ) { }
+  public received: any;
+    constructor( public navCtrl: NavController,
+    private authService: AuthService,
+    private modalController: ModalController ) { }
+
 
   ngOnInit() {
     this.featured = this.products;
   }
 
+
+  ionViewWillEnter() {
+    Plugins.Storage.get({ key: 'user-bd' }).then(
+      (userData) => {
+        if (userData.value) {
+          this.user = JSON.parse(userData.value);
+        }
+        else {
+          this.logout();
+        }
+      }, () => {
+        this.logout();
+      }
+    );
+  }
+
+  logout() {
+    this.authService.logoutUser()
+    .then(res => {
+      // console.log(res);
+      this.navCtrl.navigateBack('');
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  }
 
   async openAddModal(selectedProduct) {
     const modal = await this.modalController.create({

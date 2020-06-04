@@ -19,6 +19,7 @@ export class EmployeesPage implements OnInit, OnDestroy {
   isLoading = true;
   user: User; // = { imageUrl: 'assets/img/team-4-800x800.jpg'};
   input;
+  activeType;
 
   employees = [
     // { name: 'Braian',
@@ -125,10 +126,11 @@ export class EmployeesPage implements OnInit, OnDestroy {
   }
 
 
-  confirm(item: IonItemSliding) {
+  confirm(item: IonItemSliding, userId, userApproved) {
     item.close();
     this.loadingCtrl.create({ message: 'Confirmando...' }).then(loadingEl => {
       loadingEl.present();
+      this.authService.approveUser(userId, userApproved);
       setTimeout (() => {
         loadingEl.dismiss();
      }, 1000);
@@ -136,10 +138,13 @@ export class EmployeesPage implements OnInit, OnDestroy {
   }
 
 
+
   ngOnDestroy() {
     if (this.employeesSub) {
       this.employeesSub.unsubscribe();
     }
   }
+
+  
 
 }
