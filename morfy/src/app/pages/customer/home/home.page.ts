@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
+import { User } from 'src/app/models/user';
+import { Plugins } from '@capacitor/core';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -6,6 +10,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
+
+  user: User;
 
   products = [
     {
@@ -46,10 +52,38 @@ export class HomePage implements OnInit {
     'pizzas'
   ];
 
-  constructor() { }
+  constructor( public navCtrl: NavController,
+    private authService: AuthService) { }
 
   ngOnInit() {
     this.featured = this.products;
   }
+
+  ionViewWillEnter() {
+    Plugins.Storage.get({ key: 'user-bd' }).then(
+      (userData) => {
+        if (userData.value) {
+          this.user = JSON.parse(userData.value);
+        }
+        else {
+          this.logout();
+        }
+      }, () => {
+        this.logout();
+      }
+    );
+  }
+
+  logout() {
+    this.authService.logoutUser()
+    .then(res => {
+      // console.log(res);
+      this.navCtrl.navigateBack('');
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  }
+
 
 }

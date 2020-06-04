@@ -1,0 +1,35 @@
+//content
+.centered{
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+.enter{
+    --background: linear-gradient(45deg, rgba(255,255,255,0) 0%, rgba(255,119,119,1) 0%, rgba(234,93,108,1) 100%);
+    margin-top: 10px;
+}
+
+.welcome {
+    margin-left: 10px;
+}
+.welcome h1{
+    margin: 0;
+}
+.welcome ion-icon{
+    font-size: 6rem;
+    margin: 0;
+    position: absolute;
+    top: -22px;
+    margin-left: 10px;
+}
+.welcome span{
+    color: #fa7174;
+    font-weight: 600;
+}
+
+.signup ion-icon{
+    font-size: 2rem;
+    color: #fb7275;
+    margin-right: 15px;
+    transform: rotate(180deg);
+}

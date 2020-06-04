@@ -135,7 +135,11 @@ anonymousToggle(){
               console.log(res);
               this.errorMessage = '';
               this.loadingCtrl.dismiss();
-              this.navCtrl.navigateForward('/customer/home');
+              if(this,this.isAnonymous){
+                this.navCtrl.navigateForward('/customer/home');
+              }else{
+                this.navCtrl.navigateForward('/approved');
+              }
             }, err => {
               this.loadingCtrl.dismiss();
               this.errorMessage =  this.authService.printErrorByCode (err.code);

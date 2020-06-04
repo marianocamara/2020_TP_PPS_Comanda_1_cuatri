@@ -1,13 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Rubik&display=swap');
 
 
-.bg {
-    // background: var(--ion-color-light);
-    // --background: var(--ion-color-light);
-    --ion-font-family: 'Rubik', sans-serif;
-
-}
-
 .types {
     flex-wrap: nowrap;
     padding: 0 0 10px 40px;
@@ -107,4 +100,8 @@
 
 .padding-20 {
     padding: 20px;
+}
+
+.employee .approve ion-item-option{
+    padding: 10px;
 }

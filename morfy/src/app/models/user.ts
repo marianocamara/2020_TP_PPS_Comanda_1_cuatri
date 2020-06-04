@@ -7,6 +7,7 @@ export class User {
     type?: string;
     dni?:string;
     cuil?:string;
+    approved?:boolean;
 
 
   constructor(init?: Partial<User>) {
