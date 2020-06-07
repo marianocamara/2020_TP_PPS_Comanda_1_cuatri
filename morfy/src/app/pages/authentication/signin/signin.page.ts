@@ -127,6 +127,13 @@ export class SigninPage implements OnInit {
             this.validationsForm.controls.email.setValue('camaramariano@gmail.com');
             this.validationsForm.controls.password.setValue('marianopass');
           }
+        },{
+          text: 'Cliente',
+          icon: 'person-outline',
+          handler: () => {
+            this.validationsForm.controls.email.setValue('nicolas@cliente.com');
+            this.validationsForm.controls.password.setValue('nicolaspass');
+          }
         }, {
           text: 'Cancelar',
           icon: 'close',
