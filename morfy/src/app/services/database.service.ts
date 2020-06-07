@@ -3,13 +3,12 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, } from '@angular/fire/firestore';
 import { Observable, Subject } from 'rxjs';
 import { AngularFireStorage } from '@angular/fire/storage';
+import { Order } from '../models/order';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DatabaseService {
-
-  private orders = new Subject<any>();
 
   constructor(
     private afs: AngularFirestore,
@@ -49,6 +48,10 @@ export class DatabaseService {
     return objetoDoc.update(objeto);
   }
 
+  UpdateSingleField(key: string, value: any, collection: string, docId: string) {
+    return this.afs.collection(collection).doc(docId).update({[key]: value});
+  }
+
 
   DeleteOne(id: any, collection: string) {
     const objetoDoc = this.afs.collection(`${collection}`).doc(id);
@@ -67,12 +70,18 @@ export class DatabaseService {
 
 
 
-  publishSomeData(data: any) {
-      this.orders.next(data);
+
+
+
+  GetPendingOrder(userId) {
+    return this.afs.collection('orders', ref => ref.where('idClient', '==', userId).where('isComplete', '==', false)).valueChanges()
+    .pipe (res => res );
   }
 
-  getObservable(): Subject<any> {
-      return this.orders;
+  GetAllUserOrders(userId) {
+    return this.afs.collection('orders', ref => ref.where('idClient', '==', userId)).valueChanges()
+    .pipe (res => res );
   }
+
 
 }

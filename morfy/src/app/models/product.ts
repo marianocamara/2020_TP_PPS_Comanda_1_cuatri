@@ -1,13 +1,27 @@
 export class Product {
     id?: string;
     name?: string;
-    description?:string;
-    imageUrl?: string[];
+    description?: string;
+    category?: Category[]; // ver
+    // imageUrl?: string[];
+    imageUrl?: string;
     time?: string;
-    price?: string;
+    price?: number;
 
 
   constructor(init?: Partial<Product>) {
     Object.assign(this, init);
   }
+}
+
+
+export enum Category {
+  Principal = 'principal',
+  Brunch = 'brunch',
+  Postre = 'postre',
+  Pasta = 'pasta',
+  Pizza = 'pizza',
+  Bebida = 'bebida',
+  Acompañamiento = 'acompañamiento',
+  Featured = 'featured'
 }

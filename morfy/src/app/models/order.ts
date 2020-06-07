@@ -2,12 +2,13 @@ import { Product } from './product';
 
 export class Order {
     id?: string;
-    products?: Product[];
+    date?: Date;
+    products?: [{ product: Product, quantity: number }];
     freeDrink?: boolean;
     freeDessert?: boolean;
     hasDisscount?: boolean;
     idClient?: string;
-    orderStatus?:boolean;
+    isComplete?: boolean;
 
   constructor(init?: Partial<Order>) {
     Object.assign(this, init);

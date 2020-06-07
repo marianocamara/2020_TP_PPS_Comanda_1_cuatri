@@ -1,0 +1,88 @@
+<ion-header translucent class="ion-no-border">
+  <ion-toolbar mode="ios">
+    <ion-title>Detalle Pedido</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeModal('close')"><ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen>
+  <div class="message">
+    <div class="message-txt">
+      Esperando el pago ...
+    </div>
+    <div class="p-txt">
+      Por favor complete el pago para confirmar su pedido. Los precios incluyen impuestos.
+    </div>
+    <div class="ion-text-center">
+      <!-- <span class="text-muted ion-no-margin text-job text-white">{{user.type | titlecase}}</span> -->
+    </div>
+  </div>
+
+  <ion-grid class="ion-no-padding">
+    <div class="completed">
+      <ion-row class="">
+        <ion-col size=6>
+          <div class="title">
+            Codigo de Orden
+          </div>
+        </ion-col>
+        <ion-col size=6>
+          <div class="subtitle">
+            {{pendingOrder.id}}
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row class="">
+        <ion-col size=6>
+          <div class="title">
+            Fecha de Orden
+          </div>
+        </ion-col>
+        <ion-col size=6>
+          <div class="subtitle">
+            {{pendingOrder.date |  date:'short'}}
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row class="">
+        <ion-col size=6>
+          <div class="title">
+            Total
+          </div>
+        </ion-col>
+        <ion-col size=6>
+          <div class="price">
+            <span>$ {{calculateOrderTotal(pendingOrder)}}</span>
+          </div>
+        </ion-col>
+      </ion-row>
+    </div>
+
+      <!-- <div class="subtitle" *ngFor="let product of order.products; let i = index">
+        {{i+1}}. {{product.product.name }}
+      </div> -->
+  </ion-grid>
+
+
+
+
+
+</ion-content>
+
+
+<ion-footer class="ion-no-border">
+  <ion-toolbar color="light">
+    <ion-row class="bottom" >
+      <ion-col size=6 class="justify-content-end; align-items-end" >
+        <ion-button mode="ios" class="delete-btn" (click)="closeModal('delete')">Eliminar Orden</ion-button>
+      </ion-col>
+      <ion-col  size=6>
+        <ion-button mode="ios" class="pay-btn" (click)="closeModal('pay')">Pagar</ion-button>
+      </ion-col>
+    </ion-row>
+    <!-- <ion-title>Footer - No Border</ion-title> -->
+  </ion-toolbar>
+</ion-footer>
