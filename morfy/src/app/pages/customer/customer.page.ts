@@ -22,11 +22,30 @@ export class CustomerPage implements OnInit {
                private database: DatabaseService ) { }
 
   ngOnInit() {
-    this.database.getObservable().subscribe((data) => {
-      console.log('Data received', data);
-      this.orderPlaced = true;
-    });
+    Plugins.Storage.get({ key: 'user-bd' }).then(
+      (userData) => {
+        if (userData.value) {
+          this.user = JSON.parse(userData.value);
+          this.database.GetPendingOrder(this.user.id).subscribe((order) => {
+            // console.log('Data received', data);
+            if (order.length > 0) {
+              this.orderPlaced = true;
+            }
+            else {
+              this.orderPlaced = false;
+            }
+          });
+        }
+        else {
+          this.user = null;
+          this.logout();
+        }
+      }, () => {
+        this.logout();
+      }
+    );
   }
+
 
   ionViewWillEnter() {
     Plugins.Storage.get({ key: 'user-bd' }).then(
@@ -35,6 +54,7 @@ export class CustomerPage implements OnInit {
           this.user = JSON.parse(userData.value);
         }
         else {
+          this.user = null;
           this.logout();
         }
       }, () => {

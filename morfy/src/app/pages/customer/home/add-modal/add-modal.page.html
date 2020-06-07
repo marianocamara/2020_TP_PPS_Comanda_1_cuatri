@@ -1,15 +1,7 @@
-<ion-header class="ion-no-border">
-    <!-- <ion-title>add-modal</ion-title> -->
-    <ion-buttons slot="end">
-      <ion-button (click)="closeModal()">
-        <ion-icon slot="icon-only" name="close"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-</ion-header>
 
-      <div class="prod-img"
-      [ngStyle]="{'background-image': 'url(' + product.imageUrl + ')'}">
-    </div>
+<div class="prod-img"
+  [ngStyle]="{'background-image': 'url(' + product.imageUrl + ')'}">
+</div>
 
 <ion-content padding>
   <div class="content">
@@ -17,11 +9,11 @@
         <ion-icon slot="icon-only" name="close"></ion-icon>
       </button>
     <div class="price">$ {{product.price * quantity}}</div>
-    <div class="title">{{product.title}}</div>
+    <div class="title">{{product.name}}</div>
     <div class="quantity">
       <span>Cantidad:  {{quantity}}</span>
       <ion-item lines="none">
-        <ion-range [(ngModel)]="quantity" mode="ios" min="1" max="10" step="1" value="1" color="danger">
+        <ion-range [(ngModel)]="quantity" pin="true" mode="ios" min="1" max="10" step="1" value="1">
           <ion-icon slot="start" size="small" color="danger" name="remove"></ion-icon>
           <ion-icon slot="end" color="danger" name="add"></ion-icon>
         </ion-range>
