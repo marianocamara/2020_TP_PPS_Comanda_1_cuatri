@@ -27,6 +27,11 @@ const routes: Routes = [
     path: 'welcome',
     loadChildren: () => import('./pages/authentication/welcome/welcome.module').then( m => m.WelcomePageModule)
   },
+  {
+    path: 'approval',
+    loadChildren: () => import('./pages/authentication/approval/approval.module').then( m => m.ApprovalPageModule)
+  },
+
 
 
 

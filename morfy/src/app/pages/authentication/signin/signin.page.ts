@@ -59,11 +59,16 @@ export class SigninPage implements OnInit {
           console.log(res);
           this.errorMessage = '';
           this.loadingCtrl.dismiss();
-          if ( res === 'cliente') {
-            this.navCtrl.navigateForward('/customer/home');
+          if (res.approved) {
+            if ( res.type === 'cliente') {
+              this.navCtrl.navigateForward('/customer/home');
+            } else {
+              this.navCtrl.navigateForward('/staff');
+            }
           } else {
-            this.navCtrl.navigateForward('/staff');
+            this.navCtrl.navigateForward('/approval');
           }
+          
         }, err => {
           this.loadingCtrl.dismiss();
           this.presentToast(this.authService.printErrorByCode (err.code));
@@ -119,8 +124,8 @@ export class SigninPage implements OnInit {
           text: 'Cliente',
           icon: 'person-outline',
           handler: () => {
-            this.validationsForm.controls.email.setValue('nicolas@cliente.com');
-            this.validationsForm.controls.password.setValue('nicolaspass');
+            this.validationsForm.controls.email.setValue('camaramariano@gmail.com');
+            this.validationsForm.controls.password.setValue('marianopass');
           }
         }, {
           text: 'Cancelar',

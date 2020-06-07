@@ -1,0 +1,35 @@
+<ion-content class="ion-padding">
+  <div class="centered">
+    <div style="width: 100%;">
+      
+      <img src="../../../../assets//img/sarten.gif" alt="">
+      <div class="card">
+      <ion-row class="welcome">
+        <ion-col>
+          <h5><strong>Gracias por registrarte en <span>Morfy</span>.</strong></h5>
+          <p>Nuestro equipo se encuentra evaluando tu solitud.</p>
+          <p>En breve recibiras un correo notificandote sobre el estado de tu cuenta.</p>
+        </ion-col>        
+      </ion-row>
+      
+      <ion-row>
+        <ion-col>
+          <ion-button
+          mode="ios"
+          expand="block" 
+          class="ion-margin-top enter">
+          Hablar con un representante
+        </ion-button>        
+      </ion-col>      
+    </ion-row>
+
+    <ion-item class="signup" lines="none" (click)="navCtrl.navigateForward('/welcome')">
+      <ion-icon slot="start" src="../../../../assets/img/next.svg"></ion-icon>      
+      <p slot="start"><strong>Volver</strong></p>
+    </ion-item>
+  </div>
+    
+  </div>
+</div>
+
+</ion-content>
