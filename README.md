@@ -99,7 +99,7 @@ Objetivos planteados: <br>
   <li>Braian Cardozo</li>
   <li>Fecha Inicio: 29/05/2020</li>
   <li>Fecha Fin: 31/05/2020</li>
-  <li>Commit: </li>
+  <li>Commit: https://github.com/CardozoBraianEzequiel/2020_TP_PPS_Comanda_1_cuatri/commit/aa429ad20b983b4f5eaab9cb58ce01de63569c1c</li>
 </ul><br>
 
 9) Diagrama de Flujo:
@@ -108,6 +108,86 @@ Objetivos planteados: <br>
 <br>
 <h1>[Sprint 2] 30/05/2020 - 06/06/2020</h1>
 <br>
-1) Estructura de pantalla incial de Clientes con info mockeada.  (Ariel)
-2) Registración. (Mariano)
-3) Lector QR de DNI. (Braian)
+1) Estructura de pantalla incial de Clientes con info mockeada.  <br>
+  <ul>
+  <li>Ariel Traut</li>
+  <li>Fecha Inicio: 01/06/2020</li>
+  <li>Fecha Fin: 02/06/2020</li>
+  <li>Commit: https://github.com/CardozoBraianEzequiel/2020_TP_PPS_Comanda_1_cuatri/commit/4e2105977b5e0329cd1b2cd77006a80ee42f61f8</li>
+</ul>
+2) Registración. <br>
+<ul>
+  <li>Mariano Camara</li>
+  <li>Fecha Inicio: 01/06/2020</li>
+  <li>Fecha Fin: 01/06/2020</li>
+  <li>Commit: https://github.com/CardozoBraianEzequiel/2020_TP_PPS_Comanda_1_cuatri/commit/cf4561e20353d00592f637d62db2a6207efd2a94</li>
+</ul>
+3) Lector QR de DNI. <br>
+<ul>
+  <li>Braian Cardozo</li>
+  <li>Fecha Inicio: 01/06/2020</li>
+  <li>Fecha Fin: 04/06/2020</li>
+  <li>Commit: https://github.com/CardozoBraianEzequiel/2020_TP_PPS_Comanda_1_cuatri/commit/e097a597a372d5a967b20b3316aa8d271a4018b3</li>
+</ul>
+4) Notificacion por Email. <br>
+<ul>
+  <li>Mariano Camara</li>
+  <li>Fecha Inicio: 03/06/2020</li>
+  <li>Fecha Fin: 05/06/2020</li>
+  <li>Commit: https://github.com/CardozoBraianEzequiel/2020_TP_PPS_Comanda_1_cuatri/commit/2b2d3431570fd8d7b933b8fb235f8c76e5115623</li>
+</ul>
+5) Aprobación de usuarios. <br>
+<ul>
+  <li>Mariano Camara</li>
+  <li>Fecha Inicio: 03/06/2020</li>
+  <li>Fecha Fin: 05/06/2020</li>
+  <li>Commit: https://github.com/CardozoBraianEzequiel/2020_TP_PPS_Comanda_1_cuatri/commit/2b2d3431570fd8d7b933b8fb235f8c76e5115623</li>
+</ul>
+6) Agregar al pedido. <br>
+<ul>
+  <li>Ariel Traut</li>
+  <li>Fecha Inicio: 03/06/2020</li>
+  <li>Fecha Fin: 04/06/2020</li>
+  <li>Commit: https://github.com/CardozoBraianEzequiel/2020_TP_PPS_Comanda_1_cuatri/commit/e2dda1b76fe424441690707b61414b7e090378fc</li>
+</ul>
+7) Cargar productos desde base de datos. <br>
+<ul>
+  <li>Ariel Traut</li>
+  <li>Fecha Inicio: 06/06/2020</li>
+  <li>Fecha Fin: 07/06/2020</li>
+  <li>Commit: https://github.com/CardozoBraianEzequiel/2020_TP_PPS_Comanda_1_cuatri/commit/e2dda1b76fe424441690707b61414b7e090378fc</li>
+</ul>
+8) Pagar los datos asociados al pedido. <br>
+<ul>
+  <li>Ariel Traut</li>
+  <li>Fecha Inicio: 07/06/2020</li>
+  <li>Fecha Fin: 07/06/2020</li>
+  <li>Commit: https://github.com/CardozoBraianEzequiel/2020_TP_PPS_Comanda_1_cuatri/commit/e2dda1b76fe424441690707b61414b7e090378fc</li>
+</ul>
+9) Loguearse como usuario anonimo. <br>
+<ul>
+  <li>Mariano Camara</li>
+  <li>Fecha Inicio: 24/05/2020</li>
+  <li>Fecha Fin: 24/05/2020</li>
+  <li>Commit: https://github.com/CardozoBraianEzequiel/2020_TP_PPS_Comanda_1_cuatri/commit/2b2d3431570fd8d7b933b8fb235f8c76e5115623</li>
+</ul>
+10) Agregado de qr al proyecto para control de estados. <br>
+<ul>
+  <li>Braian Cardozo</li>
+  <li>Fecha Inicio: 06/06/2020</li>
+  <li>Fecha Fin: 10/06/2020</li>
+  <li>Commit: https://github.com/CardozoBraianEzequiel/2020_TP_PPS_Comanda_1_cuatri/commit/2b2d3431570fd8d7b933b8fb235f8c76e5115623</li>
+</ul>
+<br>
+
+<br>
+<h1>[Sprint 3] 06/06/2020 - 13/06/2020</h1>
+<br>
+1) Cambios de estado por QR. <br>
+<ul>
+  <li>Braian Cardozo</li>
+  <li>Fecha Inicio: 06/06/2020</li>
+  <li>Fecha Fin: 10/06/2020</li>
+  <li>Commit: https://github.com/CardozoBraianEzequiel/2020_TP_PPS_Comanda_1_cuatri/commit/d007f97fae6f68f74a3c133feafee6652577b69e</li>
+</ul>
+
