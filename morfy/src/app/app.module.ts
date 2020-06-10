@@ -17,7 +17,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
-
+import { QrPickerComponent } from '../app/shared/pickers/qr-picker/qr-picker.component'; 
 
 @NgModule({
   declarations: [AppComponent],
@@ -35,6 +35,7 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
     StatusBar,
     SplashScreen,
     BarcodeScanner,
+    QrPickerComponent,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

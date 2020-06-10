@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActionSheetController, NavController, LoadingController, ToastController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
+import { Status } from 'src/app/models/user';
+import { DatabaseService } from 'src/app/services/database.service';
 
 @Component({
   selector: 'app-signin',
@@ -16,7 +18,8 @@ export class SigninPage implements OnInit {
     private authService: AuthService,
     private formBuilder: FormBuilder,
     private loadingCtrl: LoadingController,
-    public toastController: ToastController
+    public toastController: ToastController,
+    private database: DatabaseService
     ) { }
 
     validationsForm: FormGroup;
@@ -58,8 +61,32 @@ export class SigninPage implements OnInit {
         .then(res => {
           console.log(res);
           this.errorMessage = '';
+
+          //Si no tiene estado, le pongo que es primer ingreso
+          if(typeof res !== 'undefined'){
+          if(typeof res.status === 'undefined' || res.status === null ){
+            const data = {
+              id: res.id,
+              email: res.email,
+              name: res.name,
+              imageUrl: res.imageUrl,
+              approved: res.approved,
+              dni: res.dni,
+              type: res.type,
+              status: "recent_enter"
+            };
+            
+            this.database.UpdateOne(JSON.parse(JSON.stringify(data)), 'users')
+            .then( () => {
+              console.log('Status added');
+            });
+          }
+        }
+
+          
           this.loadingCtrl.dismiss();
           if (res.approved) {
+          //if (true) {
             if ( res.type === 'cliente') {
               this.navCtrl.navigateForward('/customer/home');
             } else {
@@ -128,7 +155,7 @@ export class SigninPage implements OnInit {
             this.validationsForm.controls.password.setValue('marianopass');
           }
         },{
-          text: 'Cliente',
+          text: 'Cliente Nico',
           icon: 'person-outline',
           handler: () => {
             this.validationsForm.controls.email.setValue('nicolas@cliente.com');
