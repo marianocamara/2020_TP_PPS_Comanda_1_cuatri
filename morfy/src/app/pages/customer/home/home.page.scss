@@ -2,6 +2,17 @@ ion-content {
     --padding-start: 22px;
 }
 
+.btnQR {
+    text-align: center;
+    width: 40%;
+    margin-bottom: 15px;
+    max-width: 80%;
+    font-size: 140%;
+    --background: #7e6954;
+    img {
+        max-width: 30px;
+    }
+}
 .section-title {
     color: rgba(0, 0, 0, 0.589);
     font-size: 20px;

@@ -52,6 +52,7 @@ export class AuthService {
                 dni : value.dni,
                 email: result.user.email,
                 approved: false,
+                status: "recent_enter",
                 imageUrl},
                 'users').then(() => {
                   resolve(this.saveInStorage(result.user));
