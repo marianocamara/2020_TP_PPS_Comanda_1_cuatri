@@ -241,3 +241,7 @@ Objetivos planteados: <br>
     </ul>
   </li>
  </ul>
+<br>
+<h1>[Sprint 4] 13/06/2020 - 20/06/2020</h1>
+<br>
+- Objetivo del sprint: Poder hacer entrega de los primeros puntos al profesor en video a traves del ClassRoom.
