@@ -4,43 +4,57 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>
-      morfy
+      <span>m</span>orfy
     </ion-title>
     <ion-avatar slot="end" style="height:40px; width: 40px; margin-right: 8px;" *ngIf="user">
       <img [src]="user ? user.imageUrl : 'Loading...'" (click)="logout()">
     </ion-avatar>
-    <ion-buttons slot="start">
-      <ion-buttons slot="start">
-          <ion-back-button text=""></ion-back-button>
-      </ion-buttons>
-  </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
   
 <ion-content>
 
-  <ion-tabs #myTabs>
-    <div class="tabs">
-      <ion-tab-bar slot="bottom" translucent=“true”>
-        <ion-tab-button tab="home">
-          <ion-icon name="home-outline"></ion-icon>
-          <ion-label>Inicio</ion-label>
-        </ion-tab-button>
+    <ion-slides pager="true" [options]="slideOpts" #slides (ionSlideWillChange)="doCheck()">
+      <ion-slide>
+        <img src="/assets/img/qr.gif"/>
+        <h2>Buscar mesa</h2>
+        <p>Escaneá el <b>codigo Qr</b> para anotarte en la lista de espera, o selecciona tu mesa si ya tenes una asignada.</p>
+        <ion-button 
+          class="qr-btn morfy-btn"
+          mode="ios"
+          size="small"
+          (click)="navigationOptions()">
+          <ion-icon name="qr-code-outline"></ion-icon>
+        </ion-button>  
+      </ion-slide>
 
-        <ion-tab-button tab="orders">
-          <ion-icon name="cart-outline"></ion-icon>
-          <ion-badge *ngIf="orderPlaced">1</ion-badge>
-          <ion-label>Pedidos</ion-label>
-        </ion-tab-button>
+      <ion-slide>
+        <img src="/assets/img/delivery2.gif"/>
+        <h2>Delivery</h2>
+        <p>Ingresá para hacer un pedido a domicilio, recordá que debes estar <b>registrado</b> para acceder al delivery.</p>
+      </ion-slide>
 
-        <ion-tab-button tab="more">
-          <ion-icon name="ellipsis-horizontal"></ion-icon>
-          <ion-label>Mas</ion-label>
-        </ion-tab-button>
+      <ion-slide>
+        <img src="/assets/img/reservations.gif"/>
+        <h2>Reserva</h2>
+        <p>Reservá una mesa desde la App. Recordá que debes estar registrado para realizar reservas.</p>
+      </ion-slide> 
+    </ion-slides>
 
-      </ion-tab-bar>
-    </div>
-  </ion-tabs>
-
+    <ion-button mode="ios"
+        fill="clear"
+        class="backBtn"
+        *ngIf="!disablePrevBtn"
+        (click)="slides.slidePrev()">
+        <ion-icon src="https://image.flaticon.com/icons/svg/271/271220.svg"></ion-icon>
+    </ion-button>
+    <ion-button mode="ios"
+        fill="clear"
+        class="nextBtn" 
+        *ngIf="!disableNextBtn" 
+        (click)="slides.slideNext()">
+        <ion-icon src="https://image.flaticon.com/icons/svg/271/271228.svg"></ion-icon>
+    </ion-button>
+     
 </ion-content>

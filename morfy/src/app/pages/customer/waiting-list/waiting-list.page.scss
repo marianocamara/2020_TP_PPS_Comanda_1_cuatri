@@ -1,0 +1,87 @@
+ion-title {
+    font-style: bold;
+    font-size: 22px !important;
+    letter-spacing: 1px;
+    color: rgba(0, 0, 0, 0.808);
+    span {
+        color: var(--ion-color-morfy);
+    }
+}
+
+/* Without setting height the slides will take up the height of the slide's content */
+.head {
+    height: 60%;
+    .centered {
+        display: flex;
+        align-items: center;
+        text-align: center;
+        display: block;
+        margin-top: 2.8rem;
+        img {
+          max-height: 25%;
+          max-width: 80%;
+        //   margin: 60px 0 40px;
+        }
+        b {
+          font-weight: 500;
+        }
+        h2 {
+          margin-top: 40px;
+          margin-bottom: 30px;
+          font-size: 24px;
+        }
+        p {
+          padding: 0 40px;
+          font-size: 14px;
+          line-height: 1.5;
+          color: var(--ion-color-step-600, #60646b);
+        }
+        p b {
+          color: var(--ion-text-color, #000000);
+        }
+    }
+}
+
+
+.qr-btn {
+    border: none;
+    font-size: 15px;
+    height: 50px;
+    width: 50px;
+    margin-top: 20px;
+    --border-radius: 50%;
+    // --background: orange !important;
+}
+
+
+// .backBtn{
+//     position: absolute;
+//     padding: 0;
+//     left: -2vw;
+//     top: 15vh;
+//     width: 13vw;
+//     height: 15vw;
+//     border: none;
+//     margin: 0;
+//     padding: 0;
+//     // background-color: transparent;
+//     --border-radius: 0;
+//     border-radius: 0;
+//     z-index: 100;
+// }
+ 
+// .nextBtn{
+//     position: absolute;
+//     right: -2vw;
+//     top: 15vh;
+//     width: 13vw;
+//     height: 15vw;
+//     margin: 0;
+//     padding: 0;
+//     // background-color: transparent;
+//     --border-radius: 0;
+//     border-radius: 0;
+//     border: none;
+//     // background: green;
+//     z-index: 100;
+// }

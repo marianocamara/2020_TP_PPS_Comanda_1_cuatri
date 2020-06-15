@@ -8,9 +8,22 @@ export class Order {
     freeDessert?: boolean;
     hasDisscount?: boolean;
     idClient?: string;
-    isComplete?: boolean;
+    // isComplete?: boolean;
+    status?: OrderStatus;
 
   constructor(init?: Partial<Order>) {
     Object.assign(this, init);
   }
+}
+
+
+export enum OrderStatus {
+  Pending = 'pending',
+  Submitted = 'submitted',
+  Confirmed = 'confirmed',
+  Ready = 'ready',
+  Delivered = 'delivered',
+  Received = 'received',
+  Paid = 'paid',
+  Finished = 'finished'
 }
