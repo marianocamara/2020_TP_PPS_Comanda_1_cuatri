@@ -8,6 +8,7 @@ export class User {
     dni?:string;
     cuil?:string;
     approved?:boolean;
+    table?: string;
     status?:Status;
 
 

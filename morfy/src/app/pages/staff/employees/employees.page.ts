@@ -16,41 +16,13 @@ export class EmployeesPage implements OnInit, OnDestroy {
   
   private employeesSub: Subscription;
   isLoading = true;
-  user: User; // = { imageUrl: 'assets/img/team-4-800x800.jpg'};
+  user: User;
   inputApproved;
   inputPending;
   activeType;
-  segment = 'pending';
-  
-  employees = [
-    // { name: 'Braian',
-    //   lastName: 'Cardozo',
-    //   type: 'Mozo',
-    //   imageUrl: 'http://bdatechnical.com/wp-content/uploads/2019/06/empty-profile-250x250.jpg'
-    // },
-    // { name: 'Mariano',
-    //   lastName: 'Camara',
-    //   type: 'Cocinero',
-    //   imageUrl: 'https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg'
-    // },
-    // { name: 'Ariel',
-    //   lastName: 'Traut',
-    //   type: 'Dueño',
-    //   imageUrl: 'http://bdatechnical.com/wp-content/uploads/2019/06/empty-profile-250x250.jpg'
-    // },
-    // {
-    //   name: 'Pepe',
-    //   lastName: 'Pepon',
-    //   type: 'Supervisor',
-    //   imageUrl: 'https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg'
-    // },
-    // { name: 'Pepin',
-    //   lastName: 'Pepon',
-    //   type: 'Bartender',
-    //   imageUrl: 'http://bdatechnical.com/wp-content/uploads/2019/06/empty-profile-250x250.jpg'
-    // },
-  ];
-  
+
+  employees = [];
+
   filteredEmployees = [];
   approvedEmployees = [];
   pendingEmployees = [];

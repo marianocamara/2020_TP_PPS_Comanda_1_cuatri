@@ -44,6 +44,10 @@
     // background-color: grey !important;
  }
 
- .modal-wrapper{
+.modal-wrapper{
     background: transparent !important;
+}
+
+.morfy-btn{
+    --background: linear-gradient(45deg, rgba(255,255,255,0) 0%, rgba(255,119,119,1) 0%, rgba(234,93,108,1) 100%);
 }

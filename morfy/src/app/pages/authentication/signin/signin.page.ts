@@ -88,7 +88,7 @@ export class SigninPage implements OnInit {
           if (res.approved) {
           //if (true) {
             if ( res.type === 'cliente') {
-              this.navCtrl.navigateForward('/customer/home');
+              this.navCtrl.navigateForward('/customer');
             } else {
               this.navCtrl.navigateForward('/staff');
             }
