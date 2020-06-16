@@ -7,7 +7,7 @@ import { Plugins } from '@capacitor/core';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
-  selector: 'qr-picker',
+  selector: 'app-qr-picker',
   templateUrl: './qr-picker.component.html',
   styleUrls: ['./qr-picker.component.scss'],
 })
