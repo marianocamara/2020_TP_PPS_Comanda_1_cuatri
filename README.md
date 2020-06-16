@@ -1,7 +1,12 @@
 <h1 align="center">Morfy </h1>
 <br>
+<img src="documents/morfy-icono.png" >
+<br>
 <p>El equipo de Morfy esta ampliamente interesado en que todo usuario que utilice la aplicación pueda acceder sin ningun tipo de inconveniente a cada una de las funcionalidades que la misma tiene. 
 Queremos que todo el trabajo que realicemos garantice la comodidad de la totalidad de nuestros usuario y genere una grata mejora en su experiencia de visitar alguno de los locales de nuestros clientes. </p>
+<br>
+
+
 <br>
 <h3>Integrantes:</h3><br>
 <ul>
@@ -9,6 +14,11 @@ Queremos que todo el trabajo que realicemos garantice la comodidad de la totalid
   <li>Ariel Traut</li>
   <li>Braian Cardozo</li>
 </ul>
+<br>
+<p float="left">
+<img width="300" height="500" src="documents/IMGLogin.jpeg" >
+<img width="300" height="500" src="documents/IMGPrincipal.jpeg" >
+</p>
 
 <br>
 <h1>[Sprint 1] 23/05/2020 - 30/05/2020</h1>
@@ -105,6 +115,8 @@ Objetivos planteados: <br>
 9) Diagrama de Flujo:
 <img src="documents/flow-v2.png" >
 
+<img src="documents/IMGSignUp.jpeg" >
+
 <br>
 <h1>[Sprint 2] 30/05/2020 - 06/06/2020</h1>
 <br>
@@ -183,11 +195,53 @@ Objetivos planteados: <br>
 <br>
 <h1>[Sprint 3] 06/06/2020 - 13/06/2020</h1>
 <br>
-1) Cambios de estado por QR. <br>
+1) Cambios de estado de cliente por QR. <br>
 <ul>
   <li>Braian Cardozo</li>
   <li>Fecha Inicio: 06/06/2020</li>
   <li>Fecha Fin: 10/06/2020</li>
   <li>Commit: https://github.com/CardozoBraianEzequiel/2020_TP_PPS_Comanda_1_cuatri/commit/d007f97fae6f68f74a3c133feafee6652577b69e</li>
 </ul>
-
+2) Cambios de estado de pedido. <br>
+<ul>
+  <li>Ariel Traut</li>
+  <li>Fecha Inicio: 10/06/2020</li>
+  <li>Fecha Fin: 12/06/2020</li> 
+</ul>
+3) Splash e Iconografia de la app. <br>
+<ul>
+  <li>Mariano Camara</li>
+  <li>Fecha Inicio: 10/06/2020</li>
+  <li>Fecha Fin: 12/06/2020</li> 
+</ul>
+4) Consultas al mozo. <br>
+<ul>
+  <li>Mariano Camara</li>
+  <li>Fecha Inicio: 12/06/2020</li>
+  <li>Fecha Fin: </li>
+</ul>
+5) Reunion semanal.
+<ul>
+  <li>Reunión día: 10/06/2020</li>
+  <li>Canal: Discord / Meet</li>
+  <li>Tareas pactadas: 
+    <ul>
+      <li>Diseño de flujo de estados de cliente y pedido. (Mariano)</li>
+      <li>Creacion de flujo de flujo de estados de pedido. (Ariel)</li>
+      <li>Creacion de flujo de flujo de estados del cliente (Braian)</li>
+    </ul>
+  </li> 
+  <li>Conclusiones: 
+    <ul>
+      <li>Tenemos un primer flujo de registración -> Aprobación -> Envio de email -> Ingreso -> Cargar pedido -> Pagar.</li>
+      <li>Debatimos acerca de lo que ya tenemos cumplido del pdf.</li>
+      <li>Debatimos acerca de los flujos de estados de la app.</li>
+      <li>Se tomo la decisión de que en la sala de espera ya puedas agregar productos a tu pedido.</li>
+      <li>Se repartieron tareas.</li>
+    </ul>
+  </li>
+ </ul>
+<br>
+<h1>[Sprint 4] 13/06/2020 - 20/06/2020</h1>
+<br>
+- Objetivo del sprint: Poder hacer entrega de los primeros puntos al profesor en video a traves del ClassRoom.

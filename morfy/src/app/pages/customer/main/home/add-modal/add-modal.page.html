@@ -1,0 +1,31 @@
+
+<div class="prod-img"
+  [ngStyle]="{'background-image': 'url(' + product.imageUrl + ')'}">
+</div>
+
+<ion-content padding>
+  <div class="content">
+      <button class="close" (click)="closeModal()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </button>
+    <div class="price">$ {{product.price * quantity}}</div>
+    <div class="title">{{product.name}}</div>
+    <div class="quantity">
+      <span>Cantidad:  {{quantity}}</span>
+      <ion-item lines="none">
+        <ion-range [(ngModel)]="quantity" pin="true" mode="ios" min="1" max="10" step="1" value="1">
+          <ion-icon slot="start" size="small" color="danger" name="remove"></ion-icon>
+          <ion-icon slot="end" color="danger" name="add"></ion-icon>
+        </ion-range>
+      </ion-item>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <ion-toolbar>
+    <ion-button mode="ios" class="add" (click)="closeModal('add')"> + Agregar</ion-button>
+    <ion-button class="morfy-btn" mode="ios">Pedir</ion-button>
+    <!-- <ion-title>Footer - No Border</ion-title> -->
+  </ion-toolbar>
+</ion-footer>

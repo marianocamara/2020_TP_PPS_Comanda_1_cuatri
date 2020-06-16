@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 
 import { AngularFirestore, } from '@angular/fire/firestore';
 import { Observable, Subject } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { AngularFireStorage } from '@angular/fire/storage';
-import { Order } from '../models/order';
+import { OrderStatus } from '../models/order';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,7 @@ export class DatabaseService {
     private afs: AngularFirestore,
     private storage: AngularFireStorage
     ) { }
+
 
   CreateOne(objeto: any, collection: string) {
     let id;
@@ -29,7 +31,7 @@ export class DatabaseService {
 
   GetOne(collection, id) {
     return new Promise<any>((resolve, reject) => {
-      this.afs.collection(`${collection}`).doc(id).valueChanges().subscribe(snapshots => {
+      this.afs.collection(`${collection}`).doc(id).valueChanges().pipe(take(1)).subscribe(snapshots => {
         resolve(snapshots);
       });
     });
@@ -42,11 +44,18 @@ export class DatabaseService {
   }
 
 
+  GetWithQuery(key: string, operator: any, value: any, collection: string): Observable<any[]> { // operator= '==' '<=' etc
+    return this.afs.collection(collection, ref => ref.where(key, operator, value)).valueChanges()
+    .pipe (res => res );
+  }
+
+
   UpdateOne(objeto: any, collection: string) {
     const id = objeto.id;
     const objetoDoc = this.afs.doc<any>(`${collection}/${id}`);
     return objetoDoc.update(objeto);
   }
+
 
   UpdateSingleField(key: string, value: any, collection: string, docId: string) {
     return this.afs.collection(collection).doc(docId).update({[key]: value});
@@ -74,14 +83,13 @@ export class DatabaseService {
 
 
   GetPendingOrder(userId) {
-    return this.afs.collection('orders', ref => ref.where('idClient', '==', userId).where('isComplete', '==', false)).valueChanges()
+    return this.afs.collection('orders', ref => ref.where('idClient', '==', userId).where('status', '==', OrderStatus.Pending))
+    .valueChanges()
     .pipe (res => res );
   }
 
-  GetAllUserOrders(userId) {
-    return this.afs.collection('orders', ref => ref.where('idClient', '==', userId)).valueChanges()
-    .pipe (res => res );
-  }
+
+
 
 
 }

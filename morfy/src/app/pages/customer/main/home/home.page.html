@@ -1,0 +1,91 @@
+<ion-content>
+
+  <div class="section-title">
+    Recomendados
+   
+  </div>
+
+  <app-qr-picker></app-qr-picker>
+
+  <ion-grid class="ion-no-padding">
+    <ion-row class="row-cards">
+      <ion-col *ngFor="let item of featured; let i = index">
+        <div class="card ion-padding"
+          [ngStyle]="{'background-image': 'url(' + item.imageUrl + ')'}" 
+          [attr.img-custom]="i">
+          <div class="details">
+            <ion-row>
+              <ion-col size=9>
+                <div class="title">{{item.name}}</div>
+                <div class="subtitle">{{item.description}}</div>              
+              </ion-col>
+              <ion-col size=3>
+                <div class="price">${{item.price}}</div>
+              </ion-col>              
+            </ion-row>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid class="ion-no-padding">
+    <ion-row class="types">
+      <ion-col *ngFor="let type of types" (click)="filterProducts(type)">
+        <p>{{type}}</p>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid class="ion-no-padding">
+    <ion-row class="list" *ngFor="let item of filteredProducts.slice(0, 3); let i = index"> <!--(click)="filterEmployees(type)">-->
+      <ion-col size=7>
+        <div class="title">
+          {{item.name}}
+        </div>
+        <div class="subtitle">
+          {{item.description}}
+        </div>
+        <div class="price">
+          <span>$ {{item.price}}</span>
+        </div>
+        <ion-button mode="ios" class="morfy-btn" (click)="openAddModal(item)">Agregar</ion-button>
+      </ion-col>
+      <ion-col size=5>
+        <div class="list-img"
+          [ngStyle]="{'background-image': 'url(' + item.imageUrl + ')'}">
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <div class="more">
+    <ion-button mode="ios" color="medium" fill="outline">Ver mas</ion-button>
+  </div>
+
+  <div class="drinks-title">
+    BEBIDAS <ion-icon src="https://image.flaticon.com/icons/svg/2843/2843562.svg"></ion-icon>
+  </div>
+
+  <ion-grid class="ion-no-padding">
+    <ion-row class="drinks"> <!--(click)="filterEmployees(type)">-->
+      <ion-col size="6" *ngFor="let item of drinks.slice(0, 4); let i = index">
+        <div class="list-img"
+          [ngStyle]="{'background-image': 'url(' + item.imageUrl + ')'}">
+        </div>
+        <div class="price">
+          <span>$ {{item.price}}</span>
+        </div>                
+        <div class="title">
+          {{item.name}}
+        </div>
+        <div class="subtitle">
+          {{item.description}}
+        </div>
+        <ion-button mode="ios" class="morfy-btn" (click)="openAddModal(item)">Agregar</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
+</ion-content>

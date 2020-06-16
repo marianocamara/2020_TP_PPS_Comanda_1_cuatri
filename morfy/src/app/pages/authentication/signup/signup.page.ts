@@ -136,7 +136,7 @@ anonymousToggle(){
               this.errorMessage = '';
               this.loadingCtrl.dismiss();
               if(this,this.isAnonymous){
-                this.navCtrl.navigateForward('/customer/home');
+                this.navCtrl.navigateForward('/customer');
               }else{
                 this.navCtrl.navigateForward('/approved');
               }
