@@ -6,6 +6,8 @@ import { User } from 'src/app/models/user';
 import { DatabaseService } from 'src/app/services/database.service';
 import { AuthService } from 'src/app/services/auth.service';
 
+import { Notification, NotificationMessages } from 'src/app/models/notification';
+
 
 @Component({
   selector: 'app-employees',
@@ -20,9 +22,10 @@ export class EmployeesPage implements OnInit, OnDestroy {
   inputApproved;
   inputPending;
   activeType;
-
+  segment = 'pending';
+  
   employees = [];
-
+  
   filteredEmployees = [];
   approvedEmployees = [];
   pendingEmployees = [];
@@ -53,7 +56,6 @@ export class EmployeesPage implements OnInit, OnDestroy {
       });      
     }
     
-    
     ionViewWillEnter() {
       this.isLoading = true;
       Plugins.Storage.get({ key: 'user-bd' }).then(
@@ -68,9 +70,7 @@ export class EmployeesPage implements OnInit, OnDestroy {
           this.logout();
         }
         );
-      }
-      
-      
+      }      
       
       logout() {
         this.authService.logoutUser()
@@ -81,14 +81,12 @@ export class EmployeesPage implements OnInit, OnDestroy {
         .catch(error => {
           console.log(error);
         });
-      }
-      
+      }      
       
       goToProfile() {}
       
-      
       search(areApproved) {
-
+        
         if (areApproved) {
           const filter = this.inputApproved.toLowerCase();
           this.approvedEmployees = this.filterEmployeesByApproval(areApproved).filter(e => {
@@ -107,10 +105,8 @@ export class EmployeesPage implements OnInit, OnDestroy {
             }
           });
           
-        }
-
-      }
-      
+        }        
+      }     
       
       filterEmployees(type: string, areApproved) {
         if (areApproved) {
@@ -124,8 +120,6 @@ export class EmployeesPage implements OnInit, OnDestroy {
         return this.employees.filter(e => e.approved === isApproved);
       }
       
-      
-      
       confirm(item: IonItemSliding, userId, userApproved) {
         item.close();
         this.loadingCtrl.create({ message: 'Confirmando...' }).then(loadingEl => {
@@ -137,15 +131,10 @@ export class EmployeesPage implements OnInit, OnDestroy {
         });
       }
       
-      
-      
       ngOnDestroy() {
         if (this.employeesSub) {
           this.employeesSub.unsubscribe();
         }
       }
       
-      
-      
     }
-    

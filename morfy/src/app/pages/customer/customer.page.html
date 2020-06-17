@@ -14,12 +14,14 @@
 
   
 <ion-content>
+  <div class="centered">
+    <div style="width: 100%;">
 
     <ion-slides pager="true" [options]="slideOpts" #slides (ionSlideWillChange)="doCheck()">
       <ion-slide>
         <img src="/assets/img/qr.gif"/>
         <h2>Buscar mesa</h2>
-        <p>Escaneá el <b>codigo Qr</b> para anotarte en la lista de espera, o selecciona tu mesa si ya tenes una asignada.</p>
+        <p>Escaneá el <span color="morfy">codigo Qr</span> para anotarte en la lista de espera, o selecciona tu mesa si ya tenes una asignada.</p>
         <ion-button 
           class="qr-btn morfy-btn"
           mode="ios"
@@ -33,12 +35,26 @@
         <img src="/assets/img/delivery2.gif"/>
         <h2>Delivery</h2>
         <p>Ingresá para hacer un pedido a domicilio, recordá que debes estar <b>registrado</b> para acceder al delivery.</p>
+        <ion-button 
+          class="qr-btn morfy-btn"
+          mode="ios"
+          size="small"
+          (click)="navigationOptions()">
+          <ion-icon name="basket-outline"></ion-icon>
+        </ion-button>  
       </ion-slide>
 
       <ion-slide>
         <img src="/assets/img/reservations.gif"/>
         <h2>Reserva</h2>
         <p>Reservá una mesa desde la App. Recordá que debes estar registrado para realizar reservas.</p>
+        <ion-button 
+        class="qr-btn morfy-btn"
+        mode="ios"
+        size="small"
+        (click)="navigationOptions()">
+        <ion-icon name="calendar-outline"></ion-icon>
+      </ion-button>
       </ion-slide> 
     </ion-slides>
 
@@ -56,5 +72,6 @@
         (click)="slides.slideNext()">
         <ion-icon src="https://image.flaticon.com/icons/svg/271/271228.svg"></ion-icon>
     </ion-button>
-     
+  </div>
+</div>
 </ion-content>
