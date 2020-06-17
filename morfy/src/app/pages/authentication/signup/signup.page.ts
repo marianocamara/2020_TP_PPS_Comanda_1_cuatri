@@ -139,6 +139,7 @@ anonymousToggle(){
               if(this,this.isAnonymous){
                 this.navCtrl.navigateForward('/customer');
               }else{
+                this.createNotification();
                 this.navCtrl.navigateForward('/approval');
               }
             }, err => {
