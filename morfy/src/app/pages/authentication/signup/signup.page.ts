@@ -5,6 +5,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { BarcodeScanner, BarcodeScannerOptions } from '@ionic-native/barcode-scanner/ngx';
 import { Plugins } from '@capacitor/core';
 import { DatabaseService } from 'src/app/services/database.service';
+import { NotificationMessages } from 'src/app/models/notification';
 
 @Component({
   selector: 'app-signup',
@@ -138,7 +139,8 @@ anonymousToggle(){
               if(this,this.isAnonymous){
                 this.navCtrl.navigateForward('/customer');
               }else{
-                this.navCtrl.navigateForward('/approved');
+                this.createNotification();
+                this.navCtrl.navigateForward('/approval');
               }
             }, err => {
               this.loadingCtrl.dismiss();
@@ -197,6 +199,16 @@ anonymousToggle(){
       duration: 3000
     });
     toast.present();
+  }
+
+  createNotification(){
+    let notification = {
+      senderType: 'cliente',
+      receiverType: 'supervisor',
+      message: NotificationMessages.User_Waiting_Approval,
+      date: new Date()
+    };
+    this.database.CreateOne(notification, 'notifications');
   }
 
 }
