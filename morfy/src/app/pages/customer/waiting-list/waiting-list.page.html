@@ -22,6 +22,7 @@
         [showSubtitle]="true" [showUnits]="false" [titleFormat]="formatTitle" subtitle="en la fila">
       </circle-progress>
       <!-- <img src="/assets/img/qr.gif"/> -->
+
       <h2>Lista de espera</h2>
       <p>Estamos preparando tu mesa, en breve te asignaremos una y podrás acceder con el codigo Qr de la misma. Te encontras en la posicion <b>{{myPosition}}</b> en la lista.</p>
     </div>
@@ -37,13 +38,14 @@
       <!-- <img src="/assets/img/qr.gif"/> -->
       <h2>Tu mesa esta lista</h2>
       <p>Tu mesa te espera, selecciona con codigo Qr tu numero de mesa para empezar.</p>
-      <ion-button 
+      <app-qr-picker></app-qr-picker>
+      <!-- <ion-button 
         class="qr-btn morfy-btn"
         mode="ios"
         size="small"
         (click)="navCtrl.navigateForward('/customer/main/home')">
         <ion-icon name="qr-code-outline"></ion-icon>
-      </ion-button>  
+      </ion-button>   -->
     </div>
   </ion-grid>
 

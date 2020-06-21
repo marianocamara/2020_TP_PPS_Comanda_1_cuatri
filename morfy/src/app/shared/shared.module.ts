@@ -11,7 +11,7 @@ import { QrPickerComponent } from './pickers/qr-picker/qr-picker.component';
   ],
   imports: [CommonModule, IonicModule],
   exports: [ImagePickerComponent,
-  QrPickerComponent],
+            QrPickerComponent],
   entryComponents: []
 })
 export class SharedModule {}

@@ -1,0 +1,114 @@
+<ion-header mode="ios" class="ion-no-border">
+  <ion-toolbar class="ion-no-border">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      Mesas
+    </ion-title>
+    <ion-avatar slot="end" style="height:40px; width: 40px; margin-right: 8px;" *ngIf="user">
+      <img [src]="user ? user.imageUrl : 'Loading...'" (click)="goToProfile()">
+    </ion-avatar>
+    <ion-buttons slot="start">
+      <ion-buttons slot="start">
+        <ion-back-button text="" defaultHref="staff"></ion-back-button>
+      </ion-buttons>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="bg">
+          
+    <ion-grid *ngIf="isLoading" class="ion-text-center">
+      <ion-row>
+        <ion-col size="12" size-sm="8" offset-sm="2" text-center>
+          <ion-spinner color="primary"></ion-spinner>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    
+    <div class="employee" *ngIf="!isLoading" style="padding-left: 30px;">
+      <ion-item-sliding *ngFor="let customer of waitingCustomers" #slidingItem>
+        <ion-item lines="">
+          <ion-thumbnail slot="start" style="--border-radius: 30px;">
+            <img [src]="customer.customerImg ? customer.customerImg : '../../../../assets//img/noImg.svg' " />
+          </ion-thumbnail>
+          <ion-label>
+            <h2>{{customer.customerName}}</h2>
+          </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>Mesas disponibles: </ion-label>
+          <ion-select *ngFor="let table of aviableTables">
+            <ion-select-option value="{{table}}">{{table}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-item-sliding>
+      <ion-row *ngIf="!waitingCustomers|| waitingCustomers.length == 0" class="types">
+        <ion-col>
+          <p>No se encontraron clientes en la sala de espera.</p>
+        </ion-col>
+      </ion-row>
+
+    </div>
+    
+  <!-- </div> -->
+  
+  
+<!--   
+  <div class="aprobados" *ngIf="segment === 'approved'">
+    
+    <ion-grid class="ion-no-padding">
+      <ion-row class="row-cards">
+        <ion-col>
+          <div>
+            <ion-item class="ion*no-padding">
+              <ion-icon slot="start" name="search"></ion-icon>
+              <ion-input placeholder="Buscar personal" required type="text" [(ngModel)]="inputApproved" (ngModelChange)="search(true)"></ion-input>
+            </ion-item>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    
+    <ion-grid class="ion-no-padding">
+      <ion-row class="types">
+        <ion-col *ngFor="let type of types" (click)="filterEmployees(type,true)" >
+          <p>{{type}}</p>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    
+    <div class="employee" *ngIf="!isLoading" style="padding-left: 30px;">
+      <ion-item-sliding *ngFor="let employee of approvedEmployees" #slidingItem>
+        <ion-item lines="" *ngIf="!(employee.type == 'anonimo')">
+          <ion-thumbnail slot="start" style="--border-radius: 30px;">
+            <img [src]="employee.imageUrl"/>
+          </ion-thumbnail>
+          <ion-label>
+            <h2>{{employee.name}}</h2>
+            <p style="color:rgb(163, 163, 163)">{{employee.type | titlecase }}</p>
+          </ion-label>
+          <ion-icon style="color: #26b52b;" slot="end" name="checkmark-circle-outline" *ngIf="employee.approved"></ion-icon>
+          <ion-icon color="primary" name="arrow-back-circle-outline" *ngIf="!employee.approved"></ion-icon>
+        </ion-item>
+        <ion-item-options class="approve">
+          <ion-item-option style="background:#26b52b" (click)="confirm(slidingItem, employee.id, employee.approved)"  *ngIf="!employee.approved">
+            <p>Aprobar</p>
+          </ion-item-option>
+          <ion-item-option color="primary" (click)="confirm(slidingItem, employee.id, employee.approved)" *ngIf="employee.approved">
+            <p>Inhabilitar</p>
+          </ion-item-option>
+          
+        </ion-item-options>
+      </ion-item-sliding>
+      <ion-row *ngIf="!approvedEmployees || approvedEmployees.length == 0" class="types">
+        <ion-col>
+          <p>No se encontraron usuarios.</p>
+        </ion-col>
+      </ion-row>
+    </div>
+    
+  </div> 
+   -->
+</ion-content>

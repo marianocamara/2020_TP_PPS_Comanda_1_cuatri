@@ -59,7 +59,7 @@ export class SigninPage implements OnInit {
         loadingEl.present();
         this.authService.signIn(value)
         .then(res => {
-          console.log(res);
+          
           this.errorMessage = '';
 
           //Si no tiene estado, le pongo que es primer ingreso
@@ -130,7 +130,7 @@ export class SigninPage implements OnInit {
           text: 'Metre',
           icon: 'person-outline',
           handler: () => {
-            this.validationsForm.controls['email'].setValue("sanda@metre.com");
+            this.validationsForm.controls['email'].setValue("sandra@metre.com");
             this.validationsForm.controls['password'].setValue("sandrapass");
           }
         }, {
