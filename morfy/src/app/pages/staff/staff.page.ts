@@ -14,7 +14,7 @@ declare interface RouteInfo {
 }
 export const ROUTES: RouteInfo[] = [
   { path: '/staff/employees', title: 'Usuarios',  icon: 'https://image.flaticon.com/icons/svg/2786/2786245.svg', class: '', type: 'supervisor'},
-  { path: '/staff/tables', title: 'Mesas',  icon: 'https://image.flaticon.com/icons/svg/2843/2843652.svg', class: '', type: 'supervisor'},
+  { path: '/staff/tables', title: 'Mesas',  icon: 'https://image.flaticon.com/icons/svg/2843/2843652.svg', class: '', type: 'metre'},
   { path: '/staff/delivery', title: 'Delivery',  icon: 'https://image.flaticon.com/icons/svg/2786/2786408.svg', class: '', type: 'todos'},
   { path: '/staff/stats', title: 'Estadisticas',  icon: 'https://image.flaticon.com/icons/svg/2786/2786428.svg', class: '', type: 'supervisor'},
   { path: '/empleados', title: 'Empleados',  icon: 'fas fa-user-alt', class: '', type: 'Admin'},

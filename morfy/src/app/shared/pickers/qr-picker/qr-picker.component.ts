@@ -5,6 +5,7 @@ import { Status, User } from 'src/app/models/user';
 import { DatabaseService } from 'src/app/services/database.service';
 import { Plugins } from '@capacitor/core';
 import { AuthService } from 'src/app/services/auth.service';
+import { WaitingListEntry } from 'src/app/models/waiting-list-entry';
 
 @Component({
   selector: 'app-qr-picker',
@@ -14,6 +15,7 @@ import { AuthService } from 'src/app/services/auth.service';
 export class QrPickerComponent implements OnInit {
 
   private user:User;
+  private isTesting:boolean = true;
   constructor(
     private toastController: ToastController,
     private barcodeScanner: BarcodeScanner,
@@ -25,7 +27,20 @@ export class QrPickerComponent implements OnInit {
       formats: "PDF_417"
     };
 
-  ngOnInit() {}
+  ngOnInit() {
+    Plugins.Storage.get({ key: 'user-bd' }).then(
+      (userData) => {
+        if (userData.value) {
+          this.user = JSON.parse(userData.value);
+        }
+        else {
+          this.logout();
+        }
+      }, () => {
+        this.logout();
+      }
+    );
+  }
 
   ionViewWillEnter() {
     Plugins.Storage.get({ key: 'user-bd' }).then(
@@ -43,37 +58,85 @@ export class QrPickerComponent implements OnInit {
   }  
 
   scanCode() {
-    this.barcodeScanner.scan(this.optionsQrScanner).then(barcodeData => {
-      let barcodeText = barcodeData.text;
-
-      if(barcodeText === "status_check"){
-        if(this.user.status === Status.Recent_Enter){
-          //Agregar a collection waiting_room
-          let obj = {
-            id: this.user.id,
-            tableAssigned: null,
-            name: this.user.name,
-            lastName: this.user.lastName,
-            idWaiterAssigned: null
+    if(this.isTesting){
+      this.database.GetOne('users', this.user.id)
+      .then( (user) => {
+          if ((user as User).table) {
+            // abrir camara para elegir Qr mesa, luego redirigir a:
+            this.navCtrl.navigateForward('/customer/main/home');
           }
-          // Lo agrego a sala de espera.
-         this.database.CreateOne(JSON.parse(JSON.stringify(obj)), "client_waiting").then(()=>{
-           this.presentToast("Usted fue agregado a la sala de espera");
-         }).catch(()=>{
-           this.presentToast("Ocurrió un error al intentar ser agregado a la sala de espera.");
-         });
-        }
-        if(this.user.status === Status.Waiting_Table){
+          else if ((user as User).status === Status.Recent_Enter) {
+            // abrir camara para escanear Qr lista de espera
+            // luego de leer Qr cambio el estado a 'waiting-table' y redirijo:
+            this.database.UpdateSingleField('status', Status.Waiting_Table, 'users', this.user.id)
+              .then(() => {
+                this.database.CreateOne(JSON.parse(JSON.stringify(
+                  new WaitingListEntry({
+                  id: user.id,
+                  customerName: this.user.name,
+                  customerImg: this.user.imageUrl,
+                  date: new Date()
+                }))), 'waiting-list')
+                  .then(() => this.navCtrl.navigateForward('/customer/waiting-list'));
+              });
+          }
+          else if ((user as User).status === Status.Waiting_Table) {
+            this.navCtrl.navigateForward('/customer/waiting-list');
+          }
+      });
 
-        }
-      }
+    }else{
+      this.barcodeScanner.scan(this.optionsQrScanner).then(barcodeData => {
+        let barcodeText = barcodeData.text;
+  
+        if(barcodeText === "status_check"){
+          this.database.GetOne('users', this.user.id)
+          .then( (user) => {
+          if ((user as User).status === Status.Recent_Enter) {
+            // abrir camara para escanear Qr lista de espera
+            // luego de leer Qr cambio el estado a 'waiting-table' y redirijo:
+            this.database.UpdateSingleField('status', Status.Waiting_Table, 'users', this.user.id)
+              .then(() => {
+                this.database.CreateOne(JSON.parse(JSON.stringify(
+                  new WaitingListEntry({
+                  id: user.id,
+                  customerName: this.user.name,
+                  customerImg: this.user.imageUrl,
+                  date: new Date()
+                }))), 'waiting-list')
+                  .then(() => this.navCtrl.navigateForward('/customer/waiting-list'));
+              });
+          }
+          else if ((user as User).status === Status.Waiting_Table) {
+            this.navCtrl.navigateForward('/customer/waiting-list');
+          }
+      });
+    
+          
+    }
 
-     })
-     .catch(err => 
-      {
-        this.presentToast("El codigo QR leido es invalido.");}
-      );
+    if(barcodeText.includes("morfy_table")){
+      let number_table = "";
+      number_table = barcodeText.split('_')[2]; 
+      
+      this.database.GetOne('users', this.user.id)
+      .then( (user) => {
+          if ((user as User).table === number_table) {
+            // abrir camara para elegir Qr mesa, luego redirigir a:
+            this.database.UpdateSingleField('status', Status.Recent_Sit, 'users', this.user.id)
+            this.navCtrl.navigateForward('/customer/main/home');
+          }else{
+            this.presentToast("Ingreso incorrecto. Su mesa asignada es la número " + (user as User).table + ".");
+          }
+
+    }).catch(() => {
+      this.presentToast("Ocurrió un error al intentar leer el código QR. Por favor, reintente.")
+    });
+  
   }
+    
+  });
+  }}
 
 
   async presentToast(message: string) {
