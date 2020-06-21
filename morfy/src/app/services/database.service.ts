@@ -77,19 +77,10 @@ export class DatabaseService {
     return uploadTask;
   }
 
-
-
-
-
-
   GetPendingOrder(userId) {
     return this.afs.collection('orders', ref => ref.where('idClient', '==', userId).where('status', '==', OrderStatus.Pending))
     .valueChanges()
     .pipe (res => res );
   }
-
-
-
-
 
 }
