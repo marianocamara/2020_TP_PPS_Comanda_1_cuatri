@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
-import { Plugins } from '@capacitor/core';
-import { NavController, IonSlides } from '@ionic/angular';
+import { Plugins, Toast } from '@capacitor/core';
+import { NavController, IonSlides, AlertController } from '@ionic/angular';
 import { User, Status } from 'src/app/models/user';
 import { DatabaseService } from 'src/app/services/database.service';
 import { WaitingListEntry } from 'src/app/models/waiting-list-entry';
@@ -29,9 +29,10 @@ export class CustomerPage implements OnInit {
     clickable: true
   };
 
-  constructor( public navCtrl: NavController,
-               private authService: AuthService,
-               private database: DatabaseService ) { }
+  constructor(public navCtrl: NavController,
+    private authService: AuthService,
+    private database: DatabaseService,
+    private alertController: AlertController) { }
 
   ngOnInit() {
     Plugins.Storage.get({ key: 'user-bd' }).then(
@@ -71,17 +72,69 @@ export class CustomerPage implements OnInit {
   }
 
 
+
   logout() {
-    this.authService.logoutUser()
-    .then(res => {
-      // console.log(res);
-      this.navCtrl.navigateBack('');
-    })
-    .catch(error => {
-      console.log(error);
-    });
+    if ((this.user as User).type === 'anonimo') {
+      // Si el usuario anonimo esta comiendo o esperando el pedido, no lo dejo finalizar sesion
+      if((this.user as User).status === Status.Eating || (this.user as User).status === Status.Waiting_Order){
+        this.presentAlert("Para finalizar sesión tiene que pagar la cuenta.", "Atención");
+      }else{
+        this.presentAlertLogoutAnon();
+      }
+    } else {
+      this.authService.logoutUser()
+        .then(res => {
+          // console.log(res);
+          this.navCtrl.navigateBack('');
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+
   }
 
+  async presentAlert(message, header) {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: header,
+      message: message,
+      buttons: ['OK']
+    });
+
+    await alert.present();
+  }
+  async presentAlertLogoutAnon() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Finalizando sesión',
+      message: '¿Estás seguro? Un usuario anónimo no puede recuperar sus datos.',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            console.log('Confirm Cancel: blah');
+          }
+        }, {
+          text: 'Cerrar Sesión',
+          handler: () => {
+            this.authService.logoutUser()
+              .then(res => {
+                // console.log(res);
+                this.navCtrl.navigateBack('');
+              })
+              .catch(error => {
+                console.log(error);
+              });
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
 
   next() {
     this.slides.slideNext();
@@ -106,29 +159,29 @@ export class CustomerPage implements OnInit {
 
   navigationOptions() { // actualizar con codigo Qr
     this.database.GetOne('users', this.user.id)
-      .then( (user) => {
-          if ((user as User).table) {
-            // abrir camara para elegir Qr mesa, luego redirigir a:
-            this.navCtrl.navigateForward('/customer/main/home');
-          }
-          else if ((user as User).status === Status.Recent_Enter) {
-            // abrir camara para escanear Qr lista de espera
-            // luego de leer Qr cambio el estado a 'waiting-table' y redirijo:
-            this.database.UpdateSingleField('status', Status.Waiting_Table, 'users', this.user.id)
-              .then(() => {
-                this.database.CreateOne(JSON.parse(JSON.stringify(
-                  new WaitingListEntry({
+      .then((user) => {
+        if ((user as User).table) {
+          // abrir camara para elegir Qr mesa, luego redirigir a:
+          this.navCtrl.navigateForward('/customer/main/home');
+        }
+        else if ((user as User).status === Status.Recent_Enter) {
+          // abrir camara para escanear Qr lista de espera
+          // luego de leer Qr cambio el estado a 'waiting-table' y redirijo:
+          this.database.UpdateSingleField('status', Status.Waiting_Table, 'users', this.user.id)
+            .then(() => {
+              this.database.CreateOne(JSON.parse(JSON.stringify(
+                new WaitingListEntry({
                   id: user.id,
                   customerName: this.user.name,
                   customerImg: this.user.imageUrl,
                   date: new Date()
                 }))), 'waiting-list')
-                  .then(() => this.navCtrl.navigateForward('/customer/waiting-list'));
-              });
-          }
-          else if ((user as User).status === Status.Waiting_Table) {
-            this.navCtrl.navigateForward('/customer/waiting-list');
-          }
+                .then(() => this.navCtrl.navigateForward('/customer/waiting-list'));
+            });
+        }
+        else if ((user as User).status === Status.Waiting_Table) {
+          this.navCtrl.navigateForward('/customer/waiting-list');
+        }
       });
   }
 

@@ -5,7 +5,6 @@ import { Plugins } from '@capacitor/core';
 import { User, Status } from 'src/app/models/user';
 import { DatabaseService } from 'src/app/services/database.service';
 import { AuthService } from 'src/app/services/auth.service';
-import { table } from 'console';
 
 @Component({
   selector: 'app-tables',
@@ -20,7 +19,7 @@ export class TablesPage implements OnInit {
   user: User;
   inputPending;
   activeType;
-  segment: String;
+  segment = 'pending';
   userTableAssigned : User[];
   customers = [];
   aviableTables = ['1','2','3','4','5','6','7','8','9','10'];

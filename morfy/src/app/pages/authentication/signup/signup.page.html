@@ -38,7 +38,7 @@
               </button>
             </ion-item>
             
-            <div class="two-column">
+            <div class="two-column" *ngIf="!isAnonymous">
               <ion-item class="ion-margin-bottom column-one">
                 <ion-label  position="floating">Nombre</ion-label>
                 <ion-input type="text" formControlName="name" required></ion-input>
@@ -49,7 +49,12 @@
                 <ion-input type="text" formControlName="lastName" required></ion-input>
               </ion-item>
             </div>
-            
+            <div class="two-column" *ngIf="isAnonymous">
+              <ion-item class="ion-margin-bottom">
+                <ion-label  position="floating">Nombre</ion-label>
+                <ion-input type="text" formControlName="name" required></ion-input>
+              </ion-item>
+            </div>
             <div class="validation-errors">
               <ng-container *ngFor="let validation of validation_messages.dni">
                 <div
