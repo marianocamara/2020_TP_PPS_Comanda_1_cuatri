@@ -93,6 +93,7 @@ export class SignupPage implements OnInit {
       this.validationsForm.get('dni').setErrors(null);
       this.validationsForm.get('email').setErrors(null);
       this.validationsForm.get('password').setErrors(null);
+      this.validationsForm.get('lastName').setErrors(null);
     } else {
       this.isAnonymous = false;
     }

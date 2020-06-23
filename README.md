@@ -244,4 +244,52 @@ Objetivos planteados: <br>
 <br>
 <h1>[Sprint 4] 13/06/2020 - 20/06/2020</h1>
 <br>
-- Objetivo del sprint: Poder hacer entrega de los primeros puntos al profesor en video a traves del ClassRoom.
+- Objetivo del sprint: Poder hacer entrega de los primeros puntos al profesor en video a traves del ClassRoom. (No cumplido)
+1) Cambios de estado de cliente por QR. <br>
+<ul>
+  <li>Braian Cardozo</li>
+  <li>Fecha Inicio: 06/06/2020</li>
+  <li>Fecha Fin: 10/06/2020</li>
+  <li>Commit: https://github.com/CardozoBraianEzequiel/2020_TP_PPS_Comanda_1_cuatri/commit/d007f97fae6f68f74a3c133feafee6652577b69e</li>
+</ul>
+2) Borrar Productos. <br>
+<ul>
+  <li>Ariel Traut</li>
+  <li>Fecha Inicio: 15/06/2020</li>
+  <li>Fecha Fin: 17/06/2020</li>
+  <li>Commit: https://github.com/CardozoBraianEzequiel/2020_TP_PPS_Comanda_1_cuatri/commit/e5a291f0ed97e7f12166fa03acdf6bf6c5d35017</li>
+</ul>
+3) Primer notificacion. <br>
+<ul>
+  <li>Mariano Camara</li>
+  <li>Fecha Inicio: 13/06/2020</li>
+  <li>Fecha Fin: 18/06/2020</li>
+  <li>Commit: https://github.com/CardozoBraianEzequiel/2020_TP_PPS_Comanda_1_cuatri/commit/d712c46cbbe516e7616919aeb8683f4ef8da0b66</li>
+</ul>
+3) Disparar notificaciones. <br>
+<ul>
+  <li>Mariano Camara</li>
+  <li>Fecha Inicio: 18/06/2020</li>
+  <li>Fecha Fin: 19/06/2020</li>
+  <li>Commit: https://github.com/CardozoBraianEzequiel/2020_TP_PPS_Comanda_1_cuatri/commit/74aea950c2d016547dd964499654ceeeb76e128d</li>
+</ul>
+<br>
+
+<br>
+<h1>[Sprint 5] 20/06/2020 - 27/06/2020</h1>
+<br>
+- Objetivo del sprint: Poder hacer entrega de los primeros puntos al profesor en video a traves del ClassRoom. 
+1) Gestion de mesas, asignacion por parte del metre <br>
+<ul>
+  <li>Braian Cardozo</li>
+  <li>Fecha Inicio: 19/06/2020</li>
+  <li>Fecha Fin: 23/06/2020</li>
+  <li>Commit: https://github.com/CardozoBraianEzequiel/2020_TP_PPS_Comanda_1_cuatri/commit/4673ffbaf60b8c56aa9559540d04987ceea10b50</li>
+</ul>
+2) Se agrego otro tipo de validación de dni leyendo el qr. <br>
+<ul>
+  <li>Braian Cardozo</li>
+  <li>Fecha Inicio: 19/06/2020</li>
+  <li>Fecha Fin: 23/06/2020</li>
+  <li>Commit: https://github.com/CardozoBraianEzequiel/2020_TP_PPS_Comanda_1_cuatri/commit/1025adec9ed1834e998b4e02b7970dad71df8237</li>
+</ul>

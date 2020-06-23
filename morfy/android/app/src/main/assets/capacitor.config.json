@@ -1,5 +1,5 @@
 {
-  "appId": "com.ar.morfy",
+  "appId": "io.ionic.starter",
   "appName": "morfy",
   "bundledWebRuntime": false,
   "npmClient": "npm",

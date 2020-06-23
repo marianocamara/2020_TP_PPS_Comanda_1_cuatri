@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { Plugins } from '@capacitor/core';
-import { NavController, IonSlides } from '@ionic/angular';
+import { NavController, IonSlides, AlertController } from '@ionic/angular';
 import { User } from 'src/app/models/user';
 import { DatabaseService } from 'src/app/services/database.service';
 import { map } from 'rxjs/operators';
@@ -36,7 +36,8 @@ export class WaitingListPage implements OnInit {
 
   constructor( public navCtrl: NavController,
                private authService: AuthService,
-               private database: DatabaseService ) { }
+               private database: DatabaseService,
+               public alertController:AlertController ) { }
 
   ngOnInit() {
     this.isLoading = true;
@@ -95,16 +96,67 @@ export class WaitingListPage implements OnInit {
 
 
   logout() {
-    this.authService.logoutUser()
-    .then(res => {
-      // console.log(res);
-      this.navCtrl.navigateBack('');
-    })
-    .catch(error => {
-      console.log(error);
-    });
+    if ((this.user as User).type === 'anonimo') {
+      // Si el usuario anonimo esta comiendo o esperando el pedido, no lo dejo finalizar sesion
+      if((this.user as User).status === "eating" || (this.user as User).status === "waiting_order"){
+        this.presentAlert("Para finalizar sesión tiene que pagar la cuenta.", "Atención");
+      }else{
+        this.presentAlertLogoutAnon();
+      }
+    } else {
+      this.authService.logoutUser()
+        .then(res => {
+          // console.log(res);
+          this.navCtrl.navigateBack('');
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+
   }
 
+  async presentAlert(message, header) {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: header,
+      message: message,
+      buttons: ['OK']
+    });
+
+    await alert.present();
+  }
+  async presentAlertLogoutAnon() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Finalizando sesión',
+      message: '¿Estás seguro? Un usuario anónimo no puede recuperar sus datos.',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            console.log('Confirm Cancel: blah');
+          }
+        }, {
+          text: 'Cerrar Sesión',
+          handler: () => {
+            this.authService.logoutUser()
+              .then(res => {
+                // console.log(res);
+                this.navCtrl.navigateBack('');
+              })
+              .catch(error => {
+                console.log(error);
+              });
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
 
   formatTitle = () => {
     return this.user.table ? `${this.user.table}` : `${this.myPosition}`;
