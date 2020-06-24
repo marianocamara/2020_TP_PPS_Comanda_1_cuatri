@@ -86,7 +86,7 @@ export class QrPickerComponent implements OnInit {
         });
 
     } else {
-      this.barcodeScanner.scan(this.optionsQrScanner).then(barcodeData => {
+      this.barcodeScanner.scan().then(barcodeData => {
         let barcodeText = barcodeData.text;
 
         if (barcodeText === "status_check") {

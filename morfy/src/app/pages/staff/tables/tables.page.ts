@@ -122,7 +122,6 @@ export class TablesPage implements OnInit {
               text: 'OK',
               handler: (): void => { 
                 this.assingTable(userId, tableAssigned);  
-                console.log('button ok'); 
               }
             },
             {   
@@ -137,11 +136,9 @@ export class TablesPage implements OnInit {
       logout() {
         this.authService.logoutUser()
         .then(res => {
-          // console.log(res);
           this.navCtrl.navigateBack('');
         })
         .catch(error => {
-          console.log(error);
         });
       }
       
