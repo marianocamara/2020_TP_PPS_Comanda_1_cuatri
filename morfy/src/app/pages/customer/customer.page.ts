@@ -42,10 +42,10 @@ export class CustomerPage implements OnInit {
         }
         else {
           this.user = null;
-          this.logout();
+          this.logoutUser();  
         }
       }, () => {
-        this.logout();
+        this.logoutUser();  
       }
     );
   }
@@ -63,15 +63,47 @@ export class CustomerPage implements OnInit {
         }
         else {
           this.user = null;
-          this.logout();
+          this.logoutUser();  
         }
       }, () => {
-        this.logout();
+        this.logoutUser();  
       }
     );
   }
+  async presentAlertLogout() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Finalizando sesión',
+      message: '¿Estás seguro de querer salir?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+          }
+        }, {
+          text: 'Cerrar Sesión',
+          handler: () => {
+            this.logoutUser();          
+          }
+        }
+      ]
+    });
 
-
+    await alert.present();
+  }
+  
+  logoutUser(){
+    this.authService.logoutUser()
+    .then(res => {
+      // console.log(res);
+      this.navCtrl.navigateBack('');
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  }
 
   logout() {
     if ((this.user as User).type === 'anonimo') {
@@ -82,16 +114,8 @@ export class CustomerPage implements OnInit {
         this.presentAlertLogoutAnon();
       }
     } else {
-      this.authService.logoutUser()
-        .then(res => {
-          // console.log(res);
-          this.navCtrl.navigateBack('');
-        })
-        .catch(error => {
-          console.log(error);
-        });
+      this.presentAlertLogout();
     }
-
   }
 
   async presentAlert(message, header) {
@@ -122,7 +146,6 @@ export class CustomerPage implements OnInit {
           handler: () => {
             this.authService.logoutUser()
               .then(res => {
-                // console.log(res);
                 this.navCtrl.navigateBack('');
               })
               .catch(error => {

@@ -1,0 +1,371 @@
+$image-size: 120px;
+
+.header-md::after {
+    background-image: none;
+}
+.header-ios ion-toolbar:last-child {
+    --border-width: 0
+}
+
+// ion-content {
+//     --background: #FAFAFA;
+// }
+
+
+ion-title {
+    letter-spacing: 2px;
+    font-size: larger;
+    font-weight: 800;
+    color: #00000094;
+}
+
+.border-danger { border-color: var(--ion-color-danger) !important; }
+.border-tertiary { border-color: var(--ion-color-tertiary) !important; }
+.border-white { border-color: #FAFAFA !important; }
+
+.button-vertical-align {
+    position: absolute;
+    top: calc(50% - 12.2px)
+}
+.button-left {
+    right: 0px;
+}
+.button-right {
+    left: 0px;
+}
+
+.empty {
+    padding-bottom: 50px;
+    padding-top: 50px;
+}
+
+.image-round {
+    background-color: #CECECE;
+    border: 4px solid #FAFAFA;
+    border-radius: 50%;
+    box-shadow: 2px 5px 0px 0px rgba(0, 0, 0, 0.1);
+    display: block;
+    height: $image-size;
+    margin: 0 auto;
+    width: $image-size;
+    object-fit: cover;
+}
+.image-over-div {
+    margin-top: -($image-size/ 2);
+}
+
+.margin-top {
+    margin-top: 20px;
+}
+
+.position-relative {
+    position: relative;
+}
+
+.text-bold {
+    font-size: 18px;
+    letter-spacing: 2px;
+    font-weight: 800;
+    color: #00000094;
+    // transform: scale(1, 0.8);
+    // -webkit-transform: scale(1, 0.9); /* Safari and Chrome */
+    // -moz-transform: scale(1, 1.5); /* Firefox */
+}
+.text-profile {
+    font-size: 12px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.text-job {
+    font-size: 12px;
+}
+
+.text-statics-big {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.text-primary { color: var(--ion-color-primary) !important; }
+.text-tertiary { color: var(--ion-color-tertiary) !important; }
+.text-muted { color: rgb(48, 47, 47) !important; }
+.text-white { color: #FAFAFA !important; }
+
+.vertical-padding {
+    padding-bottom: 100px;
+    padding-top: 15px
+}
+.profile-div {
+    background: linear-gradient(45deg, rgba(255,255,255,0) 0%, rgba(255,119,119,1) 0%, rgba(234,93,108,1) 100%);
+}
+.stats {
+    margin-top: 20px;
+}
+
+
+.gestion {
+    background-color: white;
+    --background: white;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    margin-top: -70px;
+    padding: 20px 20px 0 20px;
+    box-shadow: 0px -4px 10px 0px rgba(0, 0, 0, 0.048);
+    // min-height: 320px;
+    flex-grow : 1; //ver
+
+    .menu-item {
+        border: 2px solid rgba(114, 114, 114, 0.493);
+        border-radius: 10%;
+        height: 110px;
+        // width: 90px;
+        padding: 5px;
+        margin: 6px;
+    }
+    .cards{ //ion-row
+        // --padding-start: 0;
+        // --padding-end: 0;
+        // --padding-top: 0;
+        // --padding-bottom: 0;
+        // padding-left: 0;
+        // padding-right: 0;
+        // padding-top: 0;
+        // padding-bottom: 0;
+        padding: 0 10px;
+
+        ion-col {
+            // --padding-start: 5px;
+            // --padding-end: 5px;
+            // --padding-top: 5px;
+            // --padding-bottom: 5px;
+            // padding-left: 5px;
+            // padding-right: 5px;
+            // padding-top: 5px;
+            // padding-bottom: 5px;
+
+            ion-card {
+                box-shadow: none !important;
+                // box-shadow: 0px 1px 0px 1px rgba(0, 0, 0, 0.1) !important;
+                // border: 1px solid rgba(114, 114, 114, 0.842);
+            }
+            ion-card-content {
+                padding-left: 0px !important;
+                padding-right: 0px !important;
+            }
+            img {
+                height: 25px;
+                width: 25px;
+                margin: 0 auto;
+                margin-bottom: 7px;
+                padding: 1px;
+            }
+            p {
+                font-size: 10pt;
+                font-weight: 'bold'
+            }
+            &.active {
+                ion-card-content {
+                    background: var(--ion-color-tertiary-shade);
+                    color: var(--ion-color-tertiary-contrast);
+                }
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// @import url('https://fonts.googleapis.com/css?family=Rubik&display=swap');
+
+
+// .bg {
+//     // background: var(--ion-color-light);
+//     --background: var(--ion-color-light);
+//     --ion-font-family: 'Rubik', sans-serif;
+//     display: flex; //ver
+//     flex-flow: column; //ver
+//     height: 100%; //ver
+
+// }
+
+// ion-toolbar {
+//     --background: var(--ion-color-light);
+//     padding: 20px 20px 10px 20px;
+// }
+// ion-title {
+//     font-size: 3vh;
+//     font-weight: 500;
+// }
+
+
+// .row-cards {
+//     flex-wrap: nowrap;
+//     padding: 20px 20px 10px 40px;
+//     overflow-y: scroll;
+//     // margin-top: 30px;
+
+//     .card {
+//         border-radius: 25px;
+//         color: white;
+//         height: 180px;
+//         width: 320px;
+//         box-shadow: 0px 3px 14px -6px rgba(0,0,0,0.75);
+//         position: relative;
+//         margin-right: 20px;
+
+//         .card-number {
+//             font-size: 14px;
+//             margin-bottom: 30px;
+//             margin-top: 20px;
+//         }
+//         .card-holder {
+//             font-size: 12px;
+//             margin-bottom: 5px;
+//         }
+//         .card-person-name {
+//             font-size: 12px;
+//         }
+//         .visa-logo {
+//             position: absolute;
+//             bottom: 0;
+//             right: 5px;
+//             width: 60px;
+//         }
+//     }
+// }
+
+// .gradient-1 {
+//     background: linear-gradient(48deg, rgba(150,231,235,1) 0%, rgba(104,116,207,1) 100%);
+//     --background: linear-gradient(48deg, rgba(150,231,235,1) 0%, rgba(104,116,207,1) 100%);
+// }
+// .gradient-2 {
+//     background: linear-gradient(48deg, rgba(150,192,235,1) 0%, rgba(161,104,207,1) 100%);
+//     --background: linear-gradient(48deg, rgba(150,192,235,1) 0%, rgba(161,104,207,1) 100%);
+// }
+// .gradient-3 {
+//     background: linear-gradient(48deg, rgba(150,235,221,1) 0%, rgba(116,207,104,1) 100%);
+//     --background: linear-gradient(48deg, rgba(150,235,221,1) 0%, rgba(116,207,104,1) 100%);
+// }
+
+
+// .list-transactions {
+//     background: none;
+//     --background: none;
+
+//     ion-item {
+//         border-radius: 10px;
+//         margin-bottom: 10px;
+//         --padding-start:10px;
+//     }
+// }
+
+// .section-title {
+//     padding: 20px 20px 0 40px;
+// }
+
+
+
+// .row-cards-emp {
+//     flex-wrap: nowrap;
+//     padding: 20px 20px 0 40px;
+//     overflow-y: scroll;
+//     text-align: center;
+
+//     .card-plus {
+//         border-radius: 15px;
+//         color: black;
+//         border-style: solid;
+//         border-width: medium;
+//         border-color: black;
+//         height: 45px;
+//         width: 45px;
+//         // box-shadow: 0px 3px 14px -6px rgba(0,0,0,0.1);
+//         position: relative;
+//         margin-right: 20px;
+//     }
+
+//     .card {
+//         border-radius: 10px;
+//         color: black;
+//         background-color: white;
+//         height: 105px;
+//         width: 90px;
+//         box-shadow: 0px 3px 14px -6px rgba(0,0,0,0.1);
+//         position: relative;
+//         margin-right: 20px;
+
+//         ion-avatar {
+//             margin: 0;
+//             text-align: center;
+//             height: 50px;
+//             width: 50px;
+//         }
+        
+//         .card-person-name {
+//             text-align: center;
+//             font-size: 12px;
+//         }
+//     }
+// }
+
+// .gestion {
+//     background-color: white;
+//     --background: white;
+//     border-top-left-radius: 50px;
+//     border-top-right-radius: 50px;
+//     margin-top: 40px;
+//     padding: 20px 20px 0 20px;
+//     box-shadow: 0px -4px 20px 0px rgba(168, 168, 168, 0.1);
+//     // min-height: 320px;
+//     flex-grow : 1; //ver
+
+//     ion-item-sliding {
+//             margin-bottom: 20px;
+        
+//     }
+// }
+
+
+
+
+
+// $bgColor: #f8f9fb;
+// $textColor: #9ca3c0;
+
+
+// .text-bold { font-weight: bold; }
+// a {color: $textColor !important;}
+
+// .text-custom { color: $textColor !important; }
+// .text-medium { color: var(--ion-color-medium) }
+// .text-primary { color: var(--ion-color-dark) }
+// .text-success { color: var(--ion-color-success-shade) }
+
+// .text-8pt { font-size: 8pt; }
+// .text-9pt { font-size: 9pt; }
+// .text-10pt { font-size: 10pt; }
+// .text-11pt { font-size: 11pt; }
+// .text-12pt { font-size: 12pt; }
+
+// .width-100percent {
+//     width: 100%;
+// }
