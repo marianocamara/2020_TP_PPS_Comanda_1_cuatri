@@ -51,8 +51,9 @@ export class TablesPage implements OnInit {
             data.status === Status.Preparing_Order ||
             data.status === Status.Eating ||
             data.status === Status.Waiting_Table
-          ) && data.table !== 'undefined' && data.table !== "" && data.table !== null
-          );//.map(x => { return x.table, x.id, x.imageUrl, x.name; });
+          ) && (data.table !== 'undefined' && data.table !== "") && data.table !== null
+          && (data.type === 'cliente' || data.type === 'anonimo')
+          );
 
           this.tablesInUse = data.filter(data => data.status !== 'undefined' && (
             data.status === Status.Recent_Sit || 
@@ -61,13 +62,16 @@ export class TablesPage implements OnInit {
             data.status === Status.Preparing_Order ||
             data.status === Status.Eating ||
             data.status === Status.Waiting_Table
-          )).map(x => x.table);
+          )
+          && data.table !== 'undefined' && data.table !== "" && data.table !== null
+          && (data.type === 'cliente' || data.type === 'anonimo')).map(x => x.table);
           this.tablesInUse = this.tablesInUse.filter(function (el) {
             return el != null;
           });
 
           this.aviableTables = this.aviableTables.filter( data => !this.tablesInUse.includes(data)  );
-
+          this.userTableAssigned = this.userTableAssigned.sort((a, b) => (a.table as any) - (b.table as any));
+          console.log(this.userTableAssigned);
         });
     }
     

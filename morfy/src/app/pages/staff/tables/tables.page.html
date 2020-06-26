@@ -49,7 +49,7 @@
           <ion-label>
             <h2>{{customer.customerName}}</h2>
           </ion-label>
-          <ion-icon slot="end" name="restaurant" md="md-restaurant"></ion-icon>
+          <ion-icon slot="end" src="https://image.flaticon.com/icons/svg/93/93192.svg"></ion-icon>
           <ion-select #C (ionChange)="onChange(customer.id, C.value)" style="opacity: 0;">
             <ion-select-option *ngFor="let table of aviableTables" value="{{table}}">{{table}}</ion-select-option>
           </ion-select>

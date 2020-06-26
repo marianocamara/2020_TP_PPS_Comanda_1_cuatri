@@ -12,11 +12,11 @@ declare interface RouteInfo {
   type: string;
 }
 export const ROUTES: RouteInfo[] = [
-  { path: '/customer/poll', title: 'Encuestas',  icon: 'https://image.flaticon.com/icons/svg/3122/3122059.svg', class: '', type: 'cliente'},
-  { path: '/customer/orders', title: 'Pedido',  icon: 'https://image.flaticon.com/icons/svg/833/833314.svg', class: '', type: 'cliente'},
+  { path: '/customer/poll', title: 'Encuestas',  icon: 'https://image.flaticon.com/icons/svg/2698/2698444.svg', class: '', type: 'cliente'},
   { path: '/staff/delivery', title: 'Delivery',  icon: 'https://image.flaticon.com/icons/svg/2786/2786408.svg', class: '', type: 'supervisor'},
   { path: '/staff/stats', title: 'Estadisticas',  icon: 'https://image.flaticon.com/icons/svg/2786/2786428.svg', class: '', type: 'supervisor'},
-  { path: '/customer/games', title: 'Juegos',  icon: 'https://image.flaticon.com/icons/svg/2972/2972351.svg', class: '', type: 'cliente'},
+  { path: '/customer/games', title: 'Juegos',  icon: 'https://image.flaticon.com/icons/svg/3142/3142080.svg', class: '', type: 'cliente'},
+  { path: '/customer/orders', title: 'Pedidos',  icon: 'https://image.flaticon.com/icons/svg/2698/2698507.svg', class: '', type: 'cliente'},
   { path: '/altas', title: 'Altas',  icon: 'fas fa-user-plus', class: '', type: 'Admin'},
   { path: '', title: 'Salir',  icon: 'https://image.flaticon.com/icons/svg/875/875558.svg', class: '', type: 'todos'},
 ];

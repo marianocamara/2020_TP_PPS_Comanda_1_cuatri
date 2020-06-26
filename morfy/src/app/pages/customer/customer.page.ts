@@ -45,7 +45,7 @@ export class CustomerPage implements OnInit {
           this.logoutUser();  
         }
       }, () => {
-        this.logoutUser();  
+        this.logout();
       }
     );
   }
