@@ -99,13 +99,6 @@
       </ion-row>
     </ion-grid>
     <ion-row class="cards">
-      <!-- <ion-col size="4" *ngFor="let menuItem of menuItems">
-        <div class="ion-text-center menu-item">
-          <ion-icon slot="icon-only" name="chatbubbles"></ion-icon>
-          <small class="text-muted">{{menuItem.title}}</small>
-        </div>
-      </ion-col> -->
-
       <ion-col size="3" tappable *ngFor="let menuItem of menuItems">
         <ion-card mode="ios" class="ion-no-margin" (click)="gestionAction(menuItem)">
           <ion-card-content class="ion-text-center">

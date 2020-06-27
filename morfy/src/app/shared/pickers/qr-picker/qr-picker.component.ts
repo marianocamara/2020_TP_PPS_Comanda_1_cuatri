@@ -77,10 +77,15 @@ export class QrPickerComponent implements OnInit {
                     customerImg: this.user.imageUrl,
                     date: new Date()
                   }))), 'waiting-list')
-                  .then(() => this.navCtrl.navigateForward('/customer/waiting-list'));
+                  .then(() => {
+                    this.presentToast("Has sido agregado a la lista de espera con exito.");
+                    this.navCtrl.navigateForward('/customer/waiting-list');
+                  }).
+                  catch(() => this.presentToast("Ocurrió un error al querer agregarlo a la sala de espera. Por favor, reintente."));
               });
           }
           else if ((user as User).status === Status.Waiting_Table) {
+            this.presentToast("Cuando la pantalla se lo indique, podra leer el qr de la mesa que le corresponda.");
             this.navCtrl.navigateForward('/customer/waiting-list');
           }
         });
@@ -88,7 +93,6 @@ export class QrPickerComponent implements OnInit {
     } else {
       this.barcodeScanner.scan().then(barcodeData => {
         let barcodeText = barcodeData.text;
-
         if (barcodeText === "status_check") {
           this.database.GetOne('users', this.user.id)
             .then((user) => {
@@ -104,10 +108,15 @@ export class QrPickerComponent implements OnInit {
                         customerImg: this.user.imageUrl,
                         date: new Date()
                       }))), 'waiting-list')
-                      .then(() => this.navCtrl.navigateForward('/customer/waiting-list'));
+                      .then(
+                        () => {
+                        this.presentToast("Has sido agregado a la lista de espera con exito.");
+                        this.navCtrl.navigateForward('/customer/waiting-list');                    
+                      }).catch(()=>this.presentToast("Ocurrió un error al querer agregarlo a la sala de espera. Por favor, reintente."));
                   });
               }
               else if ((user as User).status === Status.Waiting_Table) {
+                this.presentToast("Cuando la pantalla se lo indique, podra leer el qr de la mesa que le corresponda.");
                 this.navCtrl.navigateForward('/customer/waiting-list');
               }
             });
@@ -122,7 +131,6 @@ export class QrPickerComponent implements OnInit {
           this.database.GetOne('users', this.user.id)
             .then((user) => {
               if ((user as User).table === number_table) {
-                // abrir camara para elegir Qr mesa, luego redirigir a:
                 this.database.UpdateSingleField('status', Status.Recent_Sit, 'users', this.user.id)
                 this.navCtrl.navigateForward('/customer/main/home');
               } else {

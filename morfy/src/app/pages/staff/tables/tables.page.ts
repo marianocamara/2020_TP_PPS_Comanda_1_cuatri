@@ -52,6 +52,7 @@ export class TablesPage implements OnInit {
             data.status === Status.Eating ||
             data.status === Status.Waiting_Table
           ) && (data.table !== 'undefined' && data.table !== "") && data.table !== null
+          && data.table !== ""
           && (data.type === 'cliente' || data.type === 'anonimo')
           );
 
@@ -64,6 +65,7 @@ export class TablesPage implements OnInit {
             data.status === Status.Waiting_Table
           )
           && data.table !== 'undefined' && data.table !== "" && data.table !== null
+          && data.table !== ""
           && (data.type === 'cliente' || data.type === 'anonimo')).map(x => x.table);
           this.tablesInUse = this.tablesInUse.filter(function (el) {
             return el != null;

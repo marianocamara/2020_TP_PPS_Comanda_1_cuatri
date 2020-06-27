@@ -15,6 +15,7 @@ export class MainPage implements OnInit {
   user: User; // = { imageUrl: 'assets/img/team-4-800x800.jpg'};
   isLoading = true;
   orderPlaced = false;
+  showQr:boolean = false;
 
   constructor( public navCtrl: NavController,
                private authService: AuthService,
@@ -46,7 +47,19 @@ export class MainPage implements OnInit {
     );
   }
 
-
+  changeQr(from){
+    console.log(from);
+    if(from === 'home'){
+      this.showQr = false;
+    }
+    if(from === 'orders'){
+      this.showQr = false;
+    }
+    if(from === 'more'){
+      this.showQr = false;
+    }
+  }
+  
   ionViewWillEnter() {
     Plugins.Storage.get({ key: 'user-bd' }).then(
       (userData) => {
