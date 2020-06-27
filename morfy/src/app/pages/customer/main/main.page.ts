@@ -4,6 +4,8 @@ import { Plugins } from '@capacitor/core';
 import { NavController } from '@ionic/angular';
 import { User } from 'src/app/models/user';
 import { DatabaseService } from 'src/app/services/database.service';
+import { Order, OrderStatus } from 'src/app/models/order';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-main',
@@ -15,6 +17,9 @@ export class MainPage implements OnInit {
   user: User; // = { imageUrl: 'assets/img/team-4-800x800.jpg'};
   isLoading = true;
   orderPlaced = false;
+  private ordersSub: Subscription;
+  pendingOrder: Order;
+  orderTotal;
 
   constructor( public navCtrl: NavController,
                private authService: AuthService,
@@ -25,18 +30,14 @@ export class MainPage implements OnInit {
       (userData) => {
         if (userData.value) {
           this.user = JSON.parse(userData.value);
-          this.database.GetPendingOrder(this.user.id).subscribe((order) => {
-            // console.log('Data received', data);
-            if (order.length > 0) {
-              this.orderPlaced = true;
-            }
-            else {
-              this.orderPlaced = false;
-            }
+          this.ordersSub = this.database.GetWithQuery('idClient', '==', this.user.id, 'orders')
+            .subscribe(data => {
+              this.pendingOrder = (data as Order[]).find(order => order.status === OrderStatus.Pending);
+              this.orderTotal = this.calculateOrderTotal(this.pendingOrder);
+              this.isLoading = false;
           });
         }
         else {
-          this.user = null;
           this.logout();
         }
       }, () => {
@@ -63,6 +64,10 @@ export class MainPage implements OnInit {
   }
 
 
+  calculateOrderTotal(order: Order) {
+    return order ? order.products.reduce((a, b) => a + b.quantity * b.product.price, 0) : 0;
+  }
+
 
   logout() {
     this.authService.logoutUser()
@@ -73,5 +78,11 @@ export class MainPage implements OnInit {
     .catch(error => {
       console.log(error);
     });
+  }
+
+  ngOnDestroy() {
+    if (this.ordersSub) {
+      this.ordersSub.unsubscribe();
+    }
   }
 }

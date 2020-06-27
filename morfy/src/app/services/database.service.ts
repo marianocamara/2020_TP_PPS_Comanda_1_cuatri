@@ -5,6 +5,7 @@ import { Observable, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { OrderStatus } from '../models/order';
+import { firestore } from 'firebase';
 
 @Injectable({
   providedIn: 'root'
@@ -59,6 +60,13 @@ export class DatabaseService {
 
   UpdateSingleField(key: string, value: any, collection: string, docId: string) {
     return this.afs.collection(collection).doc(docId).update({[key]: value});
+  }
+
+  AppendDataToArrayField(key: string, value: any, collection: string, docId: string){
+    const ref = this.afs.collection(collection).doc(docId);
+    return ref.update({
+      [key]: firestore.FieldValue.arrayUnion(value)
+    });
   }
 
 

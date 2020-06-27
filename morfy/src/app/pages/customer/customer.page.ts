@@ -5,6 +5,7 @@ import { NavController, IonSlides } from '@ionic/angular';
 import { User, Status } from 'src/app/models/user';
 import { DatabaseService } from 'src/app/services/database.service';
 import { WaitingListEntry } from 'src/app/models/waiting-list-entry';
+import { NotificationMessages } from 'src/app/models/notification';
 
 
 @Component({
@@ -123,13 +124,26 @@ export class CustomerPage implements OnInit {
                   customerImg: this.user.imageUrl,
                   date: new Date()
                 }))), 'waiting-list')
-                  .then(() => this.navCtrl.navigateForward('/customer/waiting-list'));
+                  .then(() => {
+                    this.createNotification();
+                    this.navCtrl.navigateForward('/customer/waiting-list')}
+                  );
               });
           }
           else if ((user as User).status === Status.Waiting_Table) {
             this.navCtrl.navigateForward('/customer/waiting-list');
           }
       });
+  }
+
+  createNotification(){
+    let notification = {
+      senderType: 'cliente',
+      receiverType: 'metre',
+      message: NotificationMessages.User_Waiting_Table,
+      date: new Date()
+    };
+    this.database.CreateOne(notification, 'notifications');
   }
 
 
