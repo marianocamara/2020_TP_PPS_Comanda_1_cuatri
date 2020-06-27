@@ -7,7 +7,7 @@
       Usuarios
     </ion-title>
     <ion-avatar slot="end" style="height:40px; width: 40px; margin-right: 8px;" *ngIf="user">
-      <img [src]="user ? user.imageUrl : 'Loading...'" (click)="goToProfile()">
+      <img [src]="user ? user.imageUrl : 'Loading...'" (click)="presentAlertLogout()">
     </ion-avatar>
     <ion-buttons slot="start">
       <ion-buttons slot="start">

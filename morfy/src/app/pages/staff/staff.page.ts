@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController, IonItemSliding, LoadingController } from '@ionic/angular';
+import { NavController, IonItemSliding, LoadingController, AlertController } from '@ionic/angular';
 import { Plugins } from '@capacitor/core';
 import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
@@ -48,7 +48,8 @@ export class StaffPage implements OnInit {
   ];
 
   constructor( public navCtrl: NavController,
-               private authService: AuthService ) { }
+               private authService: AuthService,
+               public alertController: AlertController ) { }
 
   ngOnInit() {
     // this.isLoading = true;
@@ -99,6 +100,29 @@ export class StaffPage implements OnInit {
     });
   }
 
+  async presentAlertLogout() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Finalizando sesión',
+      message: '¿Estás seguro de querer salir?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+          }
+        }, {
+          text: 'Cerrar Sesión',
+          handler: () => {
+            this.logout();          
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
 
   gestionAction(menuItem) {
     if (menuItem.title === 'Salir') {
