@@ -1,0 +1,70 @@
+.enviar ion-button{
+    --border-radius: 30px;
+    height: 50px;
+}
+
+
+.centered{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.enviar ion-col{
+    align-items: center;
+    display: flex;
+}
+
+.msg .body{
+    padding: 15px 25px 15px 15px    ;
+    border-radius: 20px 20px 20px 0px;
+    background: #f3f3f3;
+    display: inline-flex;
+    margin-right: 50px;
+
+.content{
+    word-break: break-word;
+    margin: 10px 0;
+    font-size: 14px;
+}
+.name{
+    color: cornflowerblue
+}
+
+.img{
+    height: 4rem;
+    border-radius: 50px;
+    margin-right: 15px;
+}
+.icon{
+    font-size: 4.5rem;
+    margin-right: 15px;
+}
+}
+.msg .fecha{
+    margin: 5px 0 0 3px;
+    font-size: 12px;
+    letter-spacing: 1px;
+}
+.msg{
+    margin-bottom: 20px;
+}
+
+.myMsg{
+    float:right;
+
+    .body{
+        margin: 0 0 0 50px;
+        border-radius: 20px 20px 0px 20px;
+        min-width: 150px;
+    }
+    .fecha{
+        text-align: right;
+    }
+    .body .name{
+        color: #ea5d6c;
+    }
+
+}
+

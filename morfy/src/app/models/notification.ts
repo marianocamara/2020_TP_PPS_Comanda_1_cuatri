@@ -1,6 +1,6 @@
 export class Notification {
     senderType?: string;
-    message?: string;
+    message?: NotificationMessages;
     receiverType?: string;
     date?: Date;
     

@@ -19,6 +19,7 @@ export const ROUTES: RouteInfo[] = [
   { path: '/staff/stats', title: 'Estadisticas',  icon: 'https://image.flaticon.com/icons/svg/2786/2786428.svg', class: '', type: 'supervisor'},
   { path: '/empleados', title: 'Empleados',  icon: 'fas fa-user-alt', class: '', type: 'Admin'},
   { path: '/altas', title: 'Altas',  icon: 'fas fa-user-plus', class: '', type: 'Admin'},
+  { path: '/chat', title: 'Consultas',  icon: 'https://image.flaticon.com/icons/svg/2698/2698405.svg', class: '', type: 'mozo'},
   { path: '', title: 'Salir',  icon: 'https://image.flaticon.com/icons/svg/875/875558.svg', class: '', type: 'todos'},
 ];
 

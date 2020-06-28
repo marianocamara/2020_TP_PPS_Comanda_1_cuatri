@@ -27,20 +27,20 @@
 
   <ion-tabs #myTabs>
     <div class="tabs">
-      <ion-tab-bar slot="bottom" translucent=“true”>
+      <ion-tab-bar slot="bottom" translucent=“true” style="height: 70px;">
         <ion-tab-button (click)="changeQr('home')" tab="home">
-          <ion-icon name="home-outline"></ion-icon>
+          <ion-icon name="home-outline" size="large"></ion-icon>
           <ion-label>Inicio</ion-label>
         </ion-tab-button>
 
         <ion-tab-button (click)="changeQr('orders')" tab="orders">
-          <ion-icon name="cart-outline"></ion-icon>
-          <ion-badge *ngIf="orderPlaced">1</ion-badge>
+          <ion-icon name="cart-outline" size="large"></ion-icon>
+          <ion-badge class="order-total" *ngIf="pendingOrder">${{orderTotal}}</ion-badge>
           <ion-label>Pedidos</ion-label>
         </ion-tab-button>
 
         <ion-tab-button (click)="changeQr('more')" tab="more">
-          <ion-icon name="ellipsis-horizontal"></ion-icon>
+          <ion-icon name="ellipsis-horizontal" size="large"></ion-icon>
           <ion-label>Mas</ion-label>
         </ion-tab-button>
 

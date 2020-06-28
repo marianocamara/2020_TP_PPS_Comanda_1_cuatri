@@ -70,6 +70,14 @@ export class AppComponent implements OnDestroy {
         
         async presentToast(message: string) {
           const toast = await this.toastController.create({
+            buttons: [ {
+                text: 'X',
+                role: 'cancel',
+                handler: () => {
+                  console.log('Cancel clicked');
+                }
+              }
+            ],
             message,
             duration: 3000
           });

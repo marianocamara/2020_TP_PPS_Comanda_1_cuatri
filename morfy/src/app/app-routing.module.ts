@@ -30,7 +30,11 @@ const routes: Routes = [
   {
     path: 'approval',
     loadChildren: () => import('./pages/authentication/approval/approval.module').then( m => m.ApprovalPageModule)
+  },  {
+    path: 'chat',
+    loadChildren: () => import('./pages/chat/chat.module').then( m => m.ChatPageModule)
   },
+
 
 
 

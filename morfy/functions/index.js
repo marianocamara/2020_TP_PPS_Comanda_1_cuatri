@@ -16,30 +16,31 @@ const mailTransport = nodemailer.createTransport({
 
 // Sends an email confirmation when a supervisor approves a user registration petition.
 exports.sendEmailConfirmationOnApproval = functions.firestore.document('/users/{uid}').onWrite(async (change) => {
-    const snapshot = change.after.data();
+  const newValue  = change.after.data();
+  const previousValue  = change.before.data();
   
-    if (snapshot.approved === false) {
-      return null;
-    }
-  
+  if (newValue.approved === false || previousValue.approved === newValue.approved) {
+    return null;
+  }else{
     const mailOptions = {
       from: '"El equipo de Morfy" <morfy.app@gmail.com>',
-      to: snapshot.email,
+      to: newValue.email,
     };
-  
-    const approved = snapshot.approved;
-  
+    
+    const approved = newValue.approved;
+    
     // Building Email message.
     mailOptions.subject = approved ? 'Te damos la bienvenida a Morfy' : 'Tu solicitud de registro fue denegada';
     mailOptions.text = approved ?
-        '¡Hola ' + snapshot.name +  '!\nGracias por registrarte a traves de nuestra aplicación. \nTu solicitud ha sido aprobada, ya puedes ingresar y difrutar de todos nuestros productos.\n \nNos vemos pronto.' :
-        'Lamentablemente tu solicitud de registro ha sido rechazada.';
+    '¡Hola ' + newValue.name +  '!\nGracias por registrarte a traves de nuestra aplicación. \nTu solicitud ha sido aprobada, ya puedes ingresar y difrutar de todos nuestros productos.\n \nNos vemos pronto.' :
+    'Lamentablemente tu solicitud de registro ha sido rechazada.';
     
     try {
       await mailTransport.sendMail(mailOptions);
-      console.log(`New ${approved ? '' : 'un'}subscription confirmation email sent to:`, snapshot.email);
+      console.log(`New ${approved ? '' : 'un'}subscription confirmation email sent to:`, newValue.email);
     } catch(error) {
       console.error('There was an error while sending the email:', error);
     }
     return null;
-  });
+  }
+});

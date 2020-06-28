@@ -1,0 +1,63 @@
+<ion-header mode="ios" class="ion-no-border">
+  <ion-toolbar class="ion-no-border">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title *ngIf="enquiry">
+      Mesa {{enquiry.clientTable}}
+    </ion-title>
+    <ion-avatar slot="end" style="height:40px; width: 40px; margin-right: 8px;" *ngIf="user">
+      <img [src]="user ? user.imageUrl : 'Loading...'" (click)="goToProfile()">
+    </ion-avatar>
+    <ion-buttons slot="start">
+      <ion-buttons slot="start">
+        <ion-back-button text="" defaultHref=""></ion-back-button>
+      </ion-buttons>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  
+  <ion-grid *ngIf="isLoading" class="ion-text-center centered">
+    <ion-row>
+      <ion-col size="12" size-sm="8" offset-sm="2" text-center>
+        <img style="width:6rem;" src="/assets/img/loading-message.gif">
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  
+  <div class="chat" *ngIf="enquiry">
+    <div class="msg" *ngFor="let msg of enquiry.messages;let i = index" [ngClass]="[ msg.senderId === user.id ? 'myMsg' : '']">
+
+      <div class="body" >      
+        <img *ngIf="msg.senderId === enquiry.id" slot="start" class="img" [src]="enquiry.clientImg">
+        <img *ngIf="msg.senderId !== enquiry.id" slot="start" class="img" src="/assets/img/morfy-user.png">
+        <div>
+          <div *ngIf="msg.senderId !== user.id" class="name">{{msg.senderName}}</div>
+          <div *ngIf="msg.senderId === user.id" class="name">Yo</div>
+          <p class="content">{{ msg.messageBody }}</p>
+        </div> 
+      </div>         
+      <p class="fecha">{{ msg.createdAt | date: 'hh:mm a'}}</p>
+    </div>
+  </div> 
+  
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-toolbar>
+      <ion-grid>
+        <ion-row class="enviar">
+          <ion-col  size="10" >
+            <ion-input class="entrada" minlength="2" (keydown.enter)="sendMessage()" maxlength="256" [(ngModel)]="newMessage" type="text" placeholder="Escribe tu mensaje"></ion-input>
+          </ion-col>
+          <ion-col size="2">
+            <ion-button (click)="sendMessage()"><ion-icon name="send"></ion-icon></ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-toolbar>
+  </ion-toolbar>
+</ion-footer>

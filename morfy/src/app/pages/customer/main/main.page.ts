@@ -4,6 +4,8 @@ import { Plugins } from '@capacitor/core';
 import { NavController, AlertController } from '@ionic/angular';
 import { User, Status } from 'src/app/models/user';
 import { DatabaseService } from 'src/app/services/database.service';
+import { Order, OrderStatus } from 'src/app/models/order';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-main',
@@ -15,8 +17,10 @@ export class MainPage implements OnInit {
   user: User; // = { imageUrl: 'assets/img/team-4-800x800.jpg'};
   isLoading = true;
   orderPlaced = false;
+  private ordersSub: Subscription;
+  pendingOrder: Order;
+  orderTotal;
   showQr:boolean = false;
-
   constructor( public navCtrl: NavController,
                private authService: AuthService,
                private database: DatabaseService,
@@ -27,18 +31,14 @@ export class MainPage implements OnInit {
       (userData) => {
         if (userData.value) {
           this.user = JSON.parse(userData.value);
-          this.database.GetPendingOrder(this.user.id).subscribe((order) => {
-            // console.log('Data received', data);
-            if (order.length > 0) {
-              this.orderPlaced = true;
-            }
-            else {
-              this.orderPlaced = false;
-            }
+          this.ordersSub = this.database.GetWithQuery('idClient', '==', this.user.id, 'orders')
+            .subscribe(data => {
+              this.pendingOrder = (data as Order[]).find(order => order.status === OrderStatus.Pending);
+              this.orderTotal = this.calculateOrderTotal(this.pendingOrder);
+              this.isLoading = false;
           });
         }
         else {
-          this.user = null;
           this.logout();
         }
       }, () => {
@@ -77,6 +77,10 @@ export class MainPage implements OnInit {
   }
 
 
+  calculateOrderTotal(order: Order) {
+    return order ? order.products.reduce((a, b) => a + b.quantity * b.product.price, 0) : 0;
+  }
+
 
   async presentAlertLogout() {
     const alert = await this.alertController.create({
@@ -113,6 +117,11 @@ export class MainPage implements OnInit {
     });
   }
 
+  ngOnDestroy() {
+    if (this.ordersSub) {
+      this.ordersSub.unsubscribe();
+    }
+  }
   logout() {
     if ((this.user as User).type === 'anonimo') {
       // Si el usuario anonimo esta comiendo o esperando el pedido, no lo dejo finalizar sesion
@@ -166,5 +175,4 @@ export class MainPage implements OnInit {
 
     await alert.present();
   }
-
 }
