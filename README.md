@@ -298,21 +298,21 @@ Objetivos planteados: <br>
   <li>Braian Cardozo</li>
   <li>Fecha Inicio: 23/06/2020</li>
   <li>Fecha Fin: 27/06/2020</li>
-  <li>Commit: </li>
+  <li>Commit: https://github.com/CardozoBraianEzequiel/2020_TP_PPS_Comanda_1_cuatri/commit/5ffa5400e46b3434a427d219881af385bf6e364a</li>
 </ul>
 4) Se agrega todo el flujo de la consulta al mozo. <br>
 <ul>
   <li>Mariano Camara</li>
   <li>Fecha Inicio: 25/06/2020</li>
   <li>Fecha Fin: </li>
-  <li>Commit: </li>
+  <li>Commit: https://github.com/CardozoBraianEzequiel/2020_TP_PPS_Comanda_1_cuatri/commit/34df5d73091094917d8726b9a826409a01b0926b</li>
 </ul>
 5) Logra visualizar el valor de todo lo consumido en el pedido todo el tiempo. <br>
 <ul>
   <li>Mariano Camara</li>
   <li>Fecha Inicio: 25/06/2020</li>
   <li>Fecha Fin: </li>
-  <li>Commit: </li>
+  <li>Commit: https://github.com/CardozoBraianEzequiel/2020_TP_PPS_Comanda_1_cuatri/commit/34df5d73091094917d8726b9a826409a01b0926b</li>
 </ul>
 6) Cambio de todo el flujo de los pedidos para poder tener mas de un pedido por usuario. <br>
 <ul>
