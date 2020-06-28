@@ -6,6 +6,7 @@ import { IonicModule } from '@ionic/angular';
 import { WaitingListPageRoutingModule } from './waiting-list-routing.module';
 import { WaitingListPage } from './waiting-list.page';
 import { NgCircleProgressModule } from 'ng-circle-progress';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 
 @NgModule({
@@ -13,6 +14,7 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
     CommonModule,
     FormsModule,
     IonicModule,
+    SharedModule,
     WaitingListPageRoutingModule,
     NgCircleProgressModule.forRoot({
       radius: 95,

@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { Plugins } from '@capacitor/core';
-import { NavController, IonSlides } from '@ionic/angular';
-import { User } from 'src/app/models/user';
+import { NavController, IonSlides, AlertController } from '@ionic/angular';
+import { User, Status } from 'src/app/models/user';
 import { DatabaseService } from 'src/app/services/database.service';
 import { map } from 'rxjs/operators';
 import { WaitingListEntry } from 'src/app/models/waiting-list-entry';
@@ -36,7 +36,8 @@ export class WaitingListPage implements OnInit {
 
   constructor( public navCtrl: NavController,
                private authService: AuthService,
-               private database: DatabaseService ) { }
+               private database: DatabaseService,
+               public alertController:AlertController ) { }
 
   ngOnInit() {
     this.isLoading = true;
@@ -68,33 +69,37 @@ export class WaitingListPage implements OnInit {
     );
   }
 
-  // next() {
-  //   this.slides.slideNext();
-  // }
-
-  // prev() {
-  //   this.slides.slidePrev();
-  // }
-
-  // doCheck() {
-  //   let prom1 = this.slides.isBeginning();
-  //   let prom2 = this.slides.isEnd();
-
-  //   Promise.all([prom1, prom2]).then((data) => {
-  //     data[0] ? this.disablePrevBtn = true : this.disablePrevBtn = false;
-  //     data[1] ? this.disableNextBtn = true : this.disableNextBtn = false;
-  //   });
-  // }
-
-
   ionViewWillEnter() {
     if (!this.user) {
       this.logout();
     }
   }
 
+  async presentAlertLogout() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Finalizando sesión',
+      message: '¿Estás seguro de querer salir?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+          }
+        }, {
+          text: 'Cerrar Sesión',
+          handler: () => {
+            this.logoutUser();          
+          }
+        }
+      ]
+    });
 
-  logout() {
+    await alert.present();
+  }
+  
+  logoutUser(){
     this.authService.logoutUser()
     .then(res => {
       // console.log(res);
@@ -103,6 +108,60 @@ export class WaitingListPage implements OnInit {
     .catch(error => {
       console.log(error);
     });
+  }
+
+  logout() {
+    if ((this.user as User).type === 'anonimo') {
+      // Si el usuario anonimo esta comiendo o esperando el pedido, no lo dejo finalizar sesion
+      if((this.user as User).status === Status.Eating || (this.user as User).status === Status.Waiting_Order){
+        this.presentAlert("Para finalizar sesión tiene que pagar la cuenta.", "Atención");
+      }else{
+        this.presentAlertLogoutAnon();
+      }
+    } else {
+      this.presentAlertLogout();
+    }
+  }
+
+  async presentAlert(message, header) {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: header,
+      message: message,
+      buttons: ['OK']
+    });
+
+    await alert.present();
+  }
+  async presentAlertLogoutAnon() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Finalizando sesión',
+      message: '¿Estás seguro? Un usuario anónimo no puede recuperar sus datos.',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            console.log('Confirm Cancel: blah');
+          }
+        }, {
+          text: 'Cerrar Sesión',
+          handler: () => {
+            this.authService.logoutUser()
+              .then(res => {
+                this.navCtrl.navigateBack('');
+              })
+              .catch(error => {
+                console.log(error);
+              });
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 
 

@@ -87,68 +87,69 @@ export class SignupPage implements OnInit {
     return new Blob(byteArrays, { type: contentType });
   }
 
-anonymousToggle(){
-  if(!this.isAnonymous) {
-    this.isAnonymous = true;
-    this.validationsForm.get('dni').setErrors(null);
+  anonymousToggle() {
+    if (!this.isAnonymous) {
+      this.isAnonymous = true;
+      this.validationsForm.get('dni').setErrors(null);
       this.validationsForm.get('email').setErrors(null);
       this.validationsForm.get('password').setErrors(null);
-  }else{
-    this.isAnonymous = false;
+      this.validationsForm.get('lastName').setErrors(null);
+    } else {
+      this.isAnonymous = false;
+    }
+
   }
-  
-}
 
   createUser(value) {
     if (!this.validationsForm.get('image').value) {
       return;
     }
     this.loadingCtrl
-    .create({ keyboardClose: true, message: 'Ingresando...' })
-    .then(loadingEl => {
-      loadingEl.present();
+      .create({ keyboardClose: true, message: 'Ingresando...' })
+      .then(loadingEl => {
+        loadingEl.present();
 
-      const imagen = this.validationsForm.get('image').value;
+        const imagen = this.validationsForm.get('image').value;
 
-      if (!document.URL.startsWith('http')){
-      const imageName = (this.validationsForm.value.title).replace(/\s/g, '-') + '-' + Math.floor(Math.random() * (999 - 100 + 1) + 100);
-      imagen.name = imageName;
-      }
+        if (!document.URL.startsWith('http')) {
+          const imageName = (this.validationsForm.value.title).replace(/\s/g, '-') + '-' + Math.floor(Math.random() * (999 - 100 + 1) + 100);
+          imagen.name = imageName;
+        }
 
-      const uploadTask = this.database.uploadImage(this.validationsForm.get('image').value);
-      uploadTask.task.on('state_changed', (snapshot) => {
-        // Observe state change events such as progress, pause, and resume
-        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log('Upload is ' + progress + '% done');
+        const uploadTask = this.database.uploadImage(this.validationsForm.get('image').value);
+        uploadTask.task.on('state_changed', (snapshot) => {
+          // Observe state change events such as progress, pause, and resume
+          // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log('Upload is ' + progress + '% done');
 
-      }, (error) => {
-        // Handle unsuccessful uploads
+        }, (error) => {
+          // Handle unsuccessful uploads
 
-      }, () => {
-        // Handle successful uploads on complete
-        // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-        uploadTask.task.snapshot.ref.getDownloadURL().then((downloadURL) => {
-          console.log('File available at', downloadURL);
+        }, () => {
+          // Handle successful uploads on complete
+          // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+          uploadTask.task.snapshot.ref.getDownloadURL().then((downloadURL) => {
+            console.log('File available at', downloadURL);
 
             this.authService.signUp(value, downloadURL, this.isAnonymous)
-            .then(res => {
-              console.log(res);
-              this.errorMessage = '';
-              this.loadingCtrl.dismiss();
-              if(this,this.isAnonymous){
-                this.navCtrl.navigateForward('/customer');
-              }else{
-                this.createNotification();
-                this.navCtrl.navigateForward('/approval');
-              }
-            }, err => {
-              this.loadingCtrl.dismiss();
-              this.errorMessage =  this.authService.printErrorByCode (err.code);
-            });
+              .then(res => {
+                console.log(res);
+                this.errorMessage = '';
+                this.loadingCtrl.dismiss();
+                if (this, this.isAnonymous) {
+                  this.navCtrl.navigateForward('/customer');
+                } else {
+                  this.createNotification();
+                  this.navCtrl.navigateForward('/approval');
+                }
+              }, err => {
+                this.loadingCtrl.dismiss();
+                this.errorMessage = this.authService.printErrorByCode(err.code);
+              });
+          });
         });
       });
-    });
   }
 
 
@@ -178,18 +179,27 @@ anonymousToggle(){
   }
 
 
-  createAnonymousUser(){
+  createAnonymousUser() {
   }
   scanCode() {
     this.barcodeScanner.scan(this.optionsQrScanner).then(barcodeData => {
       let datosDelDni = barcodeData.text.split('@');
-      this.validationsForm.controls.dni.setValue(datosDelDni[4]);
-      this.validationsForm.controls.name.setValue(datosDelDni[2].split(' ')[0]);
-      this.validationsForm.controls.lastName.setValue(datosDelDni[1]);
-     })
-     .catch(err => 
-      {
-        this.presentToast("El codigo QR leido es invalido.");}
+
+      if (isNaN((Number(datosDelDni[1])))) {
+        this.validationsForm.controls.dni.setValue(datosDelDni[4]);
+        this.validationsForm.controls.name.setValue(datosDelDni[2].split(' ')[0]);
+        this.validationsForm.controls.lastName.setValue(datosDelDni[1]);
+      } else {
+        this.validationsForm.controls.dni.setValue(datosDelDni[1]);
+        this.validationsForm.controls.name.setValue(datosDelDni[5].split(' ')[0]);
+        this.validationsForm.controls.lastName.setValue(datosDelDni[4]);
+      }
+
+
+    })
+      .catch(err => {
+        this.presentToast("El codigo QR leido es invalido.");
+      }
       );
   }
 
@@ -201,7 +211,7 @@ anonymousToggle(){
     toast.present();
   }
 
-  createNotification(){
+  createNotification() {
     let notification = {
       senderType: 'cliente',
       receiverType: 'supervisor',

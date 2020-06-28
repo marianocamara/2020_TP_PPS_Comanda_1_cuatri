@@ -16,6 +16,11 @@
   </ion-buttons>
   </ion-toolbar>
 </ion-header>
+<ion-fab *ngIf="this.showQr" style="align-items: center;" vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab-button>
+    <app-qr-picker></app-qr-picker>
+  </ion-fab-button>
+</ion-fab>
 
   
 <ion-content>
@@ -23,18 +28,18 @@
   <ion-tabs #myTabs>
     <div class="tabs">
       <ion-tab-bar slot="bottom" translucent=“true” style="height: 70px;">
-        <ion-tab-button tab="home">
+        <ion-tab-button (click)="changeQr('home')" tab="home">
           <ion-icon name="home-outline" size="large"></ion-icon>
           <ion-label>Inicio</ion-label>
         </ion-tab-button>
 
-        <ion-tab-button tab="orders">
+        <ion-tab-button (click)="changeQr('orders')" tab="orders">
           <ion-icon name="cart-outline" size="large"></ion-icon>
           <ion-badge class="order-total" *ngIf="pendingOrder">${{orderTotal}}</ion-badge>
           <ion-label>Pedidos</ion-label>
         </ion-tab-button>
 
-        <ion-tab-button tab="more">
+        <ion-tab-button (click)="changeQr('more')" tab="more">
           <ion-icon name="ellipsis-horizontal" size="large"></ion-icon>
           <ion-label>Mas</ion-label>
         </ion-tab-button>

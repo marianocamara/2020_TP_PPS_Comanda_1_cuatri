@@ -1,0 +1,98 @@
+<ion-header mode="ios" class="ion-no-border">
+  <ion-toolbar class="ion-no-border">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      Gestión de Mesas
+    </ion-title>
+    <ion-avatar slot="end" style="height:40px; width: 40px; margin-right: 8px;" *ngIf="user">
+      <img [src]="user ? user.imageUrl : 'Loading...'" (click)="presentAlertLogout()">
+    </ion-avatar>
+    <ion-buttons slot="start">
+      <ion-buttons slot="start">
+        <ion-back-button text="" defaultHref="staff"></ion-back-button>
+      </ion-buttons>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-header>
+  <ion-toolbar style="padding: 0;">
+    <ion-segment value="all" [(ngModel)]="segment">
+      <ion-segment-button value="pending">
+        <ion-label>Por Asignar</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="assigned">
+        <ion-label>Asignadas</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="bg">
+
+  <ion-grid *ngIf="isLoading" class="ion-text-center">
+    <ion-row>
+      <ion-col size="12" size-sm="8" offset-sm="2" text-center>
+        <ion-spinner color="primary"></ion-spinner>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <div class="aprobados" *ngIf="segment === 'pending'">
+    <div class="employee" *ngIf="!isLoading" style="padding-left: 30px;">
+      <ion-item-sliding *ngFor="let customer of waitingCustomers" #slidingItem>
+        <ion-item lines="">
+          <ion-thumbnail slot="start" style="--border-radius: 30px;">
+            <img [src]="customer.customerImg ? customer.customerImg : '../../../../assets//img/noImg.svg' " />
+          </ion-thumbnail>
+          <ion-label>
+            <h2>{{customer.customerName}}</h2>
+          </ion-label>
+          <ion-icon slot="end" src="https://image.flaticon.com/icons/svg/93/93192.svg"></ion-icon>
+          <ion-select #C (ionChange)="onChange(customer.id, C.value)" style="opacity: 0;">
+            <ion-select-option *ngFor="let table of aviableTables" value="{{table}}">{{table}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <!-- <ion-item>
+          <ion-label>Mesas disponibles: </ion-label>
+          <ion-select>
+            <ion-select-option (click)="confirm(slidingItem, customer.id, table)" *ngFor="let table of aviableTables" value="{{table}}">{{table}}</ion-select-option>
+          </ion-select>
+        </ion-item> -->
+        <!-- <ion-item-options>
+          <ion-item-option *ngFor="let table of aviableTables" (click)="confirm(slidingItem, customer.id, table)" value="{{table}}" >
+            <p>{{table}}</p>
+          </ion-item-option>
+        </ion-item-options> -->
+      </ion-item-sliding>
+      <ion-row *ngIf="!waitingCustomers|| waitingCustomers.length == 0" class="types">
+        <ion-col>
+          <p>No se encontraron clientes en la sala de espera.</p>
+        </ion-col>
+      </ion-row>
+
+    </div>
+  </div>
+  <div class="aprobados" *ngIf="segment === 'assigned'">
+    <div class="employee" *ngIf="!isLoading" style="padding-left: 30px;">
+      <ion-item-sliding *ngFor="let user of userTableAssigned" #slidingItem>
+        <ion-item lines="">
+          <ion-thumbnail slot="start" style="--border-radius: 30px;">
+            <img [src]="user.imageUrl ? user.imageUrl : '../../../../assets//img/noImg.svg' " />
+          </ion-thumbnail>
+          <ion-label>
+            <h2>{{user.name}}</h2>
+          </ion-label>
+          <h4 slot="end">{{user.table}}</h4>
+        </ion-item>
+      </ion-item-sliding>
+      <ion-row *ngIf="!userTableAssigned|| userTableAssigned.length == 0" class="types">
+        <ion-col>
+          <p>No se encontraron clientes con mesa asignada.</p>
+        </ion-col>
+      </ion-row>
+
+    </div>
+  </div>
+</ion-content>
