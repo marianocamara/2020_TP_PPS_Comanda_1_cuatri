@@ -1,0 +1,91 @@
+
+<div class="ion-padding">
+
+  <div style="width: 100%;">
+    <ion-row>
+      <ion-col>
+        
+        <form class="form" [formGroup]="validationsForm">
+          
+          <ion-col size-sm="4" offset-sm="2" style="padding-top: 10px;">
+            <app-image-picker
+            [showPreview]="validationsForm.get('image').value"
+            (imagePick)="onImagePicked($event)"
+            ></app-image-picker>
+          </ion-col>
+          
+          <ion-item class="ion-margin-bottom">
+            <ion-label  position="floating">DNI</ion-label>
+            <ion-input type="number" formControlName="dni" pattern="[0-9]{8}"></ion-input>
+            <button class="dni-qr" (click)="scanCode()" slot="end" ion-button icon-only type="button">
+              <ion-icon name="qr-code-outline"></ion-icon>
+            </button>
+          </ion-item>
+          <ion-item class="ion-margin-bottom "> 
+            <ion-label>Tipo de Usuario</ion-label>
+            <ion-select formControllName="type" [interfaceOptions]="customPopoverOptions" #type value="cliente" (ionChange)="onChange(type.value)"  interface="popover" placeholder="Seleccionar uno">
+              <ion-select-option value="cliente">Cliente</ion-select-option>
+              <ion-select-option value="metre">Metre</ion-select-option>
+              <ion-select-option value="mozo">Mozo</ion-select-option>
+              <ion-select-option value="bartender">Bartender</ion-select-option>
+              <ion-select-option value="supervisor">Supervisor</ion-select-option>
+              <ion-select-option value="cocinero">Cocinero</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <div class="two-column">
+            <ion-item class="ion-margin-bottom column-one">
+              <ion-label  position="floating">Nombre</ion-label>
+              <ion-input type="text" formControlName="name" required></ion-input>
+            </ion-item>
+            
+            <ion-item class="ion-margin-bottom column-two">
+              <ion-label  position="floating">Apellido</ion-label>
+              <ion-input type="text" formControlName="lastName" required></ion-input>
+            </ion-item>
+          </div>
+          <div class="validation-errors">
+            <ng-container *ngFor="let validation of validation_messages.dni">
+              <div
+              class="error-message" 
+              *ngIf="validationsForm.get('dni').hasError(validation.type) 
+              && (validationsForm.get('dni').dirty 
+              || validationsForm.get('dni').touched)">
+              {{ validation.message }}
+            </div>
+          </ng-container>
+        </div>
+        
+        <ion-item class="ion-margin-bottom">
+          <ion-label  position="floating">Correo</ion-label>
+          <ion-input type="text" formControlName="email"></ion-input>
+        </ion-item>
+        
+        <div class="validation-errors">
+          <ng-container *ngFor="let validation of validation_messages.email">
+            <div
+            class="error-message" 
+            *ngIf="validationsForm.get('email').hasError(validation.type) 
+            && (validationsForm.get('email').dirty 
+            || validationsForm.get('email').touched)">
+            {{ validation.message }}
+          </div>
+        </ng-container>
+      </div>    
+    <ion-button
+    mode="ios"
+    expand="block" 
+    class="ion-margin-top enter" 
+    (click)="createUser(validationsForm.value)" 
+    [disabled]="!validationsForm.valid || !validationsForm.get('image').value">
+    Continuar
+  </ion-button>
+  
+  <div class="error-message-2">{{errorMessage}}</div>
+</form> 
+</ion-col>
+
+</ion-row>
+
+</div>
+</div>

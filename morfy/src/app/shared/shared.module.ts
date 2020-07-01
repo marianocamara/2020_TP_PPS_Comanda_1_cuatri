@@ -7,7 +7,8 @@ import { QrPickerComponent } from './pickers/qr-picker/qr-picker.component';
 
 @NgModule({
   declarations: [
-    ImagePickerComponent
+    ImagePickerComponent,
+    QrPickerComponent
   ],
   imports: [CommonModule, IonicModule],
   exports: [ImagePickerComponent,

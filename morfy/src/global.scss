@@ -32,7 +32,14 @@
     display: inline-block;
 }
 
-
+.add-user-modal .modal-wrapper {
+    background-color: white !important;
+    height: 100%;
+    top: 10%;
+    position: absolute; 
+    display: block;  
+    border-radius: 25px 25px 0 0;
+  }
 
 .add-product-modal .modal-wrapper {
     height: 50%;

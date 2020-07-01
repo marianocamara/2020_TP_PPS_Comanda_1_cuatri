@@ -1,0 +1,116 @@
+//header
+.bg-none {
+    --background: transparent;
+}
+.page-header {
+    border-radius: 0 0 0 40px;
+    padding: 20px 30px;
+    background: linear-gradient(
+        45deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 119, 119, 1) 0%,
+        rgba(234, 93, 108, 1) 100%
+    );
+}
+.back-button {
+    font-size: 2rem;
+    margin-left: -5px;
+    color: white;
+}
+.welcome-message {
+    color: white;
+}
+
+.btnQR {
+    text-align: center;
+    width: 40%;
+    margin-bottom: 15px;
+    max-width: 80%;
+    font-size: 140%;
+    --background: #7e6954;
+    img {
+        max-width: 30px;
+    }
+}
+
+//content
+.centered {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.eye {
+    background: transparent;
+    font-size: 20px;
+    margin: 25px -5px 0 0;
+}
+
+.enter {
+    --background: linear-gradient(
+        45deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 119, 119, 1) 0%,
+        rgba(234, 93, 108, 1) 100%
+    );
+    //margin-top: 40px;
+}
+
+.pass ion-icon {
+    color: #fd7576;
+}
+
+.pass button {
+    background: transparent;
+    font-size: 30px;
+    margin: 30px -5px 0 0;
+}
+
+.form ion-input {
+    font-size: 18px;
+}
+
+.form ion-label {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.error-message {
+    margin: 10px 15px;
+}
+
+.signup {
+    padding: 5px 10px;
+}
+
+.social ion-icon {
+    margin: 0 15px;
+    font-size: 30px;
+    color: #ffffff;
+    padding: 10px;
+    border-radius: 30px;
+    background: #5d5d5d;
+}
+
+.anonymous p {
+    margin-top: 5px;
+}
+
+.two-column {
+    display: flex;
+}
+.two-column .column-one {
+    width: 47.5%;
+    margin-right: 5%;
+}
+.two-column .column-two {
+    width: 47.5%;
+}
+.dni-qr ion-icon{
+    color: #fd7576;
+}
+.dni-qr{
+    background: transparent;
+    font-size: 25px;
+    margin: 30px -5px 0 0;
+}
