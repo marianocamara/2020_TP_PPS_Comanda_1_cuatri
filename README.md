@@ -335,3 +335,15 @@ Objetivos planteados: <br>
   <li>Fecha Fin: </li>
   <li>Commit: </li>
 </ul>
+<br>
+<h1>[Sprint 6] 27/06/2020 - 04/07/2020</h1>
+<br>
+<img src="documents/IMG3.png" >
+<br>
+<img src="documents/IMG4.png" >
+<br>
+<img src="documents/IMG5.png" >
+<br>
+<img src="documents/IMG2.png" >
+<br>
+<img src="documents/IMG1.png" >
