@@ -34,9 +34,14 @@ export class AuthService {
   } as MessagesIndex;
 
 
-  signUp(value, imageUrl, isAnonymous) {
-    let type = isAnonymous ? 'anonimo' : 'cliente';
-
+  signUp(value, imageUrl, isAnonymous?) {
+    let type;
+    if(isAnonymous !== undefined){
+    type = isAnonymous ? 'anonimo' : 'cliente';
+    }else{
+      type = value["type"];
+    }
+    console.log(value.password);
     return new Promise<any>((resolve, reject) => {
       (isAnonymous ? this.afAuth.signInAnonymously() : this.afAuth.createUserWithEmailAndPassword(value.email, value.password))
         .then(
@@ -53,7 +58,12 @@ export class AuthService {
                 imageUrl
               },
                 'users').then(() => {
-                  resolve(this.saveInStorage(result.user));
+                  if(isAnonymous !== undefined){
+                    resolve(this.saveInStorage(result.user));
+                    }
+                    else{
+                      resolve();
+                    }
                 });
             }
           },
