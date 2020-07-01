@@ -338,12 +338,12 @@ Objetivos planteados: <br>
 <br>
 <h1>[Sprint 6] 27/06/2020 - 04/07/2020</h1>
 <br>
-<img src="documents/IMG3.png" >
+<img src="documents/IMG3.jpeg" >
 <br>
-<img src="documents/IMG4.png" >
+<img src="documents/IMG4.jpeg" >
 <br>
-<img src="documents/IMG5.png" >
+<img src="documents/IMG5.jpeg" >
 <br>
-<img src="documents/IMG2.png" >
+<img src="documents/IMG2.jpeg" >
 <br>
-<img src="documents/IMG1.png" >
+<img src="documents/IMG1.jpeg" >
