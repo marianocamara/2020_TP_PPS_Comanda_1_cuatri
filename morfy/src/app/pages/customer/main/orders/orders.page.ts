@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { User } from 'src/app/models/user';
 import { LoadingController, NavController, IonItemSliding, ModalController, AnimationController } from '@ionic/angular';
@@ -7,6 +7,8 @@ import { DatabaseService } from 'src/app/services/database.service';
 import { Plugins } from '@capacitor/core';
 import { Order, OrderStatus } from 'src/app/models/order';
 import { OrderDetailsPage } from './order-details/order-details.page';
+import { NotificationMessages } from 'src/app/models/notification';
+import { create } from 'domain';
 
 @Component({
   selector: 'app-orders',
@@ -16,13 +18,24 @@ import { OrderDetailsPage } from './order-details/order-details.page';
 export class OrdersPage implements OnInit, OnDestroy {
 
   private ordersSub: Subscription;
-  completedOrders: Order[] = [];
-  pendingOrder: Order;
+  processedOrders: Order[] = [];
+  // deliveryTime = 0;
+  cart: Order;
+  edit = false;
   orderDetailAction;
   isLoading = true;
   user: User;
   segment = 'pending';
   animation;
+
+  @HostListener('click', ['$event'])
+  onClick(event: MouseEvent) {
+    const targetElement = event.target as HTMLElement;
+    if (!targetElement.classList.contains('edit')) {
+      this.edit = false;
+    }
+  }
+
 
   constructor( private loadingCtrl: LoadingController,
                private authService: AuthService,
@@ -41,8 +54,9 @@ export class OrdersPage implements OnInit, OnDestroy {
           this.user = JSON.parse(userData.value);
           this.ordersSub = this.database.GetWithQuery('idClient', '==', this.user.id, 'orders')
             .subscribe(data => {
-              this.pendingOrder = (data as Order[]).find(order => order.status === OrderStatus.Pending);
-              this.completedOrders = (data as Order[]).filter(order => order.status === OrderStatus.Finished)
+              this.cart = (data as Order[]).find(order => order.status === OrderStatus.Pending);
+              this.processedOrders = (data as Order[])
+                .filter(order => order.status !== OrderStatus.Pending && order.status !== OrderStatus.Finished)
                 .sort((a, b) => (b.date as any).localeCompare(a.date));
               this.isLoading = false;
           });
@@ -86,15 +100,15 @@ export class OrdersPage implements OnInit, OnDestroy {
 
 
   updateQty(productId: string, event, action: string) {
-    const row = event.target.parentNode.parentNode.parentNode;
-    const findedProductIndex = this.pendingOrder.products.findIndex(p => p.product.id === productId);
-    if (action === 'add' && this.pendingOrder.products[findedProductIndex].quantity < 10) {
-      this.pendingOrder.products[findedProductIndex].quantity++;
+    const row = event.target.parentNode.parentNode;
+    const foundProductIndex = this.cart.products.findIndex(p => p.product.id === productId);
+    if (action === 'add' && this.cart.products[foundProductIndex].quantity < 10) {
+      this.cart.products[foundProductIndex].quantity++;
     }
-    if (action === 'remove' && this.pendingOrder.products[findedProductIndex].quantity >= 1) {
-      this.pendingOrder.products[findedProductIndex].quantity--;
+    if (action === 'subtract' && this.cart.products[foundProductIndex].quantity >= 2) {
+      this.cart.products[foundProductIndex].quantity--;
     }
-    if (this.pendingOrder.products[findedProductIndex].quantity < 1) {
+    if (action === 'remove') {
       this.animation = this.animationCtrl.create()
       .addElement(row)
       .duration(500)
@@ -105,25 +119,32 @@ export class OrdersPage implements OnInit, OnDestroy {
         { offset: 1, transform: 'translateX(-100px)', opacity: '0' }
       ])
       .onFinish(() => {
-        this.pendingOrder.products.splice(findedProductIndex, 1);
+        this.cart.products.splice(foundProductIndex, 1);
 
-        if (this.pendingOrder.products.length < 1) {
-          this.database.DeleteOne(this.pendingOrder.id, 'orders')
+        if (this.cart.products.length < 1) {
+          this.database.DeleteOne(this.cart.id, 'orders')
           .then(() => {
             console.log('Order deleted');
+            this.edit = false;
           })
           .catch(error => {
             console.log(error);
           });
         }
         else {
-          this.database.UpdateOne(JSON.parse(JSON.stringify(this.pendingOrder)), 'orders')
+          this.database.UpdateOne(JSON.parse(JSON.stringify(this.cart)), 'orders')
           .then( () => {
             // console.log('Order updated');
           });
         }
       });
       this.animation.play();
+    }
+    else {
+      this.database.UpdateOne(JSON.parse(JSON.stringify(this.cart)), 'orders')
+      .then( () => {
+        // console.log('Order updated');
+      });
     }
   }
 
@@ -133,12 +154,58 @@ export class OrdersPage implements OnInit, OnDestroy {
   }
 
 
+  calculateDeliveryTime(order: Order) {
+    const deliveryTime = {percent: 0, time: ''};
+    switch (order.status) {
+      case OrderStatus.Submitted:
+        deliveryTime.percent = 75;
+        deliveryTime.time = "20'";
+        break;
+      case OrderStatus.Confirmed:
+        deliveryTime.percent = 50;
+        deliveryTime.time = "10'";
+        break;
+      case OrderStatus.Ready:
+        deliveryTime.percent = 25;
+        deliveryTime.time = "5'";
+        break;
+      // case OrderStatus.Delivered:
+      //   deliveryTime.percent = 0;
+      //   deliveryTime.time = '0';
+      //   break;
+      default:
+        break;
+    }
+    return deliveryTime;
+  }
+
+
+  order() {
+    this.database.UpdateSingleField('status', OrderStatus.Submitted, 'orders', this.cart.id)
+    .then(() => this.createNotification());
+  }
+
+
+  createNotification() {
+    const notification = {
+      senderType: 'cliente',
+      receiverType: 'mozo',
+      message: NotificationMessages.New_Order,
+      date: new Date()
+    };
+    this.database.CreateOne(notification, 'notifications');
+  }
+
+
+
+  // Modal pedido
+
   async checkout() {
     const modal = await this.modalController.create({
       component: OrderDetailsPage,
       // cssClass: 'add-product-modal',
       componentProps: {
-        pendingOrder: this.pendingOrder,
+        cart: this.cart,
       }
     });
     modal.onWillDismiss().then(dataReturned => {
@@ -156,7 +223,7 @@ export class OrdersPage implements OnInit, OnDestroy {
     switch (modalAction) {
       case 'pay':
         console.log('paying order...');
-        this.database.UpdateSingleField('status', OrderStatus.Finished, 'orders', this.pendingOrder.id)
+        this.database.UpdateSingleField('status', OrderStatus.Finished, 'orders', this.cart.id)
           .then(() => {
             console.log('Order paid');
           })
@@ -166,7 +233,7 @@ export class OrdersPage implements OnInit, OnDestroy {
         break;
       case 'delete':
         console.log('deleting order...');
-        this.database.DeleteOne(this.pendingOrder.id, 'orders')
+        this.database.DeleteOne(this.cart.id, 'orders')
           .then(() => {
             console.log('Order deleted');
           })

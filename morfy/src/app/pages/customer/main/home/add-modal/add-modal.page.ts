@@ -17,7 +17,7 @@ export class AddModalPage implements OnInit {
   @Input() public userId: string;
   quantity: number;
   pendingOrder: Order;
-  findedProductIndex;
+  foundProductIndex;
 
 
   constructor( private modalController: ModalController,
@@ -33,9 +33,9 @@ export class AddModalPage implements OnInit {
     this.database.GetPendingOrder(this.userId).pipe(take(1)).subscribe(order => {
       if (order.length > 0) {
         this.pendingOrder = order[0];
-        this.findedProductIndex = this.pendingOrder.products.findIndex(p => p.product.id === this.product.id);
-        if (this.findedProductIndex >= 0) {
-          this.quantity = this.pendingOrder.products[this.findedProductIndex].quantity;
+        this.foundProductIndex = this.pendingOrder.products.findIndex(p => p.product.id === this.product.id);
+        if (this.foundProductIndex >= 0) {
+          this.quantity = this.pendingOrder.products[this.foundProductIndex].quantity;
         }
       }
       else {
@@ -48,11 +48,11 @@ export class AddModalPage implements OnInit {
   async closeModal(add?) {
     if (add) {
       if (this.pendingOrder) {
-        if (this.findedProductIndex >= 0) {
-          this.pendingOrder.products[this.findedProductIndex].quantity = this.quantity;
+        if (this.foundProductIndex >= 0) {
+          this.pendingOrder.products[this.foundProductIndex].quantity = this.quantity;
         }
         else {
-          this.pendingOrder.products.push({product: this.product, quantity: this.quantity});
+          this.pendingOrder.products.push({product: this.product, quantity: this.quantity, isPrepared: false });
         }
         this.database.UpdateOne(JSON.parse(JSON.stringify(this.pendingOrder)), 'orders')
         .then( () => {
@@ -65,7 +65,7 @@ export class AddModalPage implements OnInit {
           new Order({
             date: new Date(),
             idClient: this.userId,
-            products: [{ product: this.product, quantity: this.quantity }],
+            products: [{ product: this.product, quantity: this.quantity, isPrepared: false }],
             status: OrderStatus.Pending
           }))), 'orders').then(() => {
           });
