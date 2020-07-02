@@ -24,9 +24,9 @@ export class AppComponent implements OnDestroy {
     private statusBar: StatusBar,
     private database: DatabaseService,
     public toastController: ToastController
-    ) {
-      this.initializeApp();
-    }
+  ) {
+    this.initializeApp();
+  }
 
   user: User;
   private notificationSub: Subscription;
@@ -40,9 +40,9 @@ export class AppComponent implements OnDestroy {
     });
 
     this.notificationSub = this.database.GetAll('notifications').subscribe(data => {
-      if (this.first){
+      if (this.first) {
         this.first = false;
-      }else{
+      } else {
         // sort notifications by date
         this.notifications = (data as Notification[]).sort((a, b) => b.date as any - (a.date as any));
         this.showNotification();
@@ -50,42 +50,27 @@ export class AppComponent implements OnDestroy {
     });
   }
 
-  showNotification(){
+  showNotification() {
     // get current User
     Plugins.Storage.get({ key: 'user-bd' }).then(
       (userData) => {
         if (userData.value) {
           this.user = JSON.parse(userData.value);
-          if (this.user){
+          if (this.user) {
             const receiverType = this.notifications[0].receiverType;
-            if (receiverType === 'cliente' && this.notifications[0].receiverId === this.user.id){
+            if (receiverType === 'cliente' && this.notifications[0].receiverId === this.user.id) {
               // show last notification message
               this.presentToast(this.notifications[0].message);
             }
-            else if (receiverType !== 'cliente' && receiverType === this.user.type){
+            else if (receiverType !== 'cliente' && receiverType === this.user.type) {
               // show last notification message
               this.presentToast(this.notifications[0].message);
             }
-          }}
-          );
           }
         }
-
-        async presentToast(message: string) {
-          const toast = await this.toastController.create({
-            buttons: [ {
-                text: 'X',
-                role: 'cancel',
-                handler: () => {
-                  console.log('Cancel clicked');
-                }
-              }
-            ],
-            message,
-            duration: 3000
-          });
-          toast.present();
-        }
+      }
+    );
+  }
 
   ngOnDestroy() {
     if (this.notificationSub) {
@@ -93,5 +78,20 @@ export class AppComponent implements OnDestroy {
     }
   }
 
+  async presentToast(message: string) {
+    const toast = await this.toastController.create({
+      message,
+      duration: 3000,
+      buttons: [{
+        text: 'X',
+        role: 'cancel',
+        handler: () => {
+          console.log('Cancel clicked');
+        }
+      }
+      ],
+    });
+    toast.present();
+  }
 
 }
