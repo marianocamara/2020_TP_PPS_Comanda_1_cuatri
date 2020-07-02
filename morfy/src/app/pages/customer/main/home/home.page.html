@@ -1,10 +1,16 @@
 <ion-content>
-
+  <ion-item *ngIf="user" class="enquiry" button (click)="newChat()" lines="none">
+      <ion-icon class="img" slot="start" size="large" src="/assets/img/chat.svg"></ion-icon>
+    <ion-label class="ion-text-center">
+      Consulta al mozo
+    </ion-label>
+    <ion-icon slot="end" size="large" class="img" name="chevron-forward-outline"></ion-icon>
+  </ion-item>
   <div class="section-title">
     Recomendados
    
   </div>
-
+ 
   <ion-grid class="ion-no-padding">
     <ion-row class="row-cards">
       <ion-col *ngFor="let item of featured; let i = index">

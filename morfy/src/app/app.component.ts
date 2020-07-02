@@ -66,19 +66,26 @@ export class AppComponent implements OnDestroy {
               // show last notification message
               this.presentToast(this.notifications[0].message);
             }
+          }}
+          );
           }
-        }}
-    );
-  }
+        }
 
-  async presentToast(message: string) {
-    const toast = await this.toastController.create({
-      message,
-      duration: 3000
-    });
-    toast.present();
-  }
-
+        async presentToast(message: string) {
+          const toast = await this.toastController.create({
+            buttons: [ {
+                text: 'X',
+                role: 'cancel',
+                handler: () => {
+                  console.log('Cancel clicked');
+                }
+              }
+            ],
+            message,
+            duration: 3000
+          });
+          toast.present();
+        }
 
   ngOnDestroy() {
     if (this.notificationSub) {

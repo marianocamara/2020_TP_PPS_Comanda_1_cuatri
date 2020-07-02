@@ -7,3 +7,17 @@ ion-title {
         color: var(--ion-color-morfy);
     }
 }
+.order-total{
+    padding: 5px;
+    font-size: 11px;
+    letter-spacing: 2px;
+    font-family: 'Roboto';
+    margin: -3px 0 0 3px;
+}
+ion-fab{
+    margin-bottom: 64px;
+}
+
+app-qr-picker{
+    margin-bottom: 16px;
+}

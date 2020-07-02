@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController, IonItemSliding, LoadingController } from '@ionic/angular';
+import { NavController, IonItemSliding, LoadingController, AlertController } from '@ionic/angular';
 import { Plugins } from '@capacitor/core';
 import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
@@ -21,6 +21,9 @@ export const ROUTES: RouteInfo[] = [
   { path: '/staff/orders', title: 'Pedidos',  icon: 'https://image.flaticon.com/icons/svg/2996/2996110.svg', class: '', type: 'mozo'},
   { path: '/staff/preparations', title: 'Platos',  icon: 'https://image.flaticon.com/icons/svg/3144/3144416.svg', class: '', type: 'cocinero'},
   { path: '/staff/preparations', title: 'Bebidas',  icon: 'https://image.flaticon.com/icons/svg/3141/3141900.svg', class: '', type: 'bartender'},
+  { path: '/empleados', title: 'Empleados',  icon: 'fas fa-user-alt', class: '', type: 'Admin'},
+  { path: '/altas', title: 'Altas',  icon: 'fas fa-user-plus', class: '', type: 'Admin'},
+  { path: '/chat', title: 'Consultas',  icon: 'https://image.flaticon.com/icons/svg/2698/2698405.svg', class: '', type: 'mozo'},
   { path: '', title: 'Salir',  icon: 'https://image.flaticon.com/icons/svg/875/875558.svg', class: '', type: 'todos'},
 ];
 
@@ -50,7 +53,8 @@ export class StaffPage implements OnInit {
   ];
 
   constructor( public navCtrl: NavController,
-               private authService: AuthService ) { }
+               private authService: AuthService,
+               public alertController: AlertController ) { }
 
   ngOnInit() {
     // this.isLoading = true;
@@ -101,6 +105,29 @@ export class StaffPage implements OnInit {
     });
   }
 
+  async presentAlertLogout() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Finalizando sesión',
+      message: '¿Estás seguro de querer salir?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+          }
+        }, {
+          text: 'Cerrar Sesión',
+          handler: () => {
+            this.logout();          
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
 
   gestionAction(menuItem) {
     if (menuItem.title === 'Salir') {

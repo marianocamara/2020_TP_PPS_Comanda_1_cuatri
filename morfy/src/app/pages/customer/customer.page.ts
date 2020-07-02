@@ -5,6 +5,7 @@ import { NavController, IonSlides, AlertController } from '@ionic/angular';
 import { User, Status } from 'src/app/models/user';
 import { DatabaseService } from 'src/app/services/database.service';
 import { WaitingListEntry } from 'src/app/models/waiting-list-entry';
+import { NotificationMessages } from 'src/app/models/notification';
 
 
 @Component({
@@ -42,7 +43,7 @@ export class CustomerPage implements OnInit {
         }
         else {
           this.user = null;
-          this.logout();
+          this.logoutUser();  
         }
       }, () => {
         this.logout();
@@ -63,15 +64,47 @@ export class CustomerPage implements OnInit {
         }
         else {
           this.user = null;
-          this.logout();
+          this.logoutUser();  
         }
       }, () => {
-        this.logout();
+        this.logoutUser();  
       }
     );
   }
+  async presentAlertLogout() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Finalizando sesión',
+      message: '¿Estás seguro de querer salir?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+          }
+        }, {
+          text: 'Cerrar Sesión',
+          handler: () => {
+            this.logoutUser();          
+          }
+        }
+      ]
+    });
 
-
+    await alert.present();
+  }
+  
+  logoutUser(){
+    this.authService.logoutUser()
+    .then(res => {
+      // console.log(res);
+      this.navCtrl.navigateBack('');
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  }
 
   logout() {
     if ((this.user as User).type === 'anonimo') {
@@ -82,16 +115,8 @@ export class CustomerPage implements OnInit {
         this.presentAlertLogoutAnon();
       }
     } else {
-      this.authService.logoutUser()
-        .then(res => {
-          // console.log(res);
-          this.navCtrl.navigateBack('');
-        })
-        .catch(error => {
-          console.log(error);
-        });
+      this.presentAlertLogout();
     }
-
   }
 
   async presentAlert(message, header) {
@@ -122,7 +147,6 @@ export class CustomerPage implements OnInit {
           handler: () => {
             this.authService.logoutUser()
               .then(res => {
-                // console.log(res);
                 this.navCtrl.navigateBack('');
               })
               .catch(error => {
@@ -176,13 +200,26 @@ export class CustomerPage implements OnInit {
                   customerImg: this.user.imageUrl,
                   date: new Date()
                 }))), 'waiting-list')
-                .then(() => this.navCtrl.navigateForward('/customer/waiting-list'));
-            });
-        }
-        else if ((user as User).status === Status.Waiting_Table) {
-          this.navCtrl.navigateForward('/customer/waiting-list');
-        }
+                  .then(() => {
+                    this.createNotification();
+                    this.navCtrl.navigateForward('/customer/waiting-list')}
+                  );
+              });
+          }
+          else if ((user as User).status === Status.Waiting_Table) {
+            this.navCtrl.navigateForward('/customer/waiting-list');
+          }
       });
+  }
+
+  createNotification(){
+    let notification = {
+      senderType: 'cliente',
+      receiverType: 'metre',
+      message: NotificationMessages.User_Waiting_Table,
+      date: new Date()
+    };
+    this.database.CreateOne(notification, 'notifications');
   }
 
 

@@ -293,3 +293,57 @@ Objetivos planteados: <br>
   <li>Fecha Fin: 23/06/2020</li>
   <li>Commit: https://github.com/CardozoBraianEzequiel/2020_TP_PPS_Comanda_1_cuatri/commit/1025adec9ed1834e998b4e02b7970dad71df8237</li>
 </ul>
+3) Alertas para los logout y cada vez que pasa algo con los qr. <br>
+<ul>
+  <li>Braian Cardozo</li>
+  <li>Fecha Inicio: 23/06/2020</li>
+  <li>Fecha Fin: 27/06/2020</li>
+  <li>Commit: https://github.com/CardozoBraianEzequiel/2020_TP_PPS_Comanda_1_cuatri/commit/5ffa5400e46b3434a427d219881af385bf6e364a</li>
+</ul>
+4) Se agrega todo el flujo de la consulta al mozo. <br>
+<ul>
+  <li>Mariano Camara</li>
+  <li>Fecha Inicio: 25/06/2020</li>
+  <li>Fecha Fin: </li>
+  <li>Commit: https://github.com/CardozoBraianEzequiel/2020_TP_PPS_Comanda_1_cuatri/commit/34df5d73091094917d8726b9a826409a01b0926b</li>
+</ul>
+5) Logra visualizar el valor de todo lo consumido en el pedido todo el tiempo. <br>
+<ul>
+  <li>Mariano Camara</li>
+  <li>Fecha Inicio: 25/06/2020</li>
+  <li>Fecha Fin: </li>
+  <li>Commit: https://github.com/CardozoBraianEzequiel/2020_TP_PPS_Comanda_1_cuatri/commit/34df5d73091094917d8726b9a826409a01b0926b</li>
+</ul>
+6) Cambio de todo el flujo de los pedidos para poder tener mas de un pedido por usuario. <br>
+<ul>
+  <li>Ariel Traut</li>
+  <li>Fecha Inicio: 23/06/2020</li>
+  <li>Fecha Fin: </li>
+  <li>Commit: </li>
+</ul>
+7) Flujo de notificacion por parte del bartender/cocinero. <br>
+<ul>
+  <li>Ariel Traut</li>
+  <li>Fecha Inicio: 23/06/2020</li>
+  <li>Fecha Fin: </li>
+  <li>Commit: </li>
+</ul>
+8) Flujo de "terminado" por parte del bartender/cocinero. <br>
+<ul>
+  <li>Ariel Traut</li>
+  <li>Fecha Inicio: 23/06/2020</li>
+  <li>Fecha Fin: </li>
+  <li>Commit: </li>
+</ul>
+<br>
+<h1>[Sprint 6] 27/06/2020 - 04/07/2020</h1>
+<br>
+<img src="documents/IMG3.jpeg" >
+<br>
+<img src="documents/IMG4.jpeg" >
+<br>
+<img src="documents/IMG5.jpeg" >
+<br>
+<img src="documents/IMG2.jpeg" >
+<br>
+<img src="documents/IMG1.jpeg" >

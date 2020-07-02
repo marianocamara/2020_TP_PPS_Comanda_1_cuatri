@@ -4,19 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { MainPageRoutingModule } from './main-routing.module';
+import { ChatDetailPageRoutingModule } from './chat-detail-routing.module';
 
-import { MainPage } from './main.page';
-import { SharedModule } from 'src/app/shared/shared.module';
+import { ChatDetailPage } from './chat-detail.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    SharedModule,
-    MainPageRoutingModule
+    ChatDetailPageRoutingModule
   ],
-  declarations: [MainPage]
+  declarations: [ChatDetailPage]
 })
-export class MainPageModule {}
+export class ChatDetailPageModule {}

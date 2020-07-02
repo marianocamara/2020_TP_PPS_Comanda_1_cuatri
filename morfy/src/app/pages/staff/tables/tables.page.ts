@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
-import { IonItemSliding, LoadingController, NavController, ToastController } from '@ionic/angular';
+import { IonItemSliding, LoadingController, NavController, ToastController, AlertController } from '@ionic/angular';
 import { Plugins } from '@capacitor/core';
 import { User, Status } from 'src/app/models/user';
 import { DatabaseService } from 'src/app/services/database.service';
@@ -31,7 +31,8 @@ export class TablesPage implements OnInit {
     private authService: AuthService,
     public navCtrl: NavController,
     private database: DatabaseService,
-    public toastController: ToastController) { }
+    public toastController: ToastController,
+    public alertController: AlertController) { }
     
     ngOnInit() {
       this.isLoading = true;
@@ -50,8 +51,10 @@ export class TablesPage implements OnInit {
             data.status === Status.Preparing_Order ||
             data.status === Status.Eating ||
             data.status === Status.Waiting_Table
-          ) && data.table !== 'undefined' && data.table !== "" && data.table !== null
-          );//.map(x => { return x.table, x.id, x.imageUrl, x.name; });
+          ) && (data.table !== 'undefined' && data.table !== "") && data.table !== null
+          && data.table !== ""
+          && (data.type === 'cliente' || data.type === 'anonimo')
+          );
 
           this.tablesInUse = data.filter(data => data.status !== 'undefined' && (
             data.status === Status.Recent_Sit || 
@@ -60,13 +63,17 @@ export class TablesPage implements OnInit {
             data.status === Status.Preparing_Order ||
             data.status === Status.Eating ||
             data.status === Status.Waiting_Table
-          )).map(x => x.table);
+          )
+          && data.table !== 'undefined' && data.table !== "" && data.table !== null
+          && data.table !== ""
+          && (data.type === 'cliente' || data.type === 'anonimo')).map(x => x.table);
           this.tablesInUse = this.tablesInUse.filter(function (el) {
             return el != null;
           });
 
           this.aviableTables = this.aviableTables.filter( data => !this.tablesInUse.includes(data)  );
-
+          this.userTableAssigned = this.userTableAssigned.sort((a, b) => (a.table as any) - (b.table as any));
+          console.log(this.userTableAssigned);
         });
     }
     
@@ -142,6 +149,29 @@ export class TablesPage implements OnInit {
         });
       }
       
+      async presentAlertLogout() {
+        const alert = await this.alertController.create({
+          cssClass: 'my-custom-class',
+          header: 'Finalizando sesión',
+          message: '¿Estás seguro de querer salir?',
+          buttons: [
+            {
+              text: 'Cancelar',
+              role: 'cancel',
+              cssClass: 'secondary',
+              handler: (blah) => {
+              }
+            }, {
+              text: 'Cerrar Sesión',
+              handler: () => {
+                this.logout();          
+              }
+            }
+          ]
+        });
+    
+        await alert.present();
+      }
       
       goToProfile() {}
             
