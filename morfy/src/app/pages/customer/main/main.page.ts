@@ -125,7 +125,8 @@ export class MainPage implements OnInit {
   logout() {
     if ((this.user as User).type === 'anonimo') {
       // Si el usuario anonimo esta comiendo o esperando el pedido, no lo dejo finalizar sesion
-      if((this.user as User).status === Status.Eating || (this.user as User).status === Status.Waiting_Order){
+      //if((this.user as User).status === Status.Eating || (this.user as User).status === Status.Waiting_Order){
+       if(false){  
         this.presentAlert("Para finalizar sesión tiene que pagar la cuenta.", "Atención");
       }else{
         this.presentAlertLogoutAnon();

@@ -131,7 +131,7 @@ export class QrPickerComponent implements OnInit {
           this.database.GetOne('users', this.user.id)
             .then((user) => {
               if ((user as User).table === number_table) {
-                this.database.UpdateSingleField('status', Status.Recent_Sit, 'users', this.user.id)
+                //this.database.UpdateSingleField('status', Status.Recent_Sit, 'users', this.user.id)
                 this.navCtrl.navigateForward('/customer/main/home');
               } else {
                 this.presentToast("Ingreso incorrecto. Su mesa asignada es la número " + (user as User).table + ".");
