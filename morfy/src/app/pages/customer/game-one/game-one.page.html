@@ -1,0 +1,37 @@
+<ion-header mode="ios" class="ion-no-border">
+  <ion-toolbar class="ion-no-border">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      <span>m</span>orfy
+    </ion-title>
+    <ion-avatar slot="end" style="height:40px; width: 40px; margin-right: 8px;" *ngIf="user">
+      <img [src]="user ? user.imageUrl : 'Loading...'" (click)="logout()">
+    </ion-avatar>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content class="ion-padding">
+  <div class="centered">
+    <div style="width: 100%;">
+      <h5 style="text-align: center;">¿Querés ganarte un descuento en tu compra? ¡Adiviná el número secreto!</h5>
+      <img src="/assets/img/mistery.gif" alt="">
+      <div class="card">
+      <ion-item class="ion-margin-bottom" >
+        <ion-label  position="floating">Ingrese un número del 1 al 100</ion-label>
+        <ion-input type="number" [(ngModel)]="numberSelected" pattern="[0-9]{1,3}"></ion-input>
+      </ion-item>
+      <ion-button (click)="play()" expand="block" size="large">
+        Probar suerte
+      </ion-button>
+      <ion-item class="signup" lines="none" (click)="navCtrl.navigateForward('/customer/main/home')">
+        <ion-icon slot="start" src="/assets/img/next.svg"></ion-icon>      
+        <p slot="start"><strong>Volver</strong></p>
+      </ion-item>
+  </div>
+    
+  </div>
+</div>
+</ion-content>

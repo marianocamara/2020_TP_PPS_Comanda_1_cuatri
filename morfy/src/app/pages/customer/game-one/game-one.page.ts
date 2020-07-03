@@ -1,42 +1,28 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { AuthService } from 'src/app/services/auth.service';
-import { Plugins } from '@capacitor/core';
-import { NavController, IonSlides, AlertController } from '@ionic/angular';
-import { User, Status } from 'src/app/models/user';
-import { DatabaseService } from 'src/app/services/database.service';
-import { map } from 'rxjs/operators';
-import { WaitingListEntry } from 'src/app/models/waiting-list-entry';
+import { Component, OnInit } from '@angular/core';
 import { OrderStatus, Order } from 'src/app/models/order';
+import { User } from 'src/app/models/user';
+import { Plugins } from '@capacitor/core';
 import { Subscription } from 'rxjs/internal/Subscription';
-
+import { DatabaseService } from 'src/app/services/database.service';
+import { NavController, AlertController } from '@ionic/angular';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
-  selector: 'app-waiting-list',
-  templateUrl: './waiting-list.page.html',
-  styleUrls: ['./waiting-list.page.scss'],
+  selector: 'app-game-one',
+  templateUrl: './game-one.page.html',
+  styleUrls: ['./game-one.page.scss'],
 })
-export class WaitingListPage implements OnInit {
+export class GameOnePage implements OnInit {
 
   user: User;
   isLoading = true;
-  @ViewChild('slides') slides: IonSlides;
-  disablePrevBtn = true;
-  disableNextBtn = false;
-  myPosition = 8;
-  // waitingList = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ];
-  waitingList: WaitingListEntry[] = [];
   private ordersSub: Subscription;
   pendingOrder: Order[];
 
+  secretNumber: number = Math.floor((Math.random() * 100) + 1);
+  numberSelected: number;
 
-  // Optional parameters to pass to the swiper instance.
-  // See http://idangero.us/swiper/api/ for valid options.
-  slideOpts = {
-    initialSlide: 0,
-    speed: 400,
-    clickable: true
-  };
-
+  
   constructor(public navCtrl: NavController,
     private authService: AuthService,
     private database: DatabaseService,
@@ -48,19 +34,6 @@ export class WaitingListPage implements OnInit {
       (userData) => {
         if (userData.value) {
           this.user = JSON.parse(userData.value);
-          this.database.GetWithQuery('id', '==', this.user.id, 'users')
-            .subscribe(user => {
-              if (user.length > 0) { this.user = user[0]; }
-              else { this.logout(); }
-              this.database.GetAll('waiting-list')
-                .subscribe(list => {
-                  this.waitingList = (list as WaitingListEntry[]).sort((a, b) => (a.date as any).localeCompare(b.date));
-                  this.myPosition = this.waitingList.findIndex(customer => customer.id === this.user.id) + 1;
-                  this.isLoading = false;
-                  console.log(this.waitingList);
-                  console.log(this.myPosition);
-                });
-            });
             this.ordersSub = this.database.GetWithQuery('idClient', '==', this.user.id, 'orders')
             .subscribe(data => {
               this.pendingOrder = (data as Order[]).filter(order => order.status === OrderStatus.Pending || order.status === OrderStatus.Confirmed
@@ -78,6 +51,65 @@ export class WaitingListPage implements OnInit {
         this.logout();
       }
     );
+    if(this.pendingOrder){
+      if(this.pendingOrder[0].hasDisscount !== undefined && this.pendingOrder[0].hasDisscount ){
+        this.presentAlert("Recuerde que ya ha recibido el beneficio, solo jugara por diversión.", "Recordatorio");
+      }
+    }
+  }
+
+  play(){
+    if(this.numberSelected === undefined){
+      this.presentAlert("Debes ingresar un numero.", "Atención");
+    }
+    else if(this.numberSelected < 1 || this.numberSelected > 100 ){
+      this.presentAlert("Debes seleccionar un número entre 1 y 100.", "Atención");
+    }
+    else if((this.secretNumber - this.numberSelected) < 5  && (this.secretNumber - this.numberSelected) > -5){
+      if(this.numberSelected < this.secretNumber){
+        this.presentAlert("El número misterioso es más grande. (Ayudita: la diferencia es menor a 5)", "¡Estuviste muy cerca!");
+      }
+      if(this.numberSelected > this.secretNumber){
+        this.presentAlert("El número misterioso es más chico. (Ayudita: la diferencia es menor a 5)", "¡Estuviste muy cerca!");
+      }
+    }
+    else if((this.secretNumber - this.numberSelected) < 10  && (this.secretNumber - this.numberSelected) > -10){
+      if(this.numberSelected < this.secretNumber){
+        this.presentAlert("El número misterioso es más grande. (Ayudita: la diferencia es menor a 10)", "¡Estuviste bastante cerca!");
+      }
+      if(this.numberSelected > this.secretNumber){
+        this.presentAlert("El número misterioso es más chico. (Ayudita: la diferencia es menor a 10)", "¡Estuviste bastante cerca!");
+      }
+    }
+    else if(this.numberSelected < this.secretNumber){
+      this.presentAlert("El número misterioso es más grande.", "¡Te estas acercando!");
+    }
+    else if(this.numberSelected > this.secretNumber){
+      this.presentAlert("El número misterioso es más chico.", "¡Te estas acercando!");
+    }
+    
+    if(this.numberSelected == this.secretNumber){
+      this.presentAlert("El número misterioso era el " + this.secretNumber +". A la hora de pagar tu cuenta, veras el descuento aplicado en tu primer pedido cargado. ¡Felicitaciones!", "¡FELICITACIONES!");
+
+      this.winner();
+    }
+    console.log(this.secretNumber);
+    this.numberSelected = 0;
+  }
+  
+  winner(){    
+    if(!this.pendingOrder[0].hasDisscount){
+    this.database.UpdateSingleField('hasDisscount', true, 'orders', this.pendingOrder[0].id).then(
+      () => { 
+        setTimeout(() => {
+          this.navCtrl.navigateForward('/customer/main/home');
+        }, 3000);
+      }
+    );
+  }else{
+    this.navCtrl.navigateForward('/customer/main/home');
+  }
+    
   }
 
   ionViewWillEnter() {
@@ -86,6 +118,8 @@ export class WaitingListPage implements OnInit {
     }
   }
 
+  
+  
   async presentAlertLogout() {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
@@ -173,11 +207,6 @@ export class WaitingListPage implements OnInit {
     });
 
     await alert.present();
-  }
-
-
-  formatTitle = () => {
-    return this.user.table ? `${this.user.table}` : `${this.myPosition}`;
   }
 
 
