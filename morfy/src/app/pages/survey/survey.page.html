@@ -1,0 +1,240 @@
+<ion-header mode="ios" class="ion-no-border">
+  <ion-toolbar class="ion-no-border ion-margin-bottom">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      <span>m</span>orfy
+    </ion-title>
+    <ion-avatar slot="end" style="height:40px; width: 40px; margin-right: 8px;" *ngIf="user">
+      <img [src]="user ? user.imageUrl : 'Loading...'" (click)="logout()">
+    </ion-avatar>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content class="ion-padding">
+  <div class="centered">
+    <div *ngIf="!success" style="width: 100%;">
+      
+      <ion-slides [options]="slideOpts" #slides (ionSlideWillChange)="doCheck()">
+        <ion-slide style="margin: 0;">
+          <img src="/assets/img/survey-2.gif"/>
+          <h2><strong>Completa esta breve encuesta de satisfaccion</strong></h2>
+          <p>Tu opinion sincera nos ayuda a <span color="morfy">mejorar</span> dia a dia.</p>       
+          <ion-button 
+          class="qr-btn morfy-btn"
+          mode="ios"
+          size="small"
+          (click)="next()">
+          Comenzar
+        </ion-button>   
+      </ion-slide>
+      
+      <ion-slide>
+        <div class="question ion-margin-bottom ion-padding-horizontal">
+          <h2><strong>Puntuacion general</strong></h2>
+          <p>{{questions.Overall_Score}}</p>
+        </div>
+        <ion-item lines="none" class=" ion-margin-vertical">
+          <ion-range [(ngModel)]="rangeValue" min="0" max="10" step="1" value="5" snaps color="morfy">
+            <ion-icon slot="start" size="large"  name="star-outline"></ion-icon>
+            <ion-icon slot="end" size="large" name="star"></ion-icon>
+          </ion-range>
+        </ion-item>
+        
+        <ion-button 
+        class="qr-btn morfy-btn ion-margin-vertical"
+        
+        mode="ios"
+        size="small"
+        (click)="prev()">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </ion-button>
+      <ion-button 
+      class="qr-btn morfy-btn ion-margin-vertical"
+      mode="ios"
+      size="small"
+      (click)="next()">
+      Continuar
+    </ion-button>  
+  </ion-slide>
+  
+  <ion-slide>
+    <div class="question ion-margin-bottom ion-padding-horizontal">
+      <h2><strong>Esparciendo la voz</strong></h2>
+      <p><span class="question-sign">?</span>{{questions.Would_Recommend}}</p>
+    </div>
+    <ion-list class="ion-padding-bottom">
+      <ion-radio-group [(ngModel)]="radioValue" value="si">
+        
+        <ion-item>
+          <ion-label>Si</ion-label>
+          <ion-radio slot="start" value="si"></ion-radio>
+        </ion-item>
+        
+        <ion-item>
+          <ion-label>Tal vez</ion-label>
+          <ion-radio slot="start" value="quizas"></ion-radio>
+        </ion-item>
+        
+        <ion-item>
+          <ion-label>No</ion-label>
+          <ion-radio slot="start" value="no"></ion-radio>
+        </ion-item>
+      </ion-radio-group>
+    </ion-list>
+    <ion-button 
+    class="qr-btn morfy-btn ion-margin-vertical"
+    
+    mode="ios"
+    size="small"
+    (click)="prev()">
+    <ion-icon name="chevron-back-outline"></ion-icon>
+  </ion-button>
+  <ion-button 
+  class="qr-btn morfy-btn ion-margin-vertical"
+  mode="ios"
+  size="small"
+  (click)="next()">
+  Continuar
+</ion-button>
+</ion-slide>
+
+<ion-slide>
+  <div class="question ion-margin-bottom ion-padding-horizontal">
+    <h2><strong>Lo mejor de Morfy</strong></h2>
+    <p><span class="question-sign">?</span>{{questions.Best_Quality}}</p>
+  </div>
+  <ion-item class="ion-margin-vertical ion-padding-bottom">
+    <ion-label>Selecciona una opcion</ion-label>
+    <ion-select [(ngModel)]="selectValue" interface="popover">
+      <ion-select-option value="comida">Comida</ion-select-option>
+      <ion-select-option value="atencion">Atencion</ion-select-option>
+      <ion-select-option value="ambiente">Ambiente</ion-select-option>
+      <ion-select-option value="precios">Precios</ion-select-option>
+      <ion-select-option value="ubicacion">Ubicacion</ion-select-option>
+      <ion-select-option value="ninguna">Ninguna</ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-button 
+  class="qr-btn morfy-btn ion-margin-vertical"
+  mode="ios"
+  size="small"
+  (click)="prev()">
+  <ion-icon name="chevron-back-outline"></ion-icon>
+</ion-button>
+<ion-button 
+class="qr-btn morfy-btn ion-margin-vertical"
+mode="ios"
+size="small"
+(click)="next()">
+Continuar
+</ion-button>
+</ion-slide>
+
+<ion-slide>
+  <div class="question ion-margin-bottom ion-padding-horizontal">
+    <h2><strong>Nadie es perfecto</strong></h2>
+    <p><span class="question-sign">?</span>{{questions.Could_Improve}}</p>
+    <p class="aclaracion">*Puedes seleccionar mas de una opcion</p>
+  </div>
+  <ion-list class="ion-padding-bottom">
+    <ion-item *ngFor="let entry of checkboxValues">
+      <ion-label style="text-transform: capitalize;">{{entry.val}}</ion-label>
+      <ion-checkbox slot="end" [(ngModel)]="entry.isChecked"></ion-checkbox>
+    </ion-item>
+  </ion-list>
+  <ion-button 
+  class="qr-btn morfy-btn ion-margin-vertical back"
+  mode="ios"
+  size="small"
+  (click)="prev()">
+  <ion-icon name="chevron-back-outline"></ion-icon>
+</ion-button>
+<ion-button 
+class="qr-btn morfy-btn ion-margin-vertical"
+mode="ios"
+size="small"
+(click)="next()">
+Continuar
+</ion-button>
+</ion-slide>
+
+<ion-slide>
+  <div class="question ion-margin-bottom ion-padding-horizontal">
+    <h2><strong>Comentarios finales</strong></h2>
+    <p><span class="question-sign">?</span>{{questions.Comments}}</p>
+    <p> Todas tus observaciones son bienvenidas.</p>
+  </div>
+  <ion-item class="ion-padding-bottom">
+    <ion-textarea [(ngModel)]="textValue" rows="6" cols="20" placeholder="Escribe tus pensamientos..."></ion-textarea>
+  </ion-item>
+  
+  <p class="ion-padding-bottom"> Opcionalmente, tambien puedes cargar hasta 3 fotos de tu experiencia.</p>
+  <ion-row>
+    <ion-col size="4" offset-sm="2" class="ion-paddin-vertical">
+      <app-image-picker
+      [showPreview]="validationsForm.get('image1').value"
+      (imagePick)="onImagePicked($event, 1)"
+      ></app-image-picker>
+    </ion-col>
+    <ion-col size="4" offset-sm="2" class="ion-paddin-vertical">
+      <app-image-picker
+      [showPreview]="validationsForm.get('image2').value"
+      (imagePick)="onImagePicked($event, 2)"
+      ></app-image-picker>
+    </ion-col>
+    <ion-col size="4" offset-sm="2" class="ion-paddin-vertical">
+      <app-image-picker
+      [showPreview]="validationsForm.get('image3').value"
+      (imagePick)="onImagePicked($event, 3)"
+      ></app-image-picker>
+    </ion-col>
+  </ion-row>
+  <ion-button 
+  class="qr-btn morfy-btn ion-margin-vertical ion-padding-vertical"
+  mode="ios"
+  size="small"
+  (click)="prev()">
+  <ion-icon name="chevron-back-outline"></ion-icon>
+</ion-button>
+<ion-button 
+class="qr-btn morfy-btn ion-margin-vertical ion-padding-vertical"
+mode="ios"
+size="small"
+(click)="sendSurvey()">
+Enviar
+</ion-button>
+</ion-slide>
+</ion-slides>
+
+</div>
+
+
+<div *ngIf="success" class="success ion-text-center" style="width: 100%;">
+  <img src="/assets/img/survey.gif"/>
+  <h2><strong>¡Muchas gracias!</strong></h2>
+  <p>Tus respuestas han sido recibidas.</p>   
+  <p>Esperamos verte pronto.</p>
+  <ion-item class="signup" lines="none" (click)="navCtrl.navigateForward('/customer/main/home')">
+    <ion-icon slot="start" src="/assets/img/next.svg"></ion-icon>      
+    <p slot="start"><strong>Volver</strong></p>
+  </ion-item>  
+</div>
+
+</div>
+</ion-content>
+
+<ion-footer class="ion-padding ion-no-border">
+  <ion-grid *ngIf="!success">
+    <ion-row>
+      <ion-col class="progress" [ngClass]="{'active': currentSlide >= 0}"></ion-col>
+      <ion-col class="progress" [ngClass]="{'active': currentSlide >= 1}"></ion-col>
+      <ion-col class="progress" [ngClass]="{'active': currentSlide >= 2}"></ion-col>
+      <ion-col class="progress" [ngClass]="{'active': currentSlide >= 3}"></ion-col>
+      <ion-col class="progress" [ngClass]="{'active': currentSlide >= 4}"></ion-col>      
+      <ion-col class="progress" [ngClass]="{'active': currentSlide >= 5}"></ion-col>
+    </ion-row>
+  </ion-grid> 
+</ion-footer>
