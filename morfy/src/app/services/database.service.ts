@@ -51,6 +51,11 @@ export class DatabaseService {
   }
 
 
+  GetDocRef(collection: string, docId: string) {
+    return this.afs.collection(collection).doc(docId);
+  }
+
+
   UpdateOne(objeto: any, collection: string) {
     const id = objeto.id;
     const objetoDoc = this.afs.doc<any>(`${collection}/${id}`);
@@ -61,6 +66,7 @@ export class DatabaseService {
   UpdateSingleField(key: string, value: any, collection: string, docId: string) {
     return this.afs.collection(collection).doc(docId).update({[key]: value});
   }
+
 
   AppendDataToArrayField(key: string, value: any, collection: string, docId: string){
     const ref = this.afs.collection(collection).doc(docId);

@@ -101,11 +101,11 @@ div[img-custom ="0"] {
 .list {
     overflow: hidden;
     height: 175px;
-    margin: 0 22px 40px 0px;
+    margin: 0 22px 11px 0px;
     .price {
         color: orange;
         position: absolute;
-        bottom: 0;
+        bottom: 36px;
         margin-bottom: 10px;        
     }
     .title {
@@ -126,7 +126,7 @@ div[img-custom ="0"] {
         --border-radius: 3px;
         font-size: 12px;
         position: absolute;
-        bottom: 0;
+        bottom: 36px;
         right: 0;
     }
     .list-img {

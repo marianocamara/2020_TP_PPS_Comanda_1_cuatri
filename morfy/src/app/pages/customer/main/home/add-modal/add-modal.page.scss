@@ -20,12 +20,12 @@ ion-content{
 }
 
 ion-button {
-    width: 50%;
     height: 70px;
-    margin: 0 !important;
-    --border-radius: 0px;
+    width: 70%;
+    margin: 20px auto !important;
     font-weight: bold;
     letter-spacing: 1px;
+    --border-radius: 53px;
 }
 .add {
     --background: none;

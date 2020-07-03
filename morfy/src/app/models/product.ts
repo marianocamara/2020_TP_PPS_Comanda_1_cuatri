@@ -4,7 +4,7 @@ export class Product {
     description?: string;
     category?: Category[]; // ver
     imageUrl?: string[];
-    //imageUrl?: string;
+    imageUrl1?: string[];
     time?: string;
     price?: number;
 
