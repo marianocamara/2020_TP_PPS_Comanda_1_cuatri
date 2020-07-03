@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
-import { IonItemSliding, LoadingController, NavController } from '@ionic/angular';
+import { IonItemSliding, LoadingController, NavController, ToastController } from '@ionic/angular';
 import { Plugins } from '@capacitor/core';
-import { User } from 'src/app/models/user';
+import { User, Status } from 'src/app/models/user';
 import { DatabaseService } from 'src/app/services/database.service';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -43,7 +43,8 @@ export class OrdersPage implements OnInit, OnDestroy {
   constructor( private loadingCtrl: LoadingController,
                private authService: AuthService,
                public navCtrl: NavController,
-               private database: DatabaseService ) { }
+               private database: DatabaseService,
+               public toastController: ToastController ) { }
 
   ngOnInit() {
     this.isLoading = true;
@@ -117,7 +118,7 @@ export class OrdersPage implements OnInit, OnDestroy {
 
   changeOrderStatus(item: IonItemSliding, order: Order, newStatus) {
     item.close();
-    this.loadingCtrl.create({ message: 'Confirmando...' }).then(loadingEl => {
+    this.loadingCtrl.create({ message: 'Cargando...' }).then(loadingEl => {
       loadingEl.present();
       this.database.UpdateSingleField('status', newStatus, 'orders', order.id)
       .then( () => {
@@ -127,9 +128,32 @@ export class OrdersPage implements OnInit, OnDestroy {
         if (newStatus === 'confirmed' && order.products.filter(p => !p.product.category.includes(Category.Bebida)).length > 0){
           this.createNotification('cocinero');
         }
+        if (newStatus === 'finished') {
+          this.database.GetOne('users', order.idClient)
+          .then((customer: User) => {
+            const table = customer.table;
+            this.database.GetDocRef('users', customer.id)
+              .update({table: '', status: Status.Recent_Enter})
+              .then(() => {
+                this.database.DeleteOne(customer.id, 'enquiries')
+                .then(() => {
+                  this.presentToast(table);
+                });
+              });
+          });
+        }
         loadingEl.dismiss();
       });
     });
+  }
+
+
+  async presentToast(table) {
+    const toast = await this.toastController.create({
+      message: 'La mesa ' + table + ' ha sido liberada',
+      duration: 2000
+    });
+    toast.present();
   }
 
 
@@ -137,7 +161,7 @@ export class OrdersPage implements OnInit, OnDestroy {
     const notification = {
       senderType: 'mozo',
       receiverType,
-      message: NotificationMessages.Order_Confirmed,
+      message: (receiverType === 'cocinero') ? NotificationMessages.Prepare_Dishes : NotificationMessages.Prepare_Drinks,
       date: new Date()
     };
     this.database.CreateOne(notification, 'notifications');
