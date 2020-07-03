@@ -64,7 +64,7 @@
             (click)="updateQty(product.product.id, $event, 'subtract')">
             <ion-icon name="remove"></ion-icon>
           </ion-button>
-          <span style="">{{product.quantity}}</span>           
+          <span>{{product.quantity}}</span>           
           <ion-button
             class="addQty edit"
             mode="ios"
@@ -124,13 +124,13 @@
     </ion-row>
   </ion-grid>
 
-  <ion-grid class="ion-no-padding section-title orders" *ngIf="!edit">
+  <ion-grid class="ion-no-padding section-title orders">
     <ion-row>
       <ion-col size="6">
         <div class="text-bold text-18pt">Pedidos</div>
       </ion-col>
-      <ion-col size="6" tappable style="padding: 10px 0">
-        <!-- <div class="text-custom ion-text-right text-10pt">Editar</div> -->
+      <ion-col size="10" style="padding: 10px 0">
+        <p class="text-custom text-10pt" *ngIf="processedOrders.length == 0">Aun no ha realizado ningun pedido</p>
       </ion-col>
     </ion-row>
   </ion-grid>
@@ -138,24 +138,78 @@
   <ion-grid class="ion-no-padding" *ngIf="!isLoading && !edit">
     <ion-list lines="none" class="list-team ion-padding">
 
-      <ion-item tappable *ngFor="let order of processedOrders; let i = index">
-        <ion-avatar slot="start">
-          <img [src]="order.products[0].product.imageUrl" />
+      <ion-item tappable *ngFor="let order of processedOrders; let i = index" (click)="presentAlertReceived(order)">
+        <ion-avatar slot="start" [ngClass]="{'border-done': calculateDeliveryTime(order).percent == 0}">
+          <img [src]="order.products[0].product.imageUrl"/>
         </ion-avatar>
-        <ion-avatar slot="start" *ngIf="order.products[1]" style="margin-left: -29px;">
-          <img [src]="order.products[1].product.imageUrl" />
+        <ion-avatar slot="start" *ngIf="order.products[1]" style="margin-left: -29px;" [ngClass]="{'border-done': calculateDeliveryTime(order).percent == 0}">
+          <img [src]="order.products[1].product.imageUrl"/>
         </ion-avatar>
         <ion-label>
-          <div class="text-primary text-bold text-11pt">Nº Pedido: {{order.id | slice:0:4}}</div>
-          <div class="text-custom text-8pt"><ion-icon name="time"></ion-icon> {{order.date | dateAgo}}</div>
+          <div [ngClass]="{'color-done': calculateDeliveryTime(order).percent == 0}"  class="text-primary text-bold text-11pt">Nº Pedido: {{order.id | slice:0:4}}</div>
+          <div *ngIf="calculateDeliveryTime(order).percent != 0" class="text-custom text-8pt"><ion-icon name="time"></ion-icon> {{order.date | dateAgo}}</div>
+          <div *ngIf="calculateDeliveryTime(order).percent == 0" class="text-custom text-9pt">Clic para confirmar recepción</div>
         </ion-label>
-        <circle-progress slot="end" *ngIf="calculateDeliveryTime(order).percent != 100" 
+        <circle-progress slot="end" *ngIf="calculateDeliveryTime(order).percent != 0" 
           [percent]="calculateDeliveryTime(order).percent" 
           [title]="calculateDeliveryTime(order).time">
         </circle-progress>
+        <ion-icon class="check color-done" *ngIf="calculateDeliveryTime(order).percent == 0" slot="end" name="checkmark-circle-outline"></ion-icon>
       </ion-item>
 
     </ion-list>
+  </ion-grid>
+
+  
+  <ion-grid class="ion-no-padding section-title orders" *ngIf="!isLoading && !edit && receivedOrders.length != 0">
+    <ion-row>
+      <ion-col>
+        <div class="text-bold text-18pt">Listos para pagar</div>
+        <p class="text-custom text-9pt" style="padding-right: 20px;margin-bottom: 0;" *ngIf="processedOrders.length != 0">Para poder solicitar la cuenta debes haber confirmado la recepción de todas tus ordenes.</p>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid class="ion-no-padding" *ngIf="!isLoading && !edit">
+    <ion-list lines="none" class="list-team ion-padding">
+
+      <ion-item tappable *ngFor="let order of receivedOrders; let i = index">
+        <ion-avatar slot="start" class="border-done">
+          <img [src]="order.products[0].product.imageUrl"/>
+        </ion-avatar>
+        <ion-avatar slot="start" *ngIf="order.products[1]" style="margin-left: -29px;" class="border-done">
+          <img [src]="order.products[1].product.imageUrl"/>
+        </ion-avatar>
+        <ion-label>
+          <div class="text-primary text-bold text-11pt color-done">Nº Pedido: {{order.id | slice:0:4}}</div>
+          <div  class="text-custom text-9pt">Esperando pago...</div>
+        </ion-label>
+        <ion-icon class="check money color-done" slot="end" name="cash-outline"></ion-icon>
+      </ion-item>
+
+    </ion-list>
+  </ion-grid>
+
+  <ion-grid class="ion-no-padding padding-right" style="margin-bottom: 20px;" *ngIf="!isLoading && !edit && receivedOrders.length != 0">
+    <ion-row>
+      <ion-col>
+        <ion-item tappable lines="none">
+          <ion-label slot="start">
+            <div class="text-custom text-10pt">Total:</div>
+            <div class="text-primary text-bold text-15pt">
+              <ion-icon style="position: absolute; top: 49%;"
+                src="https://image.flaticon.com/icons/svg/3037/3037150.svg">
+              </ion-icon> <span style="margin-left:23px">{{calculateAllOrdersTotal(receivedOrders)}}</span></div>
+          </ion-label>
+          <ion-button slot="end" style="height: 40px;width: 125px;font-size: 16px;letter-spacing: 1px;" [attr.disabled]="processedOrders.length != 0 ? '' : null"
+            mode="ios"
+            class=" morfy-btn"
+            (click)="checkout()">
+            Ver cuenta
+          </ion-button>        
+        </ion-item>
+      </ion-col>      
+    </ion-row>
   </ion-grid>
 
 

@@ -9,7 +9,7 @@ import { ModalController } from '@ionic/angular';
 })
 export class OrderDetailsPage implements OnInit {
 
-  @Input() public pendingOrder: Order;
+  @Input() public receivedOrders: Order[] = [];
 
   constructor( private modalController: ModalController ) { }
 
@@ -21,6 +21,13 @@ export class OrderDetailsPage implements OnInit {
     return order ? order.products.reduce((a, b) => a + b.quantity * b.product.price, 0) : 0;
   }
 
+  calculateAllOrdersTotal(orders){
+    let total = 0;
+    orders.forEach(order => {
+      total += order ? order.products.reduce((a, b) => a + b.quantity * b.product.price, 0) : 0;  
+    });
+    return total;
+  }
 
   async closeModal(action?) {
     await this.modalController.dismiss(
