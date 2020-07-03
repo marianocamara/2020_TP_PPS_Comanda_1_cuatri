@@ -22,25 +22,17 @@ export class HomePage implements OnInit, OnDestroy {
   types = Object.keys(Category);
   private productsSub: Subscription;
   isLoading = false;
-  featured = [];
-  drinks = [];
+  featured: Product[] = [];
+  drinks: Product[] = [];
   filteredProducts: Product[] = [];
+  slideOptsOne;
 
-  // types = [
-  //   'principal', '/',
-  //   'postres', '/',
-  //   'desayuno', '/',
-  //   'pastas', '/',
-  //   'sandwiches', '/',
-  //   'acompañamientos', '/',
-  //   'pizzas'
-  // ];
 
   constructor(public navCtrl: NavController,
-    private authService: AuthService,
-    private modalController: ModalController,
-    private database: DatabaseService,
-    public alertController: AlertController) { }
+              private authService: AuthService,
+              private modalController: ModalController,
+              private database: DatabaseService,
+              public alertController: AlertController) { }
   ngOnInit() {
     this.isLoading = true;
     this.productsSub = this.database.GetAll('products').subscribe(products => {
@@ -134,8 +126,8 @@ export class HomePage implements OnInit, OnDestroy {
   async presentAlert(message, header) {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
-      header: header,
-      message: message,
+      header,
+      message,
       buttons: ['OK']
     });
 
@@ -178,7 +170,6 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
 
-
   async openAddModal(selectedProduct) {
     const modal = await this.modalController.create({
       component: AddModalPage,
@@ -206,8 +197,8 @@ export class HomePage implements OnInit, OnDestroy {
         if (enquiry) {
           this.navCtrl.navigateForward('/chat/chat-detail/' + this.user.id);
         } else {
-          //create chat
-          let enquiry = {
+          // create chat
+          const enquiry = {
             id: this.user.id,
             clientName: this.user.name,
             clientTable: this.user.table,
