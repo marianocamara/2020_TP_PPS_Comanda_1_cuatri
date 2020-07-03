@@ -7,6 +7,7 @@ import { AddModalPage } from './add-modal/add-modal.page';
 import { Subscription } from 'rxjs';
 import { Product, Category } from 'src/app/models/product';
 import { DatabaseService } from 'src/app/services/database.service';
+import { Order, OrderStatus } from 'src/app/models/order';
 
 
 @Component({
@@ -26,7 +27,8 @@ export class HomePage implements OnInit, OnDestroy {
   drinks: Product[] = [];
   filteredProducts: Product[] = [];
   slideOptsOne;
-
+  private ordersSub: Subscription;
+  pendingOrder: Order[];
 
   constructor(public navCtrl: NavController,
               private authService: AuthService,
@@ -47,6 +49,14 @@ export class HomePage implements OnInit, OnDestroy {
       (userData) => {
         if (userData.value) {
           this.user = JSON.parse(userData.value);
+          this.ordersSub = this.database.GetWithQuery('idClient', '==', this.user.id, 'orders')
+          .subscribe(data => {
+            this.pendingOrder = (data as Order[]).filter(order => order.status === OrderStatus.Pending || order.status === OrderStatus.Confirmed
+              || order.status === OrderStatus.Delivered
+              || order.status === OrderStatus.Ready
+              || order.status === OrderStatus.Received
+              || order.status === OrderStatus.Submitted);
+            });
         }
         else {
           this.logout();
@@ -112,8 +122,7 @@ export class HomePage implements OnInit, OnDestroy {
   logout() {
     if ((this.user as User).type === 'anonimo') {
       // Si el usuario anonimo esta comiendo o esperando el pedido, no lo dejo finalizar sesion
-      // if ((this.user as User).status === Status.Eating || (this.user as User).status === Status.Waiting_Order) {
-      if (false) {
+      if(this.pendingOrder.length > 0){  
         this.presentAlert("Para finalizar sesión tiene que pagar la cuenta.", "Atención");
       } else {
         this.presentAlertLogoutAnon();
