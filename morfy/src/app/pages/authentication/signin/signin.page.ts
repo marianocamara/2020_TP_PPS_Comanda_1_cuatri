@@ -141,10 +141,17 @@ export class SigninPage implements OnInit {
             this.validationsForm.controls['password'].setValue("lucianopass");
           } 
         }, {
+          text: 'Cocinero',
+          icon: 'person-outline',
+          handler: () => {
+            this.validationsForm.controls['email'].setValue("tony@cocinero.com");
+            this.validationsForm.controls['password'].setValue("tonypass");
+          } 
+        }, {
           text: 'Bartender',
           icon: 'person-outline',
           handler: () => {
-            this.validationsForm.controls.email.setValue('alicia@bartender.com');
+            this.validationsForm.controls.email.setValue('alicia@barwoman.com');
             this.validationsForm.controls.password.setValue('aliciapass');
           }
         }, {

@@ -1,9 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Rubik&display=swap');
 
-ion-fab{
-    margin-right: -2px;
-    margin-bottom: 25px;
-}
 
 .types {
     flex-wrap: nowrap;
@@ -95,4 +91,12 @@ ion-fab{
 
 .employee .approve ion-item-option{
     padding: 10px;
+}
+
+.products {
+    margin-left: 70px;
+}
+
+ion-chip {
+    margin-top: 30px
 }

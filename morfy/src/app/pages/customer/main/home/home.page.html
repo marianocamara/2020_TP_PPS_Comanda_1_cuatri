@@ -55,11 +55,18 @@
         </div>
         <ion-button mode="ios" class="morfy-btn" (click)="openAddModal(item)">Agregar</ion-button>
       </ion-col>
-      <ion-col size=5>
+      <!-- <ion-col *ngIf="!item.imgUrl1" size=5>
         <div class="list-img"
           [ngStyle]="{'background-image': 'url(' + item.imageUrl + ')'}">
         </div>
-      </ion-col>
+      </ion-col> -->
+      <div size="5" class="slideProducts">
+        <ion-slides  pager="true" [options]="slideOptsOne">
+          <ion-slide *ngFor="let image of item.imageUrl1">
+              <img class="imgProdSlide" src="{{image}}">
+          </ion-slide>
+        </ion-slides>
+      </div>
     </ion-row>
   </ion-grid>
 
@@ -74,9 +81,16 @@
   <ion-grid class="ion-no-padding">
     <ion-row class="drinks"> <!--(click)="filterEmployees(type)">-->
       <ion-col size="6" *ngFor="let item of drinks.slice(0, 4); let i = index">
-        <div class="list-img"
+        <!-- <div *ngIf="item.name !== 'Coca-Cola'"  class="list-img"
           [ngStyle]="{'background-image': 'url(' + item.imageUrl + ')'}">
-        </div>
+        </div> -->
+        <div  class="list-img">
+        <ion-slides pager="true" [options]="slideOptsOne">
+          <ion-slide *ngFor="let image of item.imageUrl1">
+              <img class="imgSlide" src="{{image}}">
+          </ion-slide>
+        </ion-slides>
+      </div>
         <div class="price">
           <span>$ {{item.price}}</span>
         </div>                

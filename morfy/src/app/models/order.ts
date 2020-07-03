@@ -3,7 +3,7 @@ import { Product } from './product';
 export class Order {
     id?: string;
     date?: Date;
-    products?: [{ product: Product, quantity: number }];
+    products?: [{ product: Product, quantity: number, isPrepared: boolean }];
     freeDrink?: boolean;
     freeDessert?: boolean;
     hasDisscount?: boolean;
