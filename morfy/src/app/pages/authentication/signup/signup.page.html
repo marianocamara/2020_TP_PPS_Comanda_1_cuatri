@@ -17,14 +17,14 @@
         <ion-col>
           
           <form class="form" [formGroup]="validationsForm">
-            
+            <ion-row>
             <ion-col size-sm="8" offset-sm="2" style="padding-top: 20px;">
               <app-image-picker
               [showPreview]="validationsForm.get('image').value"
               (imagePick)="onImagePicked($event)"
               ></app-image-picker>
             </ion-col>
-            
+          </ion-row>
             <ion-row class="anonymous ion-align-items-center">  
               <ion-col size="8"> <p>Registrarme como anónimo</p></ion-col>  
               <ion-col class="ion-text-end"><ion-toggle color="morfy"  (click)="anonymousToggle()"></ion-toggle></ion-col>
