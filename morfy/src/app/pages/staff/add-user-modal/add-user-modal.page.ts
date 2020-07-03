@@ -28,6 +28,7 @@ export class AddUserModalPage implements OnInit {
   validationsForm: FormGroup;
   errorMessage = '';
   isAnonymous = false;
+  customPopoverOptions;
   private optionsQrScanner: BarcodeScannerOptions = {
     formats: "PDF_417"
   };
