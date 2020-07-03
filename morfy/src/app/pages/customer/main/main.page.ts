@@ -20,7 +20,7 @@ export class MainPage implements OnInit {
   private ordersSub: Subscription;
   pendingOrder: Order;
   orderTotal;
-  showQr:boolean = true;
+  showQr:boolean = false;
   constructor( public navCtrl: NavController,
                private authService: AuthService,
                private database: DatabaseService,
@@ -50,7 +50,7 @@ export class MainPage implements OnInit {
   changeQr(from){
     console.log(from);
     if(from === 'home'){
-      this.showQr = true;
+      this.showQr = false;
     }
     if(from === 'orders'){
       this.showQr = false;
@@ -125,7 +125,8 @@ export class MainPage implements OnInit {
   logout() {
     if ((this.user as User).type === 'anonimo') {
       // Si el usuario anonimo esta comiendo o esperando el pedido, no lo dejo finalizar sesion
-      if((this.user as User).status === Status.Eating || (this.user as User).status === Status.Waiting_Order){
+      //if((this.user as User).status === Status.Eating || (this.user as User).status === Status.Waiting_Order){
+       if(false){  
         this.presentAlert("Para finalizar sesión tiene que pagar la cuenta.", "Atención");
       }else{
         this.presentAlertLogoutAnon();
