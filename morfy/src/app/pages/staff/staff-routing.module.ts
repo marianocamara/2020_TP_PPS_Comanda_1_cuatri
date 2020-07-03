@@ -31,7 +31,11 @@ const routes: Routes = [
   {
     path: 'add-user-modal',
     loadChildren: () => import('./add-user-modal/add-user-modal.module').then( m => m.AddUserModalPageModule)
+  },  {
+    path: 'stats',
+    loadChildren: () => import('./stats/stats.module').then( m => m.StatsPageModule)
   }
+
 
 
 ];
