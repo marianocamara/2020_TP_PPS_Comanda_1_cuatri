@@ -20,7 +20,7 @@ export class MainPage implements OnInit {
   private ordersSub: Subscription;
   pendingOrder: Order;
   orderTotal;
-  showQr:boolean = false;
+  showQr:boolean = true;
   constructor( public navCtrl: NavController,
                private authService: AuthService,
                private database: DatabaseService,
@@ -50,7 +50,7 @@ export class MainPage implements OnInit {
   changeQr(from){
     console.log(from);
     if(from === 'home'){
-      this.showQr = false;
+      this.showQr = true;
     }
     if(from === 'orders'){
       this.showQr = false;

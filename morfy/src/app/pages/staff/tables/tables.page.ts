@@ -44,29 +44,35 @@ export class TablesPage implements OnInit {
 
       this.userSub = this.database.GetAll('users').subscribe(
         data => {
-          this.userTableAssigned = data.filter(data => data.status !== 'undefined' && (
-            data.status === Status.Recent_Sit || 
-            data.status === Status.Waiting_Account ||
-            data.status === Status.Waiting_Order ||
-            data.status === Status.Preparing_Order ||
-            data.status === Status.Eating ||
+          this.userTableAssigned = data.filter(data => 
+          data.status !== undefined && 
+          data.status !== 'undefined' && 
+          (
+            data.status === Status.Recent_Enter || 
             data.status === Status.Waiting_Table
-          ) && (data.table !== 'undefined' && data.table !== "") && data.table !== null
-          && data.table !== ""
-          && (data.type === 'cliente' || data.type === 'anonimo')
+          ) && 
+          data.table !== "" && 
+          data.table !== null &&
+          data.table != null && 
+          data.table !== '' &&
+          data.table !== " " &&  
+          (data.type === 'cliente' || data.type === 'anonimo')
           );
 
-          this.tablesInUse = data.filter(data => data.status !== 'undefined' && (
-            data.status === Status.Recent_Sit || 
-            data.status === Status.Waiting_Account ||
-            data.status === Status.Waiting_Order ||
-            data.status === Status.Preparing_Order ||
-            data.status === Status.Eating ||
-            data.status === Status.Waiting_Table
-          )
-          && data.table !== 'undefined' && data.table !== "" && data.table !== null
-          && data.table !== ""
-          && (data.type === 'cliente' || data.type === 'anonimo')).map(x => x.table);
+          this.tablesInUse = data.filter(data => 
+            data.status !== undefined && 
+            data.status !== 'undefined' && 
+            (
+              data.status === Status.Recent_Enter || 
+              data.status === Status.Waiting_Table
+            ) && 
+            data.table !== "" && 
+            data.table !== null && 
+            data.table != null && 
+            data.table !== '' &&
+            data.table !== " " &&  
+            (data.type === 'cliente' || data.type === 'anonimo')
+            ).map(x => x.table);
           this.tablesInUse = this.tablesInUse.filter(function (el) {
             return el != null;
           });
@@ -77,9 +83,9 @@ export class TablesPage implements OnInit {
         });
     }
     
-    onChange(userId, tableAssigned){
-      this.presentToast("¿Asignar mesa número " + tableAssigned + "?", userId, tableAssigned);
-    }
+    // onChange(userId, tableAssigned){
+    //   this.presentToast("¿Asignar mesa número " + tableAssigned + "?", userId, tableAssigned);
+    // }
     ionViewWillEnter() {
       this.isLoading = true;
       Plugins.Storage.get({ key: 'user-bd' }).then(
@@ -120,25 +126,25 @@ export class TablesPage implements OnInit {
         toast.present();
       }
 
-      async presentToast(message: string, userId, tableAssigned) {
-        const toast = await this.toastController.create({
-          message,
-          duration: 5000,
-          buttons: [
-            {
-              text: 'OK',
-              handler: (): void => { 
-                this.assingTable(userId, tableAssigned);  
-              }
-            },
-            {   
-              text: 'Cancelar',
-              role: 'cancel'
-            }
-          ]
-        });
-        toast.present();
-      }
+      // async presentToast(message: string, userId, tableAssigned) {
+      //   const toast = await this.toastController.create({
+      //     message,
+      //     duration: 5000,
+      //     buttons: [
+      //       {
+      //         text: 'OK',
+      //         handler: (): void => { 
+      //           this.assingTable(userId, tableAssigned);  
+      //         }
+      //       },
+      //       {   
+      //         text: 'Cancelar',
+      //         role: 'cancel'
+      //       }
+      //     ]
+      //   });
+      //   toast.present();
+      // }
 
       logout() {
         this.authService.logoutUser()
