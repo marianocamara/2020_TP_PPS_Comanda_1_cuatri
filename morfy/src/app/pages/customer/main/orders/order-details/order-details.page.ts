@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Order } from 'src/app/models/order';
 import { ModalController } from '@ionic/angular';
+import { runInThisContext } from 'vm';
 
 @Component({
   selector: 'app-order-details',
@@ -10,10 +11,18 @@ import { ModalController } from '@ionic/angular';
 export class OrderDetailsPage implements OnInit {
 
   @Input() public receivedOrders: Order[] = [];
+  selected = '0';
+  total = 0;
+  totalWithTip;
 
   constructor( private modalController: ModalController ) { }
 
   ngOnInit() {
+  }
+
+  ionViewWillEnter(){
+    this.calculateAllOrdersTotal(this.receivedOrders);
+    this.totalWithTip = this.total;
   }
 
 
@@ -22,17 +31,22 @@ export class OrderDetailsPage implements OnInit {
   }
 
   calculateAllOrdersTotal(orders){
-    let total = 0;
     orders.forEach(order => {
-      total += order ? order.products.reduce((a, b) => a + b.quantity * b.product.price, 0) : 0;  
+      this.total += order ? order.products.reduce((a, b) => a + b.quantity * b.product.price, 0) : 0;  
     });
-    return total;
   }
 
   async closeModal(action?) {
     await this.modalController.dismiss(
       action
     );
+  }
+
+  tip(amount){
+    this.totalWithTip = 0;
+    this.selected = amount;
+    this.totalWithTip += Math.round(this.total * amount / 100);
+    this.totalWithTip += this.total;
   }
 
 }

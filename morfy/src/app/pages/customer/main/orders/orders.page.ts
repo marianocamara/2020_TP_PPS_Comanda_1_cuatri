@@ -57,7 +57,7 @@ export class OrdersPage implements OnInit, OnDestroy {
             .subscribe(data => {
               this.cart = (data as Order[]).find(order => order.status === OrderStatus.Pending);
               this.processedOrders = (data as Order[])
-              .filter(order => order.status !== OrderStatus.Pending && order.status !== OrderStatus.Finished && order.status !== OrderStatus.Received)
+              .filter(order => order.status !== OrderStatus.Pending && order.status !== OrderStatus.Finished && order.status !== OrderStatus.Received && order.status !== OrderStatus.Paid)
               .sort((a, b) => (b.date as any).localeCompare(a.date));
               
               this.receivedOrders =  (data as Order[])
