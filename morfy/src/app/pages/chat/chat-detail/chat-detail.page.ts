@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavController, IonContent } from '@ionic/angular';
 import { DatabaseService } from 'src/app/services/database.service';
-import { Chat } from 'src/app/models/chat';
 import { AuthService } from 'src/app/services/auth.service';
 import { Plugins } from '@capacitor/core';
 import { User } from 'src/app/models/user';

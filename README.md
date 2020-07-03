@@ -1,6 +1,6 @@
 <h1 align="center">Morfy </h1>
 <br>
-<img src="documents/morfy-icono.png" >
+<img src="documents/IMGSignUp.jpeg" >
 <br>
 <p>El equipo de Morfy esta ampliamente interesado en que todo usuario que utilice la aplicación pueda acceder sin ningun tipo de inconveniente a cada una de las funcionalidades que la misma tiene. 
 Queremos que todo el trabajo que realicemos garantice la comodidad de la totalidad de nuestros usuario y genere una grata mejora en su experiencia de visitar alguno de los locales de nuestros clientes. </p>
@@ -15,13 +15,11 @@ Queremos que todo el trabajo que realicemos garantice la comodidad de la totalid
   <li>Braian Cardozo</li>
 </ul>
 <br>
-<p float="left">
-<img width="300" height="500" src="documents/IMGLogin.jpeg" >
-<img width="300" height="500" src="documents/IMGPrincipal.jpeg" >
-</p>
 
 <br>
 <h1>[Sprint 1] 23/05/2020 - 30/05/2020</h1>
+<br>
+<img src="documents/morfy-icono.png" >
 <br>
 Objetivos planteados: <br>
 1 - Generación del Repositorio.<br>
@@ -115,10 +113,10 @@ Objetivos planteados: <br>
 9) Diagrama de Flujo:
 <img src="documents/flow-v2.png" >
 
-<img src="documents/IMGSignUp.jpeg" >
-
 <br>
 <h1>[Sprint 2] 30/05/2020 - 06/06/2020</h1>
+<br>
+<img src="documents/IMG3.jpeg" >
 <br>
 1) Estructura de pantalla incial de Clientes con info mockeada.  <br>
   <ul>
@@ -195,6 +193,8 @@ Objetivos planteados: <br>
 <br>
 <h1>[Sprint 3] 06/06/2020 - 13/06/2020</h1>
 <br>
+<img src="documents/IMG5.jpeg" >
+<br>
 1) Cambios de estado de cliente por QR. <br>
 <ul>
   <li>Braian Cardozo</li>
@@ -244,6 +244,8 @@ Objetivos planteados: <br>
 <br>
 <h1>[Sprint 4] 13/06/2020 - 20/06/2020</h1>
 <br>
+<img src="documents/IMG4.jpeg" >
+<br>
 - Objetivo del sprint: Poder hacer entrega de los primeros puntos al profesor en video a traves del ClassRoom. (No cumplido)
 1) Cambios de estado de cliente por QR. <br>
 <ul>
@@ -277,6 +279,8 @@ Objetivos planteados: <br>
 
 <br>
 <h1>[Sprint 5] 20/06/2020 - 27/06/2020</h1>
+<br>
+<img src="documents/IMG2.jpeg" >
 <br>
 - Objetivo del sprint: Poder hacer entrega de los primeros puntos al profesor en video a traves del ClassRoom. 
 1) Gestion de mesas, asignacion por parte del metre <br>
@@ -318,32 +322,74 @@ Objetivos planteados: <br>
 <ul>
   <li>Ariel Traut</li>
   <li>Fecha Inicio: 23/06/2020</li>
-  <li>Fecha Fin: </li>
-  <li>Commit: </li>
+  <li>Fecha Fin: 01/07/2020</li>
+  <li>Commit: https://github.com/CardozoBraianEzequiel/2020_TP_PPS_Comanda_1_cuatri/commit/c6f48af0c20cc0c6d21f3befe64b665eb1aa673f</li>
 </ul>
 7) Flujo de notificacion por parte del bartender/cocinero. <br>
 <ul>
   <li>Ariel Traut</li>
   <li>Fecha Inicio: 23/06/2020</li>
-  <li>Fecha Fin: </li>
-  <li>Commit: </li>
+  <li>Fecha Fin: 01/07/2020</li>
+  <li>Commit: https://github.com/CardozoBraianEzequiel/2020_TP_PPS_Comanda_1_cuatri/commit/c6f48af0c20cc0c6d21f3befe64b665eb1aa673f</li>
 </ul>
 8) Flujo de "terminado" por parte del bartender/cocinero. <br>
 <ul>
   <li>Ariel Traut</li>
   <li>Fecha Inicio: 23/06/2020</li>
-  <li>Fecha Fin: </li>
-  <li>Commit: </li>
+  <li>Fecha Fin: 01/07/2020 </li>
+  <li>Commit: https://github.com/CardozoBraianEzequiel/2020_TP_PPS_Comanda_1_cuatri/commit/c6f48af0c20cc0c6d21f3befe64b665eb1aa673f</li>
 </ul>
 <br>
 <h1>[Sprint 6] 27/06/2020 - 04/07/2020</h1>
 <br>
-<img src="documents/IMG3.jpeg" >
-<br>
-<img src="documents/IMG4.jpeg" >
-<br>
-<img src="documents/IMG5.jpeg" >
-<br>
-<img src="documents/IMG2.jpeg" >
-<br>
 <img src="documents/IMG1.jpeg" >
+<br>
+1) Encuestas del cliente <br>
+<ul>
+  <li>Mariano Camara</li>
+  <li>Fecha Inicio: 27/06/2020</li>
+  <li>Fecha Fin: 02/07/2020</li>
+  <li>Commit: https://github.com/CardozoBraianEzequiel/2020_TP_PPS_Comanda_1_cuatri/commit/</li>
+</ul>
+2) Se agregaron los slides con 3 fotos para los platos y las bebidas. <br>
+<ul>
+  <li>Braian Cardozo</li>
+  <li>Fecha Inicio: 27/06/2020</li>
+  <li>Fecha Fin: 01/07/2020</li>
+  <li>Commit: https://github.com/CardozoBraianEzequiel/2020_TP_PPS_Comanda_1_cuatri/commit/3ceb548394fe889f89a22bb55954ffae674bd00c</li>
+</ul>
+3) Aprobación de platos y bebidas por parte de los bartender y cocineros. <br>
+<ul>
+  <li>Ariel Traut</li>
+  <li>Fecha Inicio: 30/06/2020</li>
+  <li>Fecha Fin: 01/07/2020</li>
+  <li>Commit: https://github.com/CardozoBraianEzequiel/2020_TP_PPS_Comanda_1_cuatri/commit/c6f48af0c20cc0c6d21f3befe64b665eb1aa673f</li>
+</ul>
+4) Creación de varios pedidos por parte de un mismo usuario en una misma sesión. <br>
+<ul>
+  <li>Ariel Traut</li>
+  <li>Fecha Inicio: 30/06/2020</li>
+  <li>Fecha Fin: 01/07/2020</li>
+  <li>Commit: https://github.com/CardozoBraianEzequiel/2020_TP_PPS_Comanda_1_cuatri/commit/c6f48af0c20cc0c6d21f3befe64b665eb1aa673f</li>
+</ul>
+5) Alta de todo tipo de usuarios por parte del supervisor. <br>
+<ul>
+  <li>Braian Cardozo</li>
+  <li>Fecha Inicio: 29/06/2020</li>
+  <li>Fecha Fin: 01/07/2020</li>
+  <li>Commit: https://github.com/CardozoBraianEzequiel/2020_TP_PPS_Comanda_1_cuatri/commit/cfffdea938df2c30033d20ee27379e7deb322438</li>
+</ul>
+6) Confirmación de los pedidos recibidos por parte del usuario. <br>
+<ul>
+  <li>Mariano Camara</li>
+  <li>Fecha Inicio: 01/07/2020</li>
+  <li>Fecha Fin: </li>
+  <li>Commit: https://github.com/CardozoBraianEzequiel/2020_TP_PPS_Comanda_1_cuatri/commit/</li>
+</ul>
+7) Funcionalidad pagar cuenta. <br>
+<ul>
+  <li>Mariano Camara</li>
+  <li>Fecha Inicio: 01/07/2020</li>
+  <li>Fecha Fin: </li>
+  <li>Commit: https://github.com/CardozoBraianEzequiel/2020_TP_PPS_Comanda_1_cuatri/commit/</li>
+</ul>
