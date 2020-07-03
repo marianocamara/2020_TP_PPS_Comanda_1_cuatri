@@ -1,6 +1,6 @@
 <ion-header translucent class="ion-no-border">
   <ion-toolbar mode="ios">
-    <ion-title>Detalle Pedido</ion-title>
+    <ion-title>Detalle de la cuenta</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="closeModal('close')"><ion-icon name="close"></ion-icon>
       </ion-button>
@@ -16,73 +16,43 @@
     <div class="p-txt">
       Por favor complete el pago para confirmar su pedido. Los precios incluyen impuestos.
     </div>
-    <div class="ion-text-center">
-      <!-- <span class="text-muted ion-no-margin text-job text-white">{{user.type | titlecase}}</span> -->
-    </div>
   </div>
+  
+  <ion-list class="ion-padding">
+    <div *ngFor="let order of receivedOrders; let i = index">
+      <div class="text-primary text-bold text-11pt color-done"><strong>Nº Pedido: {{order.id | slice:0:4}}</strong></div>
+      <ion-list>
+        <ion-item lines="none"  *ngFor="let item of order.products; let x = index">
+          <ion-label>{{item.product.name}}</ion-label>
+          <ion-note class="text-11pt" slot="end" color="primary">$ {{item.product.price}}</ion-note>
+        </ion-item>
+      </ion-list>
+      </div>
+    </ion-list>
+    
+    <ion-item lines="none" style="border-top: 3px solid #efefef;">
+      <ion-label class="text-18pt"><strong> Total</strong></ion-label>
+      <ion-note class="text-11pt" slot="end" color="primary"> 
+        <ion-icon style="position: absolute;top: 40%;font-size: 20px;"
+        src="https://image.flaticon.com/icons/svg/3037/3037150.svg">
+      </ion-icon><span style="margin-left: 30px;font-size: 18pt;">{{calculateAllOrdersTotal(receivedOrders)}}</span>
+    </ion-note>
+    </ion-item>
 
-  <ion-grid class="ion-no-padding">
-    <div class="completed">
-      <ion-row class="">
-        <ion-col size=6>
-          <div class="title">
-            Codigo de Orden
-          </div>
+  </ion-content>
+  
+  
+  <ion-footer class="ion-no-border">
+    <ion-toolbar color="light">
+      <ion-row class="bottom" >
+        <ion-col size=6 class="justify-content-end; align-items-end" >
+          <ion-button mode="ios" class="delete-btn" (click)="closeModal('delete')">Eliminar Orden</ion-button>
         </ion-col>
-        <ion-col size=6>
-          <div class="subtitle">
-            {{pendingOrder.id}}
-          </div>
-        </ion-col>
-      </ion-row>
-      <ion-row class="">
-        <ion-col size=6>
-          <div class="title">
-            Fecha de Orden
-          </div>
-        </ion-col>
-        <ion-col size=6>
-          <div class="subtitle">
-            {{pendingOrder.date |  date:'short'}}
-          </div>
-        </ion-col>
-      </ion-row>
-      <ion-row class="">
-        <ion-col size=6>
-          <div class="title">
-            Total
-          </div>
-        </ion-col>
-        <ion-col size=6>
-          <div class="price">
-            <span>$ {{calculateOrderTotal(pendingOrder)}}</span>
-          </div>
+        <ion-col  size=6>
+          <ion-button mode="ios" class="pay-btn morfy-btn" (click)="closeModal('pay')">Pagar</ion-button>
         </ion-col>
       </ion-row>
-    </div>
-
-      <!-- <div class="subtitle" *ngFor="let product of order.products; let i = index">
-        {{i+1}}. {{product.product.name }}
-      </div> -->
-  </ion-grid>
-
-
-
-
-
-</ion-content>
-
-
-<ion-footer class="ion-no-border">
-  <ion-toolbar color="light">
-    <ion-row class="bottom" >
-      <ion-col size=6 class="justify-content-end; align-items-end" >
-        <ion-button mode="ios" class="delete-btn" (click)="closeModal('delete')">Eliminar Orden</ion-button>
-      </ion-col>
-      <ion-col  size=6>
-        <ion-button mode="ios" class="pay-btn morfy-btn" (click)="closeModal('pay')">Pagar</ion-button>
-      </ion-col>
-    </ion-row>
-    <!-- <ion-title>Footer - No Border</ion-title> -->
-  </ion-toolbar>
-</ion-footer>
+      <!-- <ion-title>Footer - No Border</ion-title> -->
+    </ion-toolbar>
+  </ion-footer>
+  

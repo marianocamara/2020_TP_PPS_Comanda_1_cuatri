@@ -19,7 +19,7 @@ $textColor: #9ca3c0;
     .card {
         border-radius: 23px;
         color: white;
-        height: 239px;
+        height: 200px;
         width: 140px;
         padding: 0;
         // overflow: hidden;
@@ -114,7 +114,7 @@ $textColor: #9ca3c0;
     }
     .add-product {
         border-radius: 23px;
-        height: 239px;
+        height: 200px;
         width: 140px;
         padding: 0;
         margin-right: 22px;
@@ -216,12 +216,20 @@ div[img-custom ="0"] {
     width: 100%;
 }
 
-
-
-
-
-
-
+.check{
+    margin-right: 10px;
+    font-size: 60px; 
+}
+.check.money{
+    margin-right: 20px;
+    font-size: 40px;
+}
+.color-done{    
+    color: lightseagreen;
+}
+.border-done{
+    border: solid 2px rgb(32, 178, 170)!important;
+}
 // ion-content {
 //     --padding-top: 20px;
 //     --padding-start: 22px;
