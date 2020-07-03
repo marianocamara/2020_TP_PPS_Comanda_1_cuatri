@@ -28,14 +28,32 @@
         </ion-item>
       </ion-list>
       </div>
-    </ion-list>
+    </ion-list> 
+
+    <ion-grid>
+      <div style="padding-left:10px;"><span class="question-sign">?</span>Quieres dejar propina al mozo?</div>
+      <ion-row class="propina">
+        <ion-col (click)="tip('0')" [ngClass]="{'selected': selected == '0'}" class="cantidad selected">
+          0
+        </ion-col>
+        <ion-col (click)="tip('5')" [ngClass]="{'selected': selected == '5'}" class="cantidad">
+          5%
+        </ion-col>
+        <ion-col (click)="tip('10')" [ngClass]="{'selected': selected == '10'}" class="cantidad">
+          10%
+        </ion-col>
+        <ion-col (click)="tip('20')" [ngClass]="{'selected': selected == '20'}" class="cantidad">
+          20%
+        </ion-col>
+      </ion-row>
+    </ion-grid>
     
     <ion-item lines="none" style="border-top: 3px solid #efefef;">
       <ion-label class="text-18pt"><strong> Total</strong></ion-label>
       <ion-note class="text-11pt" slot="end" color="primary"> 
         <ion-icon style="position: absolute;top: 40%;font-size: 20px;"
         src="https://image.flaticon.com/icons/svg/3037/3037150.svg">
-      </ion-icon><span style="margin-left: 30px;font-size: 18pt;">{{calculateAllOrdersTotal(receivedOrders)}}</span>
+      </ion-icon><span style="margin-left: 30px;font-size: 18pt;">{{totalWithTip}}</span>
     </ion-note>
     </ion-item>
 
@@ -46,10 +64,9 @@
     <ion-toolbar color="light">
       <ion-row class="bottom" >
         <ion-col size=6 class="justify-content-end; align-items-end" >
-          <ion-button mode="ios" class="delete-btn" (click)="closeModal('delete')">Eliminar Orden</ion-button>
         </ion-col>
         <ion-col  size=6>
-          <ion-button mode="ios" class="pay-btn morfy-btn" (click)="closeModal('pay')">Pagar</ion-button>
+          <ion-button mode="ios" class="pay-btn morfy-btn" (click)="closeModal('  ')">Pagar</ion-button>
         </ion-col>
       </ion-row>
       <!-- <ion-title>Footer - No Border</ion-title> -->
