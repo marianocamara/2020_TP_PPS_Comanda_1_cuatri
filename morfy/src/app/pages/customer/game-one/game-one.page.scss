@@ -1,0 +1,9 @@
+ion-title {
+    font-style: bold;
+    font-size: 22px !important;
+    letter-spacing: 1px;
+    color: rgba(0, 0, 0, 0.808);
+    span {
+        color: var(--ion-color-morfy);
+    }
+}

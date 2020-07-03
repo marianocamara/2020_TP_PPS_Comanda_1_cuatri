@@ -5,6 +5,8 @@ import { Plugins } from '@capacitor/core';
 import { User, Status } from 'src/app/models/user';
 import { BarcodeScanner, BarcodeScannerOptions } from '@ionic-native/barcode-scanner/ngx';
 import { DatabaseService } from 'src/app/services/database.service';
+import { Subscription } from 'rxjs/internal/Subscription';
+import { Order, OrderStatus } from 'src/app/models/order';
 
 declare interface RouteInfo {
   path: string;
@@ -17,7 +19,7 @@ export const ROUTES: RouteInfo[] = [
   { path: '/customer/poll', title: 'Encuestas', icon: 'https://image.flaticon.com/icons/svg/2698/2698444.svg', class: '', type: 'cliente' },
   { path: '/staff/delivery', title: 'Delivery', icon: 'https://image.flaticon.com/icons/svg/2786/2786408.svg', class: '', type: 'supervisor' },
   { path: '/staff/stats', title: 'Estadisticas', icon: 'https://image.flaticon.com/icons/svg/2786/2786428.svg', class: '', type: 'supervisor' },
-  { path: '/customer/games', title: 'Juegos', icon: 'https://image.flaticon.com/icons/svg/3142/3142080.svg', class: '', type: 'cliente' },
+  { path: '/customer/game-one', title: 'Juegos', icon: 'https://image.flaticon.com/icons/svg/3142/3142080.svg', class: '', type: 'cliente' },
   { path: '/customer/orders', title: 'Pedidos', icon: 'https://image.flaticon.com/icons/svg/2698/2698507.svg', class: '', type: 'cliente' },
   { path: '/altas', title: 'Altas', icon: 'fas fa-user-plus', class: '', type: 'Admin' },
   { path: '', title: 'Qr', icon: 'https://image.flaticon.com/icons/svg/3014/3014279.svg', class: '', type: 'todos' },
@@ -34,6 +36,8 @@ export class MorePage implements OnInit {
   isLoading = true;
   public user: User;
   public menuItems: any[];
+  private ordersSub: Subscription;
+  pendingOrder: Order[];
 
   constructor(public navCtrl: NavController,
     private authService: AuthService,
@@ -53,6 +57,14 @@ export class MorePage implements OnInit {
           this.user = JSON.parse(userData.value);
           this.menuItems = ROUTES.filter(menuItem => menuItem.type === this.user.type || menuItem.type === 'todos');
           this.isLoading = false;
+          this.ordersSub = this.database.GetWithQuery('idClient', '==', this.user.id, 'orders')
+          .subscribe(data => {
+            this.pendingOrder = (data as Order[]).filter(order => order.status === OrderStatus.Pending || order.status === OrderStatus.Confirmed
+              || order.status === OrderStatus.Delivered
+              || order.status === OrderStatus.Ready
+              || order.status === OrderStatus.Received
+              || order.status === OrderStatus.Submitted);
+            });
         }
         else {
           this.logout();
@@ -101,8 +113,7 @@ export class MorePage implements OnInit {
   logout() {
     if ((this.user as User).type === 'anonimo') {
       // Si el usuario anonimo esta comiendo o esperando el pedido, no lo dejo finalizar sesion
-     // if ((this.user as User).status === Status.Eating || (this.user as User).status === Status.Waiting_Order) {
-      if(false){  
+      if(this.pendingOrder.length > 0){  
         this.presentAlert("Para finalizar sesión tiene que pagar la cuenta.", "Atención");
       }else{
         this.presentAlertLogoutAnon();
