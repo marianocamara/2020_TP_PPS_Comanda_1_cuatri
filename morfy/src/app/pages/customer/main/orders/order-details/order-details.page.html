@@ -23,8 +23,8 @@
       <div class="text-primary text-bold text-11pt color-done"><strong>Nº Pedido: {{order.id | slice:0:4}}</strong></div>
       <ion-list>
         <ion-item lines="none"  *ngFor="let item of order.products; let x = index">
-          <ion-label>{{item.product.name}}</ion-label>
-          <ion-note class="text-11pt" slot="end" color="primary">$ {{item.product.price}}</ion-note>
+          <ion-label>{{item.product.name}} <span *ngIf="item.quantity > 1"> (x{{item.quantity}}) </span></ion-label>
+          <ion-note class="text-11pt" slot="end" color="primary"><span *ngIf="item.quantity > 1" style="color: dimgrey;">(${{item.product.price}}x{{item.quantity}})</span> $ {{item.product.price * item.quantity}}</ion-note>
         </ion-item>
       </ion-list>
       </div>
