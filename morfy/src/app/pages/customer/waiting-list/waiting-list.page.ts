@@ -122,7 +122,7 @@ export class WaitingListPage implements OnInit {
   }
 
   logout() {
-    if ((this.user as User).type === 'anonimo') {
+    if ((this.user as User).type !== undefined && (this.user as User).type === 'anonimo') {
       // Si el usuario anonimo esta comiendo o esperando el pedido, no lo dejo finalizar sesion
       if(this.pendingOrder.length > 0){  
         this.presentAlert("Para finalizar sesión tiene que pagar la cuenta.", "Atención");
@@ -162,7 +162,8 @@ export class WaitingListPage implements OnInit {
           handler: () => {
             this.authService.logoutUser()
               .then(res => {
-                this.navCtrl.navigateBack('');
+                this.database.UpdateSingleField('table', '', 'users', this.user.id)
+                .then(() =>{ this.navCtrl.navigateBack(''); });
               })
               .catch(error => {
                 console.log(error);
@@ -174,7 +175,6 @@ export class WaitingListPage implements OnInit {
 
     await alert.present();
   }
-
 
   formatTitle = () => {
     return this.user.table ? `${this.user.table}` : `${this.myPosition}`;

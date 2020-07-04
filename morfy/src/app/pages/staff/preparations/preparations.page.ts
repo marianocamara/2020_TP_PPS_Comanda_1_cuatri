@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
-import { IonItemSliding, LoadingController, NavController } from '@ionic/angular';
+import { IonItemSliding, LoadingController, NavController, AlertController } from '@ionic/angular';
 import { Plugins } from '@capacitor/core';
 import { User } from 'src/app/models/user';
 import { DatabaseService } from 'src/app/services/database.service';
@@ -31,7 +31,8 @@ export class PreparationsPage implements OnInit, OnDestroy {
   constructor( private loadingCtrl: LoadingController,
                private authService: AuthService,
                public navCtrl: NavController,
-               private database: DatabaseService ) { }
+               private database: DatabaseService,
+               public alertController:AlertController ) { }
 
   ngOnInit() {
     this.isLoading = true;
@@ -130,6 +131,30 @@ export class PreparationsPage implements OnInit, OnDestroy {
     if (this.ordersSub) {
       this.ordersSub.unsubscribe();
     }
+  }
+
+  async presentAlertLogout() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Finalizando sesión',
+      message: '¿Estás seguro de querer salir?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+          }
+        }, {
+          text: 'Cerrar Sesión',
+          handler: () => {
+            this.logout();
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 
 }
