@@ -16,7 +16,7 @@ declare interface RouteInfo {
   type: string;
 }
 export const ROUTES: RouteInfo[] = [
-  { path: '/customer/poll', title: 'Encuestas', icon: 'https://image.flaticon.com/icons/svg/2698/2698444.svg', class: '', type: 'cliente' },
+  { path: '/survey', title: 'Encuestas', icon: 'https://image.flaticon.com/icons/svg/2698/2698444.svg', class: '', type: 'cliente' },
   { path: '/staff/delivery', title: 'Delivery', icon: 'https://image.flaticon.com/icons/svg/2786/2786408.svg', class: '', type: 'supervisor' },
   { path: '/staff/stats', title: 'Estadisticas', icon: 'https://image.flaticon.com/icons/svg/2786/2786428.svg', class: '', type: 'supervisor' },
   { path: '/customer/game-one', title: 'Juegos', icon: 'https://image.flaticon.com/icons/svg/3142/3142080.svg', class: '', type: 'cliente' },
@@ -151,7 +151,8 @@ export class MorePage implements OnInit {
           handler: () => {
             this.authService.logoutUser()
               .then(res => {
-                this.navCtrl.navigateBack('');
+                this.database.UpdateSingleField('table', '', 'users', this.user.id)
+                .then(() =>{ this.navCtrl.navigateBack(''); });
               })
               .catch(error => {
                 console.log(error);
@@ -199,7 +200,11 @@ export class MorePage implements OnInit {
           this.database.GetOne('users', this.user.id)
             .then((user) => {
               if ((user as User).table === number_table) {
-                this.presentToast("Se han habilitado las secciones Juegos, Encuestas y Pedidos.");
+                if(this.user.type !== 'anonimo'){
+                this.presentToast("Se han habilitado las secciones Juegos y Encuestas.");
+              }else{
+                //this.presentToast("Se han habilitado las secciones Juegos, Encuestas y Pedidos.");
+              }
                 this.enabledFunctions = true;
               } else {
                 this.presentToast("Leyó el qr equivocado.");

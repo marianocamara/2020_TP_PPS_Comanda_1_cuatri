@@ -175,7 +175,8 @@ export class MainPage implements OnInit {
           handler: () => {
             this.authService.logoutUser()
               .then(res => {
-                this.navCtrl.navigateBack('');
+                this.database.UpdateSingleField('table', '', 'users', this.user.id)
+                .then(() =>{ this.navCtrl.navigateBack(''); });
               })
               .catch(error => {
                 console.log(error);

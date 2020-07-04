@@ -1,13 +1,14 @@
 import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { User, Status } from 'src/app/models/user';
-import { LoadingController, NavController, IonItemSliding, ModalController, AnimationController, AlertController } from '@ionic/angular';
+import { LoadingController, NavController, IonItemSliding, ModalController, AnimationController, AlertController, Platform, ToastController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
 import { DatabaseService } from 'src/app/services/database.service';
 import { Plugins } from '@capacitor/core';
 import { Order, OrderStatus } from 'src/app/models/order';
 import { OrderDetailsPage } from './order-details/order-details.page';
 import { NotificationMessages } from 'src/app/models/notification';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 
 @Component({
   selector: 'app-orders',
@@ -43,7 +44,10 @@ export class OrdersPage implements OnInit, OnDestroy {
     private modalController: ModalController,
     private database: DatabaseService,
     private animationCtrl: AnimationController,
-    public alertController: AlertController    
+    public alertController: AlertController,
+    private platform: Platform, 
+    private barcodeScanner: BarcodeScanner,
+    public toastController: ToastController   
     ) { }
     
     
@@ -229,7 +233,47 @@ export class OrdersPage implements OnInit, OnDestroy {
             // console.log('Sending: ', selectedProduct);
           });
         }
+
+        qrActions() {
+          if (
+            (this.platform.is('mobile') && !this.platform.is('hybrid')) ||
+            this.platform.is('desktop')
+          ) {
+            this.checkout();
+          }
+          else {
+            this.barcodeScanner.scan().then(barcodeData => {
+              let barcodeText = barcodeData.text;
+      
+              if (barcodeText.includes("morfy_table")) {
+                let number_table = "";
+                number_table = barcodeText.split('_')[2];
+      
+                this.database.GetOne('users', this.user.id)
+                  .then((user) => {
+                    if ((user as User).table === number_table) {
+                      this.checkout();
+                    } else {
+                      this.presentToast("Leyó el qr equivocado.");
+                    }
+      
+                  }).catch(() => {
+                    this.presentToast("Ocurrió un error al intentar leer el código QR. Por favor, reintente.")
+                  });
+      
+              }
+      
+            });
+          }
+        }
         
+        async presentToast(message: string) {
+          const toast = await this.toastController.create({
+            message,
+            duration: 3000
+          });
+          toast.present();
+        }
         
         orderDetailsAction(modalAction) {
           switch (modalAction) {
