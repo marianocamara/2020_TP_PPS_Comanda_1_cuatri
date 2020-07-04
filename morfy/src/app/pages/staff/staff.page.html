@@ -54,28 +54,7 @@
       <span class="text-muted ion-no-margin text-job text-white">{{user.type | titlecase}}</span>
     </div>
 
-    <ion-grid fixed class="stats">
-      <ion-row class="ion-no-padding" color="primary">
-        <ion-col size="4">
-          <div class="ion-text-center">
-            <span class="text-statics-big text-primary-contrast">1.5</span> <br>
-            <small class="text-muted">Post</small>
-          </div>
-        </ion-col>
-        <ion-col size="4">
-          <div class="ion-text-center">
-            <span class="text-statics-big text-primary-contrast">10.5</span> <br>
-            <small class="text-muted">Followers</small>
-          </div>
-        </ion-col>
-        <ion-col size="4">
-          <div class="ion-text-center">
-            <span class="text-statics-big text-primary-contrast">1.3</span> <br>
-            <small class="text-muted">Following</small>
-          </div>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
+
   
   </div>
 
@@ -107,7 +86,7 @@
         </div>
       </ion-col> -->
 
-      <ion-col size="3" tappable *ngFor="let menuItem of menuItems">
+      <ion-col size="4" tappable *ngFor="let menuItem of menuItems">
         <ion-card mode="ios" class="ion-no-margin" (click)="gestionAction(menuItem)">
           <ion-card-content class="ion-text-center">
             <img [src]="menuItem.icon">
