@@ -1,6 +1,6 @@
 <ion-content>
 
-  <ion-grid class="ion-no-padding section-title">
+  <ion-grid class="ion-no-padding section-title" *ngIf="!isLoading">
     <ion-row>
       <ion-col size="6">
       <div class="text-bold text-18pt">Carrito</div>
@@ -124,13 +124,13 @@
     </ion-row>
   </ion-grid>
 
-  <ion-grid class="ion-no-padding section-title orders">
+  <ion-grid class="ion-no-padding section-title orders" *ngIf="!isLoading && !edit">
     <ion-row>
       <ion-col size="6">
         <div class="text-bold text-18pt">Pedidos</div>
       </ion-col>
-      <ion-col size="10" style="padding: 10px 0">
-        <p class="text-custom text-10pt" *ngIf="processedOrders.length == 0">No tienes pedidos pendientes</p>
+      <ion-col size="10" style="padding: 10px 0" *ngIf="processedOrders.length == 0">
+        <p class="text-custom text-10pt" >No tienes pedidos pendientes</p>
       </ion-col>
     </ion-row>
   </ion-grid>

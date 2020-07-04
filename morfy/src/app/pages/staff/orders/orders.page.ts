@@ -23,9 +23,14 @@ export class OrdersPage implements OnInit, OnDestroy {
   user: User;
   input;
   orders: Order[];
-  ordersAwaitingAction: Order[];
-  ordersOnHold: Order[];
+  submittedOrders: Order[];
+  confirmedOrders: Order[];
+  readyOrders: Order[];
+  deliveredOrders: Order[];
+  receivedOrders: Order[];
+  paidOrders: Order[];
   finishedOrders: Order[];
+
   segment = 'actions';
 
   status = {
@@ -38,6 +43,9 @@ export class OrdersPage implements OnInit, OnDestroy {
     Pagados: 'paid',
     Terminados: 'finished'
   };
+
+
+
   public keepOriginalOrder = (a, b) => a.key;
 
   constructor( private loadingCtrl: LoadingController,
@@ -49,10 +57,12 @@ export class OrdersPage implements OnInit, OnDestroy {
   ngOnInit() {
     this.isLoading = true;
     this.ordersSub = this.database.GetAll('orders').subscribe(data => {
-      this.orders = (data as Order[]).filter(e => e.status !== OrderStatus.Pending)
-        .sort((a, b) => (b.date as any).localeCompare(a.date));
-      this.filterOrders(this.orders);
-      this.isLoading = false;
+      if (data) {
+        this.orders = (data as Order[]).filter(e => e.status !== OrderStatus.Pending)
+          .sort((a, b) => (b.date as any).localeCompare(a.date));
+        this.filterOrders(this.orders);
+        this.isLoading = false;
+      }
     });
   }
 
@@ -100,20 +110,65 @@ export class OrdersPage implements OnInit, OnDestroy {
   }
 
 
-  filterOrders(allOrders: Order[]) {
-    const order = { submitted: 1, confirmed: 2, ready: 3, delivered: 4, received: 5, paid: 6, finished: 7 };
+    filterOrders(allOrders: Order[]) {
+    if (allOrders && allOrders.length > 0) {
+      this.submittedOrders = allOrders
+      .filter(e => e.status === OrderStatus.Submitted);
+      if (this.submittedOrders.length === 0) {
+        this.submittedOrders = undefined;
+      }
 
-    this.ordersAwaitingAction = allOrders
-    .filter(e => e.status === OrderStatus.Submitted || e.status === OrderStatus.Ready || e.status === OrderStatus.Paid)
-    .sort((a, b) => order[a.status] - order[b.status]);
+      this.confirmedOrders = allOrders
+      .filter(e => e.status === OrderStatus.Confirmed);
+      if (this.confirmedOrders.length === 0) {
+        this.confirmedOrders = undefined;
+      }
 
-    this.ordersOnHold = allOrders
-    .filter(e => e.status === OrderStatus.Confirmed || e.status === OrderStatus.Delivered)
-    .sort((a, b) => order[a.status] - order[b.status]);
-
-    this.finishedOrders = allOrders
-    .filter(e => e.status === OrderStatus.Finished);
+      this.readyOrders = allOrders
+      .filter(e => e.status === OrderStatus.Ready);
+      if (this.readyOrders.length === 0) {
+        this.readyOrders = undefined;
+      }
+      this.deliveredOrders = allOrders
+      .filter(e => e.status === OrderStatus.Delivered);
+      if (this.deliveredOrders.length === 0) {
+        this.deliveredOrders = undefined;
+      }
+      this.receivedOrders = allOrders
+      .filter(e => e.status === OrderStatus.Received);
+      if (this.receivedOrders.length === 0) {
+        this.receivedOrders = undefined;
+      }
+      this.paidOrders = allOrders
+      .filter(e => e.status === OrderStatus.Paid);
+      if (this.paidOrders.length === 0) {
+        this.paidOrders = undefined;
+      }
+      this.finishedOrders = allOrders
+      .filter(e => e.status === OrderStatus.Finished);
+      if (this.finishedOrders.length === 0) {
+        this.finishedOrders = undefined;
+      }
+    }
   }
+
+
+  // filterOrders(allOrders: Order[]) {
+  //   if (allOrders && allOrders.length > 0) {
+  //     const order = { submitted: 1, confirmed: 2, ready: 3, delivered: 4, received: 5, paid: 6, finished: 7 };
+
+  //     this.ordersAwaitingAction = allOrders
+  //     .filter(e => e.status === OrderStatus.Submitted || e.status === OrderStatus.Ready || e.status === OrderStatus.Paid)
+  //     .sort((a, b) => order[a.status] - order[b.status]);
+
+  //     this.ordersOnHold = allOrders
+  //     .filter(e => e.status === OrderStatus.Confirmed || e.status === OrderStatus.Delivered || e.status === OrderStatus.Received)
+  //     .sort((a, b) => order[a.status] - order[b.status]);
+
+  //     this.finishedOrders = allOrders
+  //     .filter(e => e.status === OrderStatus.Finished);
+  //   }
+  // }
 
 
   changeOrderStatus(item: IonItemSliding, order: Order, newStatus) {
@@ -129,18 +184,16 @@ export class OrdersPage implements OnInit, OnDestroy {
           this.createNotification('cocinero');
         }
         if (newStatus === 'finished') {
-          this.database.GetOne('users', order.idClient)
-          .then((customer: User) => {
-            const table = customer.table;
-            this.database.GetDocRef('users', customer.id)
-              .update({table: '', status: Status.Recent_Enter})
-              .then(() => {
-                this.database.DeleteOne(customer.id, 'enquiries')
+          if (this.orders.filter(o => o.idClient === order.idClient && o.status === OrderStatus.Paid).length === 0) {
+              this.database.GetDocRef('users', order.idClient)
+                .update({table: '', status: Status.Recent_Enter})
                 .then(() => {
-                  this.presentToast(table);
+                  this.database.DeleteOne(order.idClient, 'enquiries')
+                  .then(() => {
+                    this.presentToast();
+                  });
                 });
-              });
-          });
+          }
         }
         loadingEl.dismiss();
       });
@@ -148,9 +201,9 @@ export class OrdersPage implements OnInit, OnDestroy {
   }
 
 
-  async presentToast(table) {
+  async presentToast() {
     const toast = await this.toastController.create({
-      message: 'La mesa ' + table + ' ha sido liberada',
+      message: 'La mesa ha sido liberada',
       duration: 2000
     });
     toast.present();

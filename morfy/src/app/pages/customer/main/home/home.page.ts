@@ -185,7 +185,7 @@ export class HomePage implements OnInit, OnDestroy {
       cssClass: 'add-product-modal',
       componentProps: {
         product: selectedProduct,
-        userId: this.user.id
+        user: this.user
       }
     });
     modal.onWillDismiss().then(dataReturned => {
