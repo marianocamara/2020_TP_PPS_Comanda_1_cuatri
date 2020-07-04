@@ -130,7 +130,7 @@ export class StaffPage implements OnInit {
 
   gestionAction(menuItem) {
     if (menuItem.title === 'Salir') {
-      this.logout();
+      this.presentAlertLogout();
     } else {
       this.navCtrl.navigateForward([menuItem.path]);
     }
