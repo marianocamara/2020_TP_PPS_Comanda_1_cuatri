@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { User } from 'src/app/models/user';
+import { User, Status } from 'src/app/models/user';
 import { LoadingController, NavController, IonItemSliding, ModalController, AnimationController, AlertController, Platform, ToastController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
 import { DatabaseService } from 'src/app/services/database.service';
@@ -279,15 +279,29 @@ export class OrdersPage implements OnInit, OnDestroy {
           switch (modalAction) {
             case 'pay':
             console.log('paying order...');
-            this.receivedOrders.forEach(order => {
-              this.database.UpdateSingleField('status', OrderStatus.Paid, 'orders', order.id)
-              .then(() => {
-                console.log('Order paid');
-              })
-              .catch(error => {
-                console.log(error);
-              });
-            });              
+            this.loadingCtrl.create({ message: 'Pagando...' }).then(loadingEl => {
+              this.receivedOrders.forEach(order => {
+                this.database.UpdateSingleField('status', OrderStatus.Paid, 'orders', order.id)
+                .then(() => {
+                  console.log('Order paid');  
+                  this.database.GetDocRef('users', this.user.id)
+                  .update({table: '', status: Status.Recent_Enter});
+                  this.user.table = '';
+                  this.user.status = Status.Recent_Enter;
+                  Plugins.Storage.set({ key: 'user-bd', value: JSON.stringify(this.user) })
+                  .then(() => {
+                    this.database.DeleteOne( this.user.id, 'enquiries')
+                    .then(() => {            
+                      this.presentAlertPaid();
+                    })
+                    .catch(error => {
+                      console.log(error);
+                    });
+                  });
+                });
+              }); 
+            });
+                      
             break;
             default:
             console.log('closing modal');
@@ -320,6 +334,32 @@ export class OrdersPage implements OnInit, OnDestroy {
             await alert.present();
           }
         }
+
+        async presentAlertPaid() {
+            const alert = await this.alertController.create({
+              cssClass: 'my-custom-class',
+              header: 'Pago realizado',
+              message: '¿Quieres realizar una breve encuesta antes de irte?',
+              buttons: [
+                {
+                  text: 'No',
+                  role: 'cancel',
+                  cssClass: 'secondary',
+                  handler: (blah) => {
+                    this.navCtrl.navigateForward('/customer');
+                  }
+                }, {
+                  text: 'Si',
+                  handler: () => {
+                    this.navCtrl.navigateForward('/survey');     
+                  }
+                }
+              ]
+            });
+            
+            await alert.present();
+        }
+
         
         
         

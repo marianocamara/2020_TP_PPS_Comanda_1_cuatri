@@ -135,7 +135,7 @@
     </ion-row>
   </ion-grid>
 
-  <ion-grid class="ion-no-padding" *ngIf="!isLoading && !edit">
+  <ion-grid class="ion-no-padding" *ngIf="!isLoading">
     <ion-list lines="none" class="list-team ion-padding">
 
       <ion-item tappable *ngFor="let order of processedOrders; let i = index" (click)="presentAlertReceived(order)">
@@ -161,7 +161,7 @@
   </ion-grid>
 
   
-  <ion-grid class="ion-no-padding section-title orders" *ngIf="!isLoading && !edit && receivedOrders.length != 0">
+  <ion-grid class="ion-no-padding section-title orders" *ngIf="!isLoading && receivedOrders.length != 0">
     <ion-row>
       <ion-col>
         <div class="text-bold text-18pt">Listos para pagar</div>
@@ -170,7 +170,7 @@
     </ion-row>
   </ion-grid>
 
-  <ion-grid class="ion-no-padding" *ngIf="!isLoading && !edit">
+  <ion-grid class="ion-no-padding" *ngIf="!isLoading">
     <ion-list lines="none" class="list-team ion-padding">
 
       <ion-item tappable *ngFor="let order of receivedOrders; let i = index">
@@ -190,7 +190,7 @@
     </ion-list>
   </ion-grid>
 
-  <ion-grid class="ion-no-padding padding-right" style="margin-bottom: 20px;" *ngIf="!isLoading && !edit && receivedOrders.length != 0">
+  <ion-grid class="ion-no-padding padding-right" style="margin-bottom: 20px;" *ngIf="!isLoading && receivedOrders.length != 0">
     <ion-row>
       <ion-col>
         <ion-item tappable lines="none">
