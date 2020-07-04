@@ -1,10 +1,12 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { IonSlides, NavController, ToastController, LoadingController } from '@ionic/angular';
+import { IonSlides, NavController, ToastController, LoadingController, AlertController } from '@ionic/angular';
 import { Plugins } from '@capacitor/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { Survey, SurveyQuestionsUser } from 'src/app/models/survey';
 import { DatabaseService } from 'src/app/services/database.service';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs/internal/Subscription';
+import { Order, OrderStatus } from 'src/app/models/order';
 import { User } from 'src/app/models/user';
 
 @Component({
@@ -39,15 +41,17 @@ export class SurveyPage implements OnInit {
 
   questions = SurveyQuestionsUser;
   validationsForm: FormGroup;
-
-
-  constructor(
+  private ordersSub: Subscription;
+  pendingOrder: Order[];
+  
+  constructor( 
     public navCtrl: NavController,
     private authService: AuthService,
     private database: DatabaseService,
     private toastController: ToastController,
     private loadingCtrl: LoadingController,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    public alertController: AlertController
     ){}
 
     ngOnInit() {
@@ -63,13 +67,21 @@ export class SurveyPage implements OnInit {
         (userData) => {
           if (userData.value) {
             this.user = JSON.parse(userData.value);
+            this.ordersSub = this.database.GetWithQuery('idClient', '==', this.user.id, 'orders')
+            .subscribe(data => {
+              this.pendingOrder = (data as Order[]).filter(order => order.status === OrderStatus.Pending || order.status === OrderStatus.Confirmed
+                || order.status === OrderStatus.Delivered
+                || order.status === OrderStatus.Ready
+                || order.status === OrderStatus.Received
+                || order.status === OrderStatus.Submitted);
+            });
           }
           else {
             this.user = null;
-            this.logout();
+            this.logoutUser();
           }
         }, () => {
-          this.logout();
+          this.logoutUser();
         }
 
         );
@@ -82,17 +94,6 @@ export class SurveyPage implements OnInit {
       this.textValue = '';
       }
 
-
-      logout(){
-        this.authService.logoutUser()
-        .then(res => {
-          // console.log(res);
-          this.navCtrl.navigateBack('');
-        })
-        .catch(error => {
-          console.log(error);
-        });
-      }
 
       doCheck() {
         const prom1 = this.slides.isBeginning();
@@ -273,4 +274,94 @@ export class SurveyPage implements OnInit {
           this.navCtrl.navigateForward('/customer/main/home');
         }
 
+        async presentAlertLogout() {
+          const alert = await this.alertController.create({
+            cssClass: 'my-custom-class',
+            header: 'Finalizando sesión',
+            message: '¿Estás seguro de querer salir?',
+            buttons: [
+              {
+                text: 'Cancelar',
+                role: 'cancel',
+                cssClass: 'secondary',
+                handler: (blah) => {
+                }
+              }, {
+                text: 'Cerrar Sesión',
+                handler: () => {
+                  this.logoutUser();          
+                }
+              }
+            ]
+          });
+      
+          await alert.present();
+        }
+        
+        logoutUser(){
+          this.authService.logoutUser()
+          .then(res => {
+            // console.log(res);
+            this.navCtrl.navigateBack('');
+          })
+          .catch(error => {
+            console.log(error);
+          });
+        }
+      
+        logout() {
+          if ((this.user as User).type === 'anonimo') {
+            // Si el usuario anonimo esta comiendo o esperando el pedido, no lo dejo finalizar sesion
+            if(this.pendingOrder.length > 0){  
+              this.presentAlert("Para finalizar sesión tiene que pagar la cuenta.", "Atención");
+            }else{
+              this.presentAlertLogoutAnon();
+            }
+          } else {
+            this.presentAlertLogout();
+          }
+        }
+      
+        async presentAlert(message, header) {
+          const alert = await this.alertController.create({
+            cssClass: 'my-custom-class',
+            header: header,
+            message: message,
+            buttons: ['OK']
+          });
+      
+          await alert.present();
+        }
+        async presentAlertLogoutAnon() {
+          const alert = await this.alertController.create({
+            cssClass: 'my-custom-class',
+            header: 'Finalizando sesión',
+            message: '¿Estás seguro? Un usuario anónimo no puede recuperar sus datos.',
+            buttons: [
+              {
+                text: 'Cancelar',
+                role: 'cancel',
+                cssClass: 'secondary',
+                handler: (blah) => {
+                  console.log('Confirm Cancel: blah');
+                }
+              }, {
+                text: 'Cerrar Sesión',
+                handler: () => {
+                  this.authService.logoutUser()
+                    .then(res => {
+                      this.database.UpdateSingleField('table', '', 'users', this.user.id)
+                      .then(() =>{ this.navCtrl.navigateBack(''); });
+                    })
+                    .catch(error => {
+                      console.log(error);
+                    });
+                }
+              }
+            ]
+          });
+      
+          await alert.present();
+        }
+        
       }

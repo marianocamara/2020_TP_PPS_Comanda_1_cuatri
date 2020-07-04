@@ -31,10 +31,10 @@ export class HomePage implements OnInit, OnDestroy {
   pendingOrder: Order[];
 
   constructor(public navCtrl: NavController,
-              private authService: AuthService,
-              private modalController: ModalController,
-              private database: DatabaseService,
-              public alertController: AlertController) { }
+    private authService: AuthService,
+    private modalController: ModalController,
+    private database: DatabaseService,
+    public alertController: AlertController) { }
   ngOnInit() {
     this.isLoading = true;
     this.productsSub = this.database.GetAll('products').subscribe(products => {
@@ -50,12 +50,12 @@ export class HomePage implements OnInit, OnDestroy {
         if (userData.value) {
           this.user = JSON.parse(userData.value);
           this.ordersSub = this.database.GetWithQuery('idClient', '==', this.user.id, 'orders')
-          .subscribe(data => {
-            this.pendingOrder = (data as Order[]).filter(order => order.status === OrderStatus.Pending || order.status === OrderStatus.Confirmed
-              || order.status === OrderStatus.Delivered
-              || order.status === OrderStatus.Ready
-              || order.status === OrderStatus.Received
-              || order.status === OrderStatus.Submitted);
+            .subscribe(data => {
+              this.pendingOrder = (data as Order[]).filter(order => order.status === OrderStatus.Pending || order.status === OrderStatus.Confirmed
+                || order.status === OrderStatus.Delivered
+                || order.status === OrderStatus.Ready
+                || order.status === OrderStatus.Received
+                || order.status === OrderStatus.Submitted);
             });
         }
         else {
@@ -122,7 +122,7 @@ export class HomePage implements OnInit, OnDestroy {
   logout() {
     if ((this.user as User).type === 'anonimo') {
       // Si el usuario anonimo esta comiendo o esperando el pedido, no lo dejo finalizar sesion
-      if(this.pendingOrder.length > 0){  
+      if (this.pendingOrder.length > 0) {
         this.presentAlert("Para finalizar sesión tiene que pagar la cuenta.", "Atención");
       } else {
         this.presentAlertLogoutAnon();
@@ -160,7 +160,8 @@ export class HomePage implements OnInit, OnDestroy {
           handler: () => {
             this.authService.logoutUser()
               .then(res => {
-                this.navCtrl.navigateBack('');
+                this.database.UpdateSingleField('table', '', 'users', this.user.id)
+                .then(() =>{ this.navCtrl.navigateBack(''); });
               })
               .catch(error => {
                 console.log(error);
@@ -206,17 +207,21 @@ export class HomePage implements OnInit, OnDestroy {
         if (enquiry) {
           this.navCtrl.navigateForward('/chat/chat-detail/' + this.user.id);
         } else {
-          // create chat
-          const enquiry = {
-            id: this.user.id,
-            clientName: this.user.name,
-            clientTable: this.user.table,
-            clientImg: this.user.imageUrl,
-            messages: [],
-            msgCount: 0
-          };
-          this.database.CreateOne(enquiry, 'enquiries');
-          this.navCtrl.navigateForward('/chat/chat-detail/' + this.user.id);
+          this.database.GetOne('users', this.user.id).then(
+            (usr) => {
+              // create chat
+              const enquiry = {
+                id: usr.id,
+                clientName: usr.name,
+                clientTable: usr.table,
+                clientImg: usr.imageUrl,
+                messages: [],
+                msgCount: 0
+              };
+              this.database.CreateOne(enquiry, 'enquiries');
+              this.navCtrl.navigateForward('/chat/chat-detail/' + usr.id);
+
+            });
         }
       });
   }

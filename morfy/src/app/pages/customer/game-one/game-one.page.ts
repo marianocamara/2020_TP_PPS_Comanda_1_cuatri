@@ -51,11 +51,6 @@ export class GameOnePage implements OnInit {
         this.logout();
       }
     );
-    if(this.pendingOrder){
-      if(this.pendingOrder[0].hasDisscount !== undefined && this.pendingOrder[0].hasDisscount ){
-        this.presentAlert("Recuerde que ya ha recibido el beneficio, solo jugara por diversión.", "Recordatorio");
-      }
-    }
   }
 
   play(){
@@ -103,7 +98,7 @@ export class GameOnePage implements OnInit {
       () => { 
         setTimeout(() => {
           this.navCtrl.navigateForward('/customer/main/home');
-        }, 3000);
+        }, 1000);
       }
     );
   }else{
@@ -115,6 +110,11 @@ export class GameOnePage implements OnInit {
   ionViewWillEnter() {
     if (!this.user) {
       this.logout();
+    }
+    if(this.pendingOrder){
+      if(this.pendingOrder[0].hasDisscount !== undefined && this.pendingOrder[0].hasDisscount ){
+        this.presentAlert("Recuerde que ya ha recibido el beneficio, solo jugara por diversión.", "Recordatorio");
+      }
     }
   }
 
@@ -196,7 +196,8 @@ export class GameOnePage implements OnInit {
           handler: () => {
             this.authService.logoutUser()
               .then(res => {
-                this.navCtrl.navigateBack('');
+                this.database.UpdateSingleField('table', '', 'users', this.user.id)
+                .then(() =>{ this.navCtrl.navigateBack(''); });
               })
               .catch(error => {
                 console.log(error);
