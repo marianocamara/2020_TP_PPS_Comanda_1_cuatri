@@ -111,10 +111,11 @@ export class SignupPage implements OnInit {
 
         const imagen = this.validationsForm.get('image').value;
 
-        if (!document.URL.startsWith('http')) {
-          const imageName = (this.validationsForm.value.name).replace(/\s/g, '-') + '-' + Math.floor(Math.random() * (999 - 100 + 1) + 100);
-          imagen.name = imageName;
-        }
+
+        const imageName = (this.validationsForm.get('name').value).replace(/\s/g, '-')
+         + '-' + Math.floor(Math.random() * (999 - 100 + 1) + 100);
+        imagen.name = imageName;
+
 
         const uploadTask = this.database.uploadImage(imagen);
         uploadTask.task.on('state_changed', (snapshot) => {

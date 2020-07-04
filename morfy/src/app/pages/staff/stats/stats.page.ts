@@ -36,7 +36,7 @@ export class StatsPage implements OnInit {
     ubicacion: 0
   };
   satisfactionData = [0, 0, 0, 0, 0];
-  salesData = [0, 0, 0, 0, 0, 0, 0];
+  salesData = [0, 0, 0, 0, 0, 0, 0, 0];
 
   constructor(
               private loadingCtrl: LoadingController,
@@ -51,7 +51,7 @@ export class StatsPage implements OnInit {
     this.isLoading = true;
     this.database.GetAll('surveys').subscribe((surveys) => {
       Object.keys(this.improvementData).forEach(v => this.improvementData[v] = 0);
-      this.salesData = [0, 0, 0, 0, 0, 0];
+      this.salesData = [0, 0, 0, 0, 0, 0, 0, 0];
       surveys.forEach(survey => {
         this.setSatisfaction(survey.fields.overallScore.answer);
         this.setImprovement(survey.fields.couldImprove.answer);
@@ -207,7 +207,7 @@ export class StatsPage implements OnInit {
               'rgba(54, 162, 235, 0.6)',
               'rgba(255, 206, 86, 0.6)',
               'rgba(75, 192, 192, 0.6)',
-              'rgba(153, 102, 255, 0.6)'
+              'rgba(153, 102, 255, 0.6)',
             ],
             hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#FF6384', '#36A2EB', '#FFCE56']
           }
@@ -218,7 +218,7 @@ export class StatsPage implements OnInit {
     this.lineChart = new Chart(this.lineCanvas.nativeElement, {
       type: 'line',
       data: {
-        labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Junio', 'Julio'],
+        labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto'],
         datasets: [
           {
             label: 'Primer semestre',
