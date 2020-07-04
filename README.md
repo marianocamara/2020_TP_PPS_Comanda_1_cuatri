@@ -280,7 +280,9 @@ Objetivos planteados: <br>
 <br>
 <h1>[Sprint 5] 20/06/2020 - 27/06/2020</h1>
 <br>
-<img src="documents/IMG2.jpeg" >
+<img src="documents/IMG9.jpeg" >
+<br>
+<img src="documents/IMG7.jpeg" >
 <br>
 - Objetivo del sprint: Poder hacer entrega de los primeros puntos al profesor en video a traves del ClassRoom. 
 1) Gestion de mesas, asignacion por parte del metre <br>
@@ -344,6 +346,8 @@ Objetivos planteados: <br>
 <br>
 <img src="documents/IMG1.jpeg" >
 <br>
+<img src="documents/IMG8.jpeg" >
+<br>
 1) Encuestas del cliente <br>
 <ul>
   <li>Mariano Camara</li>
@@ -393,3 +397,8 @@ Objetivos planteados: <br>
   <li>Fecha Fin: </li>
   <li>Commit: https://github.com/CardozoBraianEzequiel/2020_TP_PPS_Comanda_1_cuatri/commit/</li>
 </ul>
+
+<br>
+<h1>QR de Cliente y Mesas</h1>
+<br>
+<img src="documents/IMG6.jpeg" >
