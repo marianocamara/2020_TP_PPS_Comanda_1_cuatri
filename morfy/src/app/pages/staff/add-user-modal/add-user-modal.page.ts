@@ -93,7 +93,7 @@ export class AddUserModalPage implements OnInit {
       if (!this.validationsForm.get('image').value) {
       return;
     }
-    this.loadingCtrl
+      this.loadingCtrl
       .create({ keyboardClose: true, message: 'Ingresando...' })
       .then(loadingEl => {
         loadingEl.present();
@@ -101,11 +101,11 @@ export class AddUserModalPage implements OnInit {
         const imagen = this.validationsForm.get('image').value;
 
         if (!document.URL.startsWith('http')) {
-          const imageName = (this.validationsForm.value.title).replace(/\s/g, '-') + '-' + Math.floor(Math.random() * (999 - 100 + 1) + 100);
+          const imageName = (this.validationsForm.value.name).replace(/\s/g, '-') + '-' + Math.floor(Math.random() * (999 - 100 + 1) + 100);
           imagen.name = imageName;
         }
 
-        const uploadTask = this.database.uploadImage(this.validationsForm.get('image').value);
+        const uploadTask = this.database.uploadImage(imagen);
         uploadTask.task.on('state_changed', (snapshot) => {
           // Observe state change events such as progress, pause, and resume
           // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
@@ -120,18 +120,18 @@ export class AddUserModalPage implements OnInit {
           // For instance, get the download URL: https://firebasestorage.googleapis.com/...
           uploadTask.task.snapshot.ref.getDownloadURL().then((downloadURL) => {
             console.log('File available at', downloadURL);
-            value["password"] = value["name"] + value["type"]; 
+            value["password"] = value["name"] + value["type"];
             this.authService.signUp(value, downloadURL)
               .then(res => {
                 console.log(res);
                 this.errorMessage = '';
                 this.loadingCtrl.dismiss();
                 this.presentToast("Usuario agregado correctamente!");
-                this.closeModal();  
+                this.closeModal();
               }, err => {
                 this.loadingCtrl.dismiss();
                 this.errorMessage = this.authService.printErrorByCode(err.code);
-                
+
               });
           });
         });

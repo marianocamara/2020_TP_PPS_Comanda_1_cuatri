@@ -73,30 +73,19 @@
       </ion-row>
     </ion-grid>
     
-    <div class="employee" *ngIf="!isLoading && segment === 'actions'" style="padding-left: 30px;">
-      <ng-container *ngFor="let order of ordersAwaitingAction">
-        <ion-chip color="dark" *ngIf="order.status == 'submitted' && ordersAwaitingAction.indexOf(order) == 0">
-          <ion-icon name="checkmark-circle-outline" ></ion-icon>
-          <ion-label >A confirmar</ion-label>
-        </ion-chip>
-        <ion-chip color="dark" *ngIf="order.status == 'ready' && ordersAwaitingAction[ordersAwaitingAction.indexOf(order)-1].status != 'ready'">
-          <ion-icon name="fast-food-outline" ></ion-icon>
-          <ion-label >A entregar</ion-label>
-        </ion-chip>
-        <ion-chip color="dark" *ngIf="order.status == 'paid' && ordersAwaitingAction[ordersAwaitingAction.indexOf(order)-1].status != 'paid'">
-          <ion-icon name="file-tray-full-outline" ></ion-icon>
-          <ion-label >A finalizar</ion-label>
-        </ion-chip>
-        <!-- <h2 *ngIf="order.status == 'submitted' && ordersAwaitingAction.indexOf(order) == 0">A confirmar</h2>
-        <h2 *ngIf="order.status == 'ready' && ordersAwaitingAction[ordersAwaitingAction.indexOf(order)-1].status != 'ready'">A entregar</h2>
-        <h2 *ngIf="order.status == 'paid' && ordersAwaitingAction[ordersAwaitingAction.indexOf(order)-1].status != 'paid'">A finalizar</h2> -->
+    <div class="employee" *ngIf="!isLoading && segment === 'actions' && submittedOrders && submittedOrders.length > 0" style="padding-left: 30px;">
+      <ion-chip color="dark">
+        <ion-icon name="checkmark-circle-outline" ></ion-icon>
+        <ion-label >A confirmar</ion-label>
+      </ion-chip>
+      <ng-container *ngFor="let order of submittedOrders">
         <ion-item-sliding  #slidingItem>
           <ion-item lines="">
             <ion-thumbnail slot="start" style="--border-radius: 30px;">
               <img src="https://image.flaticon.com/icons/svg/2995/2995948.svg"/>
             </ion-thumbnail>
             <ion-label>
-              <h2>{{order.id  | slice:0:4}}</h2>
+              <h2>Mesa: {{order.table}} - Pedido: {{order.id  | slice:0:4}} </h2>
               <p style="color:rgb(163, 163, 163)">{{order.date | dateAgo}}</p>
             </ion-label>
             <ion-icon color="medium" name="chevron-back-circle-outline"></ion-icon>
@@ -105,41 +94,85 @@
             <ion-item-option color="warning" (click)="changeOrderStatus(slidingItem, order, 'confirmed')"  *ngIf="order.status === 'submitted'">
               <p>Confirmar</p>
             </ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
+      </ng-container>
+    </div>
+
+    <div class="employee" *ngIf="!isLoading && segment === 'actions' && readyOrders && readyOrders.length > 0" style="padding-left: 30px;">
+      <ion-chip color="dark">
+        <ion-icon name="fast-food-outline" ></ion-icon>
+        <ion-label >A entregar</ion-label>
+      </ion-chip>
+      <ng-container *ngFor="let order of readyOrders">
+        <ion-item-sliding  #slidingItem>
+          <ion-item lines="">
+            <ion-thumbnail slot="start" style="--border-radius: 30px;">
+              <img src="https://image.flaticon.com/icons/svg/2995/2995948.svg"/>
+            </ion-thumbnail>
+            <ion-label>
+              <h2>Mesa: {{order.table}} - Pedido: {{order.id  | slice:0:4}} </h2>
+              <p style="color:rgb(163, 163, 163)">{{order.date | dateAgo}}</p>
+            </ion-label>
+            <ion-icon color="medium" name="chevron-back-circle-outline"></ion-icon>
+          </ion-item>
+          <ion-item-options class="approve">
             <ion-item-option style="background:#26b52b"(click)="changeOrderStatus(slidingItem, order, 'delivered')" *ngIf="order.status === 'ready'">
               <p>Entregar</p>
             </ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
+      </ng-container>
+    </div>
+    
+    <div class="employee" *ngIf="!isLoading && segment === 'actions' && paidOrders && paidOrders.length > 0" style="padding-left: 30px;">
+      <ion-chip color="dark">
+        <ion-icon name="file-tray-full-outline" ></ion-icon>
+        <ion-label >A finalizar</ion-label>
+      </ion-chip>
+      <ng-container *ngFor="let order of paidOrders">
+        <ion-item-sliding  #slidingItem>
+          <ion-item lines="">
+            <ion-thumbnail slot="start" style="--border-radius: 30px;">
+              <img src="https://image.flaticon.com/icons/svg/2995/2995948.svg"/>
+            </ion-thumbnail>
+            <ion-label>
+              <h2>Mesa: {{order.table}} - Pedido: {{order.id  | slice:0:4}} </h2>
+              <p style="color:rgb(163, 163, 163)">{{order.date | dateAgo}}</p>
+            </ion-label>
+            <ion-icon color="medium" name="chevron-back-circle-outline"></ion-icon>
+          </ion-item>
+          <ion-item-options class="approve">
             <ion-item-option color="primary" (click)="changeOrderStatus(slidingItem, order, 'finished')" *ngIf="order.status === 'paid'">
               <p>Finalizar</p>
             </ion-item-option>
           </ion-item-options>
         </ion-item-sliding>
-        <ion-row *ngIf="!ordersAwaitingAction|| ordersAwaitingAction.length == 0" class="types">
-          <ion-col>
-            <p>No se encontraron pedidos.</p>
-          </ion-col>
-        </ion-row>
       </ng-container>
     </div>
 
-    <div class="employee" *ngIf="!isLoading && segment === 'waiting'" style="padding-left: 30px;">
-      <ng-container *ngFor="let order of ordersOnHold">
-        <ion-chip color="dark" *ngIf="order.status == 'confirmed' && ordersOnHold.indexOf(order) == 0">
-          <ion-icon name="ellipsis-horizontal-circle-outline" ></ion-icon>
-          <ion-label>En preparacion</ion-label>
-        </ion-chip>
-        <ion-chip color="dark" *ngIf="order.status == 'delivered' && ordersOnHold[ordersOnHold.indexOf(order)-1].status != 'delivered'">
-          <ion-icon name="card-outline" ></ion-icon>
-          <ion-label>Esperando pago</ion-label>
-        </ion-chip>
-        <!-- <h2 *ngIf="order.status == 'confirmed' && ordersOnHold.indexOf(order) == 0">En preparacion</h2>
-        <h2 *ngIf="order.status == 'delivered' && ordersOnHold[ordersOnHold.indexOf(order)-1].status != 'delivered'">Esperando pago</h2> -->
+    <ion-row *ngIf="!isLoading && segment === 'actions' && !submittedOrders && !readyOrders && !paidOrders" class="types">
+      <ion-col>
+        <p>No se encontraron pedidos.</p>
+      </ion-col>
+    </ion-row>
+
+
+
+
+    <div class="employee" *ngIf="!isLoading && segment === 'waiting' && confirmedOrders && confirmedOrders.length > 0" style="padding-left: 30px;">
+      <ion-chip color="dark">
+        <ion-icon name="ellipsis-horizontal-circle-outline" ></ion-icon>
+        <ion-label>En preparacion</ion-label>
+      </ion-chip>
+      <ng-container *ngFor="let order of confirmedOrders">
         <ion-item-sliding  #slidingItem>
           <ion-item lines="none">
             <ion-thumbnail slot="start" style="--border-radius: 30px;">
               <img src="https://image.flaticon.com/icons/svg/2995/2995948.svg"/>
             </ion-thumbnail>
             <ion-label>
-              <h2>{{order.id  | slice:0:4}}</h2>
+              <h2>Mesa: {{order.table}} - Pedido: {{order.id  | slice:0:4}} </h2>
               <p style="color:rgb(163, 163, 163)">{{order.date | dateAgo}}</p>
             </ion-label>
           </ion-item>
@@ -158,16 +191,58 @@
             </ion-item>
           </ng-container>
         </ion-item-sliding>
-
-        <ion-row *ngIf="!ordersOnHold|| ordersOnHold.length == 0" class="types">
-          <ion-col>
-            <p>No se encontraron pedidos.</p>
-          </ion-col>
-        </ion-row>
       </ng-container>
     </div>
 
-    <div class="employee" *ngIf="!isLoading && segment === 'history'" style="padding-left: 30px;">
+    <div class="employee" *ngIf="!isLoading && segment === 'waiting' && deliveredOrders && deliveredOrders.length > 0" style="padding-left: 30px;">
+      <ion-chip color="dark">
+        <ion-icon name="checkmark-done-circle-outline" ></ion-icon>
+        <ion-label>Esperando confirmacion</ion-label>
+      </ion-chip>
+      <ng-container *ngFor="let order of deliveredOrders">
+        <ion-item-sliding  #slidingItem>
+          <ion-item lines="none">
+            <ion-thumbnail slot="start" style="--border-radius: 30px;">
+              <img src="https://image.flaticon.com/icons/svg/2995/2995948.svg"/>
+            </ion-thumbnail>
+            <ion-label>
+              <h2>Mesa: {{order.table}} - Pedido: {{order.id  | slice:0:4}} </h2>
+              <p style="color:rgb(163, 163, 163)">{{order.date | dateAgo}}</p>
+            </ion-label>
+          </ion-item>
+        </ion-item-sliding>
+      </ng-container>
+    </div>
+
+    <div class="employee" *ngIf="!isLoading && segment === 'waiting' && receivedOrders && receivedOrders.length > 0" style="padding-left: 30px;">
+      <ion-chip color="dark">
+        <ion-icon name="card-outline" ></ion-icon>
+        <ion-label>Esperando pago</ion-label>
+      </ion-chip>
+      <ng-container *ngFor="let order of receivedOrders">
+        <ion-item-sliding  #slidingItem>
+          <ion-item lines="none">
+            <ion-thumbnail slot="start" style="--border-radius: 30px;">
+              <img src="https://image.flaticon.com/icons/svg/2995/2995948.svg"/>
+            </ion-thumbnail>
+            <ion-label>
+              <h2>Mesa: {{order.table}} - Pedido: {{order.id  | slice:0:4}} </h2>
+              <p style="color:rgb(163, 163, 163)">{{order.date | dateAgo}}</p>
+            </ion-label>
+          </ion-item>
+        </ion-item-sliding>
+      </ng-container>
+    </div>
+
+    <ion-row *ngIf="!isLoading && segment === 'waiting' && !confirmedOrders && !deliveredOrders && !receivedOrders" class="types">
+      <ion-col>
+        <p>No se encontraron pedidos.</p>
+      </ion-col>
+    </ion-row>
+
+
+
+    <div class="employee" *ngIf="!isLoading && segment === 'history' && finishedOrders && finishedOrders.length > 0" style="padding-left: 30px;">
       <ng-container *ngFor="let order of finishedOrders">
         <ion-item-sliding  #slidingItem>
           <ion-item lines="">
@@ -180,13 +255,14 @@
             </ion-label>
           </ion-item>
         </ion-item-sliding>
-        <ion-row *ngIf="!finishedOrders || finishedOrders.length == 0" class="types">
-          <ion-col>
-            <p>No se encontraron pedidos.</p>
-          </ion-col>
-        </ion-row>
       </ng-container>
     </div>
+
+    <ion-row *ngIf="!isLoading && !finishedOrders && segment === 'history'" class="types">
+      <ion-col>
+        <p>No se encontraron pedidos.</p>
+      </ion-col>
+    </ion-row>
     
     
   </div>

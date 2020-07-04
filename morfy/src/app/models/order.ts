@@ -8,7 +8,7 @@ export class Order {
     freeDessert?: boolean;
     hasDisscount?: boolean;
     idClient?: string;
-    // isComplete?: boolean;
+    table?: string;
     status?: OrderStatus;
 
   constructor(init?: Partial<Order>) {

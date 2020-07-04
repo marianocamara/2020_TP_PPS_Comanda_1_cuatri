@@ -60,7 +60,6 @@ export class StatsPage implements OnInit {
         this.setSales(orders);
         this.createCharts();
         this.isLoading = false;
-        console.log(this.salesData);
       });
     });
   }
@@ -166,7 +165,7 @@ export class StatsPage implements OnInit {
         labels: ['Comida', 'Bebida', 'Atencion', 'Ambiente', 'Precios', 'Limpieza', 'Nada', 'Ubicacion'],
         datasets: [
           {
-            label: '# of Votes',
+            label: '# de votos',
             data: Object.values(this.improvementData),
             backgroundColor: [
               'rgba(255, 99, 132, 1)',

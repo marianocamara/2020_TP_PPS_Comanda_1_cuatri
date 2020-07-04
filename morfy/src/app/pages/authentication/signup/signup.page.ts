@@ -112,11 +112,11 @@ export class SignupPage implements OnInit {
         const imagen = this.validationsForm.get('image').value;
 
         if (!document.URL.startsWith('http')) {
-          const imageName = (this.validationsForm.value.title).replace(/\s/g, '-') + '-' + Math.floor(Math.random() * (999 - 100 + 1) + 100);
+          const imageName = (this.validationsForm.value.name).replace(/\s/g, '-') + '-' + Math.floor(Math.random() * (999 - 100 + 1) + 100);
           imagen.name = imageName;
         }
 
-        const uploadTask = this.database.uploadImage(this.validationsForm.get('image').value);
+        const uploadTask = this.database.uploadImage(imagen);
         uploadTask.task.on('state_changed', (snapshot) => {
           // Observe state change events such as progress, pause, and resume
           // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded

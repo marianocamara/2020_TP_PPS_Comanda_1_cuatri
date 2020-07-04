@@ -4,6 +4,7 @@ import { DatabaseService } from 'src/app/services/database.service';
 import { Product } from 'src/app/models/product';
 import { take } from 'rxjs/operators';
 import { Order, OrderStatus } from 'src/app/models/order';
+import { User } from 'src/app/models/user';
 
 
 @Component({
@@ -14,7 +15,7 @@ import { Order, OrderStatus } from 'src/app/models/order';
 export class AddModalPage implements OnInit {
 
   @Input() public product: Product;
-  @Input() public userId: string;
+  @Input() public user: User;
   quantity: number;
   pendingOrder: Order;
   foundProductIndex;
@@ -30,7 +31,7 @@ export class AddModalPage implements OnInit {
 
   ionViewWillEnter() {
     this.quantity = 1;
-    this.database.GetPendingOrder(this.userId).pipe(take(1)).subscribe(order => {
+    this.database.GetPendingOrder(this.user.id).pipe(take(1)).subscribe(order => {
       if (order.length > 0) {
         this.pendingOrder = order[0];
         this.foundProductIndex = this.pendingOrder.products.findIndex(p => p.product.id === this.product.id);
@@ -61,14 +62,18 @@ export class AddModalPage implements OnInit {
       }
       else {
         // console.log('no hay');
-        this.database.CreateOne(JSON.parse(JSON.stringify(
-          new Order({
-            date: new Date(),
-            idClient: this.userId,
-            products: [{ product: this.product, quantity: this.quantity, isPrepared: false }],
-            status: OrderStatus.Pending
-          }))), 'orders').then(() => {
-          });
+        this.database.GetOne('users', this.user.id)
+          .then(user => {
+            this.database.CreateOne(JSON.parse(JSON.stringify(
+              new Order({
+                date: new Date(),
+                idClient: user.id,
+                products: [{ product: this.product, quantity: this.quantity, isPrepared: false }],
+                table: user.table,
+                status: OrderStatus.Pending
+              }))), 'orders').then(() => {
+              });
+          })
       }
 
       // this.database.publishSomeData({
