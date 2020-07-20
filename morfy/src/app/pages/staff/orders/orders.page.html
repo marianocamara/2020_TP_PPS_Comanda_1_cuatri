@@ -1,0 +1,270 @@
+<ion-header mode="ios" class="ion-no-border">
+  <ion-toolbar class="ion-no-border">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      Pedidos
+    </ion-title>
+    <ion-avatar slot="end" style="height:40px; width: 40px; margin-right: 8px;" *ngIf="user">
+      <img [src]="user ? user.imageUrl : 'Loading...'" (click)="presentAlertLogout()">
+    </ion-avatar>
+    <ion-buttons slot="start">
+      <ion-buttons slot="start">
+        <ion-back-button text="" defaultHref="staff"></ion-back-button>
+      </ion-buttons>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-header class="ion-no-border">
+  <ion-toolbar style="padding: 0;"> 
+    <ion-segment value="all" [(ngModel)]="segment">
+      <ion-segment-button value="actions">
+        <ion-icon name="toggle-outline" *ngIf="segment!='actions'"></ion-icon>
+        <ion-icon name="toggle" *ngIf="segment=='actions'"></ion-icon>
+        <ion-label>Accionar</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="waiting">
+        <ion-icon name="hand-left-outline" *ngIf="segment!='waiting'"></ion-icon>
+        <ion-icon name="hand-left" *ngIf="segment=='waiting'"></ion-icon>
+        <ion-label>En espera</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="history">
+        <ion-icon name="time-outline" *ngIf="segment!='history'"></ion-icon>
+        <ion-icon name="time" *ngIf="segment=='history'"></ion-icon>
+        <ion-label>Historial</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content class="bg">  
+  <div class="aprobados">
+    
+    <!-- <ion-grid class="ion-no-padding">
+      <ion-row class="row-cards">
+        <ion-col>
+          <div>
+            <ion-item class="ion*no-padding">
+              <ion-icon slot="start" name="search"></ion-icon>
+              <ion-input placeholder="Buscar pedidos" required type="text" [(ngModel)]="input" (ngModelChange)="search(false)"></ion-input>
+            </ion-item>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid> -->
+    
+    <!-- <ion-grid class="ion-no-padding">
+      <ion-row class="types">
+        <ion-col *ngFor="let status of status | keyvalue:keepOriginalOrder" (click)="filterOrders(status.value)" >
+          <p>{{status.key}}</p>
+        </ion-col>
+      </ion-row>
+    </ion-grid> -->
+    
+    <ion-grid *ngIf="isLoading" class="ion-text-center">
+      <ion-row>
+        <ion-col size="12" size-sm="8" offset-sm="2" text-center>
+          <ion-spinner color="primary"></ion-spinner>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    
+    <div class="employee" *ngIf="!isLoading && segment === 'actions' && submittedOrders && submittedOrders.length > 0" style="padding-left: 30px;">
+      <ion-chip color="dark">
+        <ion-icon name="checkmark-circle-outline" ></ion-icon>
+        <ion-label >A confirmar</ion-label>
+      </ion-chip>
+      <ng-container *ngFor="let order of submittedOrders">
+        <ion-item-sliding  #slidingItem>
+          <ion-item lines="">
+            <ion-thumbnail slot="start" style="--border-radius: 30px;">
+              <img src="https://image.flaticon.com/icons/svg/2995/2995948.svg"/>
+            </ion-thumbnail>
+            <ion-label>
+              <h2>Mesa: {{order.table}} - Pedido: {{order.id  | slice:0:4}} </h2>
+              <p style="color:rgb(163, 163, 163)">{{order.date | dateAgo}}</p>
+            </ion-label>
+            <ion-icon color="medium" name="chevron-back-circle-outline"></ion-icon>
+          </ion-item>
+          <ion-item-options class="approve">
+            <ion-item-option color="warning" (click)="changeOrderStatus(slidingItem, order, 'confirmed')"  *ngIf="order.status === 'submitted'">
+              <p>Confirmar</p>
+            </ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
+      </ng-container>
+    </div>
+
+    <div class="employee" *ngIf="!isLoading && segment === 'actions' && readyOrders && readyOrders.length > 0" style="padding-left: 30px;">
+      <ion-chip color="dark">
+        <ion-icon name="fast-food-outline" ></ion-icon>
+        <ion-label >A entregar</ion-label>
+      </ion-chip>
+      <ng-container *ngFor="let order of readyOrders">
+        <ion-item-sliding  #slidingItem>
+          <ion-item lines="">
+            <ion-thumbnail slot="start" style="--border-radius: 30px;">
+              <img src="https://image.flaticon.com/icons/svg/2995/2995948.svg"/>
+            </ion-thumbnail>
+            <ion-label>
+              <h2>Mesa: {{order.table}} - Pedido: {{order.id  | slice:0:4}} </h2>
+              <p style="color:rgb(163, 163, 163)">{{order.date | dateAgo}}</p>
+            </ion-label>
+            <ion-icon color="medium" name="chevron-back-circle-outline"></ion-icon>
+          </ion-item>
+          <ion-item-options class="approve">
+            <ion-item-option style="background:#26b52b"(click)="changeOrderStatus(slidingItem, order, 'delivered')" *ngIf="order.status === 'ready'">
+              <p>Entregar</p>
+            </ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
+      </ng-container>
+    </div>
+    
+    <div class="employee" *ngIf="!isLoading && segment === 'actions' && paidOrders && paidOrders.length > 0" style="padding-left: 30px;">
+      <ion-chip color="dark">
+        <ion-icon name="file-tray-full-outline" ></ion-icon>
+        <ion-label >A finalizar</ion-label>
+      </ion-chip>
+      <ng-container *ngFor="let order of paidOrders">
+        <ion-item-sliding  #slidingItem>
+          <ion-item lines="">
+            <ion-thumbnail slot="start" style="--border-radius: 30px;">
+              <img src="https://image.flaticon.com/icons/svg/2995/2995948.svg"/>
+            </ion-thumbnail>
+            <ion-label>
+              <h2>Mesa: {{order.table}} - Pedido: {{order.id  | slice:0:4}} </h2>
+              <p style="color:rgb(163, 163, 163)">{{order.date | dateAgo}}</p>
+            </ion-label>
+            <ion-icon color="medium" name="chevron-back-circle-outline"></ion-icon>
+          </ion-item>
+          <ion-item-options class="approve">
+            <ion-item-option color="primary" (click)="changeOrderStatus(slidingItem, order, 'finished')" *ngIf="order.status === 'paid'">
+              <p>Finalizar</p>
+            </ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
+      </ng-container>
+    </div>
+
+    <ion-row *ngIf="!isLoading && segment === 'actions' && !submittedOrders && !readyOrders && !paidOrders" class="types">
+      <ion-col>
+        <p>No se encontraron pedidos.</p>
+      </ion-col>
+    </ion-row>
+
+
+
+
+    <div class="employee" *ngIf="!isLoading && segment === 'waiting' && confirmedOrders && confirmedOrders.length > 0" style="padding-left: 30px;">
+      <ion-chip color="dark">
+        <ion-icon name="ellipsis-horizontal-circle-outline" ></ion-icon>
+        <ion-label>En preparacion</ion-label>
+      </ion-chip>
+      <ng-container *ngFor="let order of confirmedOrders">
+        <ion-item-sliding  #slidingItem>
+          <ion-item lines="none">
+            <ion-thumbnail slot="start" style="--border-radius: 30px;">
+              <img src="https://image.flaticon.com/icons/svg/2995/2995948.svg"/>
+            </ion-thumbnail>
+            <ion-label>
+              <h2>Mesa: {{order.table}} - Pedido: {{order.id  | slice:0:4}} </h2>
+              <p style="color:rgb(163, 163, 163)">{{order.date | dateAgo}}</p>
+            </ion-label>
+          </ion-item>
+
+          <ng-container *ngIf="order.status == 'confirmed'">
+            <ion-item class="products" lines="none" *ngFor="let product of order.products">
+              <ion-thumbnail slot="start" style="--border-radius: 8px; width: 30px; height: 30px;">
+                <img [src]="product.product.imageUrl"/>
+              </ion-thumbnail>
+              <ion-label>
+                <h2>{{product.product.name}}</h2>
+                <!-- <p style="color:rgb(163, 163, 163)">{{order.date | dateAgo}}</p> -->
+              </ion-label>
+              <ion-icon style="color: #26b52b;" slot="end" name="checkmark-circle-outline" *ngIf="product.isPrepared"></ion-icon>
+              <ion-icon style="color: orange" name="stopwatch-outline" *ngIf="!product.isPrepared"></ion-icon>
+            </ion-item>
+          </ng-container>
+        </ion-item-sliding>
+      </ng-container>
+    </div>
+
+    <div class="employee" *ngIf="!isLoading && segment === 'waiting' && deliveredOrders && deliveredOrders.length > 0" style="padding-left: 30px;">
+      <ion-chip color="dark">
+        <ion-icon name="checkmark-done-circle-outline" ></ion-icon>
+        <ion-label>Esperando confirmacion</ion-label>
+      </ion-chip>
+      <ng-container *ngFor="let order of deliveredOrders">
+        <ion-item-sliding  #slidingItem>
+          <ion-item lines="none">
+            <ion-thumbnail slot="start" style="--border-radius: 30px;">
+              <img src="https://image.flaticon.com/icons/svg/2995/2995948.svg"/>
+            </ion-thumbnail>
+            <ion-label>
+              <h2>Mesa: {{order.table}} - Pedido: {{order.id  | slice:0:4}} </h2>
+              <p style="color:rgb(163, 163, 163)">{{order.date | dateAgo}}</p>
+            </ion-label>
+          </ion-item>
+        </ion-item-sliding>
+      </ng-container>
+    </div>
+
+    <div class="employee" *ngIf="!isLoading && segment === 'waiting' && receivedOrders && receivedOrders.length > 0" style="padding-left: 30px;">
+      <ion-chip color="dark">
+        <ion-icon name="card-outline" ></ion-icon>
+        <ion-label>Esperando pago</ion-label>
+      </ion-chip>
+      <ng-container *ngFor="let order of receivedOrders">
+        <ion-item-sliding  #slidingItem>
+          <ion-item lines="none">
+            <ion-thumbnail slot="start" style="--border-radius: 30px;">
+              <img src="https://image.flaticon.com/icons/svg/2995/2995948.svg"/>
+            </ion-thumbnail>
+            <ion-label>
+              <h2>Mesa: {{order.table}} - Pedido: {{order.id  | slice:0:4}} </h2>
+              <p style="color:rgb(163, 163, 163)">{{order.date | dateAgo}}</p>
+            </ion-label>
+          </ion-item>
+        </ion-item-sliding>
+      </ng-container>
+    </div>
+
+    <ion-row *ngIf="!isLoading && segment === 'waiting' && !confirmedOrders && !deliveredOrders && !receivedOrders" class="types">
+      <ion-col>
+        <p>No se encontraron pedidos.</p>
+      </ion-col>
+    </ion-row>
+
+
+
+    <div class="employee" *ngIf="!isLoading && segment === 'history' && finishedOrders && finishedOrders.length > 0" style="padding-left: 30px;">
+      <ng-container *ngFor="let order of finishedOrders">
+        <ion-item-sliding  #slidingItem>
+          <ion-item lines="">
+            <ion-thumbnail slot="start" style="--border-radius: 30px;">
+              <img src="https://image.flaticon.com/icons/svg/2995/2995948.svg"/>
+            </ion-thumbnail>
+            <ion-label>
+              <h2>{{order.id  | slice:0:4}}</h2>
+              <p style="color:rgb(163, 163, 163)">{{order.date | date:'medium'}}</p>
+            </ion-label>
+          </ion-item>
+        </ion-item-sliding>
+      </ng-container>
+    </div>
+
+    <ion-row *ngIf="!isLoading && !finishedOrders && segment === 'history'" class="types">
+      <ion-col>
+        <p>No se encontraron pedidos.</p>
+      </ion-col>
+    </ion-row>
+    
+    
+  </div>
+  
+</ion-content>

@@ -17,6 +17,9 @@ export const ROUTES: RouteInfo[] = [
   { path: '/staff/tables', title: 'Mesas',  icon: 'https://image.flaticon.com/icons/svg/2843/2843652.svg', class: '', type: 'metre'},
   { path: '/staff/delivery', title: 'Delivery',  icon: 'https://image.flaticon.com/icons/svg/2786/2786408.svg', class: '', type: 'todos'},
   { path: '/staff/stats', title: 'Estadisticas',  icon: 'https://image.flaticon.com/icons/svg/2786/2786428.svg', class: '', type: 'supervisor'},
+  { path: '/staff/orders', title: 'Pedidos',  icon: 'https://image.flaticon.com/icons/svg/2996/2996110.svg', class: '', type: 'mozo'},
+  { path: '/staff/preparations', title: 'Platos',  icon: 'https://image.flaticon.com/icons/svg/3144/3144416.svg', class: '', type: 'cocinero'},
+  { path: '/staff/preparations', title: 'Bebidas',  icon: 'https://image.flaticon.com/icons/svg/3141/3141900.svg', class: '', type: 'bartender'},
   { path: '/empleados', title: 'Empleados',  icon: 'fas fa-user-alt', class: '', type: 'Admin'},
   { path: '/altas', title: 'Altas',  icon: 'fas fa-user-plus', class: '', type: 'Admin'},
   { path: '/chat', title: 'Consultas',  icon: 'https://image.flaticon.com/icons/svg/2698/2698405.svg', class: '', type: 'mozo'},
@@ -127,7 +130,7 @@ export class StaffPage implements OnInit {
 
   gestionAction(menuItem) {
     if (menuItem.title === 'Salir') {
-      this.logout();
+      this.presentAlertLogout();
     } else {
       this.navCtrl.navigateForward([menuItem.path]);
     }

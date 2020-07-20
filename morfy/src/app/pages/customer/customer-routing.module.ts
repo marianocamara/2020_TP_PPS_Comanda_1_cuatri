@@ -20,7 +20,11 @@ const routes: Routes = [
     path: '',
     redirectTo: 'CustomerPage',
     pathMatch: 'full'
+  },  {
+    path: 'game-one',
+    loadChildren: () => import('./game-one/game-one.module').then( m => m.GameOnePageModule)
   },
+
 ];
 
 @NgModule({

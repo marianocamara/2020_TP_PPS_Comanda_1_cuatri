@@ -4,7 +4,7 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>
-      morfy
+      <span>m</span>orfy
     </ion-title>
     <ion-avatar slot="end" style="height:40px; width: 40px; margin-right: 8px;" *ngIf="user">
       <img [src]="user ? user.imageUrl : 'Loading...'" (click)="logout()">
@@ -35,7 +35,7 @@
 
         <ion-tab-button (click)="changeQr('orders')" tab="orders">
           <ion-icon name="cart-outline" size="large"></ion-icon>
-          <ion-badge class="order-total" *ngIf="pendingOrder">${{orderTotal}}</ion-badge>
+          <ion-badge class="order-total" *ngIf="pendingOrder && orderTotal > 0">${{orderTotal}}</ion-badge>
           <ion-label>Pedidos</ion-label>
         </ion-tab-button>
 

@@ -18,7 +18,7 @@ export class MainPage implements OnInit {
   isLoading = true;
   orderPlaced = false;
   private ordersSub: Subscription;
-  pendingOrder: Order;
+  pendingOrder: Order[];
   orderTotal;
   showQr:boolean = false;
   constructor( public navCtrl: NavController,
@@ -33,8 +33,12 @@ export class MainPage implements OnInit {
           this.user = JSON.parse(userData.value);
           this.ordersSub = this.database.GetWithQuery('idClient', '==', this.user.id, 'orders')
             .subscribe(data => {
-              this.pendingOrder = (data as Order[]).find(order => order.status === OrderStatus.Pending);
-              this.orderTotal = this.calculateOrderTotal(this.pendingOrder);
+              this.pendingOrder = (data as Order[]).filter(order => order.status === OrderStatus.Pending || order.status === OrderStatus.Confirmed
+                || order.status === OrderStatus.Delivered
+                || order.status === OrderStatus.Ready
+                || order.status === OrderStatus.Received
+                || order.status === OrderStatus.Submitted);
+              this.orderTotal = this.calculateAllOrdersTotal(this.pendingOrder);
               this.isLoading = false;
           });
         }
@@ -45,6 +49,14 @@ export class MainPage implements OnInit {
         this.logout();
       }
     );
+  }
+
+  calculateAllOrdersTotal(orders){
+    let total = 0;
+    orders.forEach(order => {
+      total += order ? order.products.reduce((a, b) => a + b.quantity * b.product.price, 0) : 0;  
+    });
+    return total;
   }
 
   changeQr(from){
@@ -125,7 +137,7 @@ export class MainPage implements OnInit {
   logout() {
     if ((this.user as User).type === 'anonimo') {
       // Si el usuario anonimo esta comiendo o esperando el pedido, no lo dejo finalizar sesion
-      if((this.user as User).status === Status.Eating || (this.user as User).status === Status.Waiting_Order){
+      if(this.pendingOrder.length > 0){  
         this.presentAlert("Para finalizar sesión tiene que pagar la cuenta.", "Atención");
       }else{
         this.presentAlertLogoutAnon();
@@ -163,7 +175,8 @@ export class MainPage implements OnInit {
           handler: () => {
             this.authService.logoutUser()
               .then(res => {
-                this.navCtrl.navigateBack('');
+                this.database.UpdateSingleField('table', '', 'users', this.user.id)
+                .then(() =>{ this.navCtrl.navigateBack(''); });
               })
               .catch(error => {
                 console.log(error);

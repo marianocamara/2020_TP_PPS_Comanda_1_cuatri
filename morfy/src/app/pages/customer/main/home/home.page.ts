@@ -7,6 +7,7 @@ import { AddModalPage } from './add-modal/add-modal.page';
 import { Subscription } from 'rxjs';
 import { Product, Category } from 'src/app/models/product';
 import { DatabaseService } from 'src/app/services/database.service';
+import { Order, OrderStatus } from 'src/app/models/order';
 
 
 @Component({
@@ -22,19 +23,12 @@ export class HomePage implements OnInit, OnDestroy {
   types = Object.keys(Category);
   private productsSub: Subscription;
   isLoading = false;
-  featured = [];
-  drinks = [];
+  featured: Product[] = [];
+  drinks: Product[] = [];
   filteredProducts: Product[] = [];
-
-  // types = [
-  //   'principal', '/',
-  //   'postres', '/',
-  //   'desayuno', '/',
-  //   'pastas', '/',
-  //   'sandwiches', '/',
-  //   'acompañamientos', '/',
-  //   'pizzas'
-  // ];
+  slideOptsOne;
+  private ordersSub: Subscription;
+  pendingOrder: Order[];
 
   constructor(public navCtrl: NavController,
     private authService: AuthService,
@@ -55,6 +49,14 @@ export class HomePage implements OnInit, OnDestroy {
       (userData) => {
         if (userData.value) {
           this.user = JSON.parse(userData.value);
+          this.ordersSub = this.database.GetWithQuery('idClient', '==', this.user.id, 'orders')
+            .subscribe(data => {
+              this.pendingOrder = (data as Order[]).filter(order => order.status === OrderStatus.Pending || order.status === OrderStatus.Confirmed
+                || order.status === OrderStatus.Delivered
+                || order.status === OrderStatus.Ready
+                || order.status === OrderStatus.Received
+                || order.status === OrderStatus.Submitted);
+            });
         }
         else {
           this.logout();
@@ -120,7 +122,7 @@ export class HomePage implements OnInit, OnDestroy {
   logout() {
     if ((this.user as User).type === 'anonimo') {
       // Si el usuario anonimo esta comiendo o esperando el pedido, no lo dejo finalizar sesion
-      if ((this.user as User).status === Status.Eating || (this.user as User).status === Status.Waiting_Order) {
+      if (this.pendingOrder.length > 0) {
         this.presentAlert("Para finalizar sesión tiene que pagar la cuenta.", "Atención");
       } else {
         this.presentAlertLogoutAnon();
@@ -133,8 +135,8 @@ export class HomePage implements OnInit, OnDestroy {
   async presentAlert(message, header) {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
-      header: header,
-      message: message,
+      header,
+      message,
       buttons: ['OK']
     });
 
@@ -158,7 +160,8 @@ export class HomePage implements OnInit, OnDestroy {
           handler: () => {
             this.authService.logoutUser()
               .then(res => {
-                this.navCtrl.navigateBack('');
+                this.database.UpdateSingleField('table', '', 'users', this.user.id)
+                .then(() =>{ this.navCtrl.navigateBack(''); });
               })
               .catch(error => {
                 console.log(error);
@@ -177,14 +180,13 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
 
-
   async openAddModal(selectedProduct) {
     const modal = await this.modalController.create({
       component: AddModalPage,
       cssClass: 'add-product-modal',
       componentProps: {
         product: selectedProduct,
-        userId: this.user.id
+        user: this.user
       }
     });
     modal.onWillDismiss().then(dataReturned => {
@@ -205,17 +207,21 @@ export class HomePage implements OnInit, OnDestroy {
         if (enquiry) {
           this.navCtrl.navigateForward('/chat/chat-detail/' + this.user.id);
         } else {
-          //create chat
-          let enquiry = {
-            id: this.user.id,
-            clientName: this.user.name,
-            clientTable: this.user.table,
-            clientImg: this.user.imageUrl,
-            messages: [],
-            msgCount: 0
-          };
-          this.database.CreateOne(enquiry, 'enquiries');
-          this.navCtrl.navigateForward('/chat/chat-detail/' + this.user.id);
+          this.database.GetOne('users', this.user.id).then(
+            (usr) => {
+              // create chat
+              const enquiry = {
+                id: usr.id,
+                clientName: usr.name,
+                clientTable: usr.table,
+                clientImg: usr.imageUrl,
+                messages: [],
+                msgCount: 0
+              };
+              this.database.CreateOne(enquiry, 'enquiries');
+              this.navCtrl.navigateForward('/chat/chat-detail/' + usr.id);
+
+            });
         }
       });
   }

@@ -20,8 +20,8 @@
       <ion-slides [options]="slideOpts" #slides (ionSlideWillChange)="doCheck()">
         <ion-slide style="margin: 0;">
           <img src="/assets/img/survey-2.gif"/>
-          <h2><strong>Completa esta breve encuesta de satisfaccion</strong></h2>
-          <p>Tu opinion sincera nos ayuda a <span color="morfy">mejorar</span> dia a dia.</p>       
+          <h2><strong>Completa esta breve encuesta de satisfacción</strong></h2>
+          <p>Tu opinión sincera nos ayuda a <span color="morfy">mejorar</span> día a día.</p>       
           <ion-button 
           class="qr-btn morfy-btn"
           mode="ios"
@@ -33,7 +33,7 @@
       
       <ion-slide>
         <div class="question ion-margin-bottom ion-padding-horizontal">
-          <h2><strong>Puntuacion general</strong></h2>
+          <h2><strong>Puntuación general</strong></h2>
           <p>{{questions.Overall_Score}}</p>
         </div>
         <ion-item lines="none" class=" ion-margin-vertical">
@@ -69,7 +69,7 @@
       <ion-radio-group [(ngModel)]="radioValue" value="si">
         
         <ion-item>
-          <ion-label>Si</ion-label>
+          <ion-label>Sí</ion-label>
           <ion-radio slot="start" value="si"></ion-radio>
         </ion-item>
         
@@ -107,13 +107,13 @@
     <p><span class="question-sign">?</span>{{questions.Best_Quality}}</p>
   </div>
   <ion-item class="ion-margin-vertical ion-padding-bottom">
-    <ion-label>Selecciona una opcion</ion-label>
+    <ion-label>Selecciona una opción</ion-label>
     <ion-select [(ngModel)]="selectValue" interface="popover">
       <ion-select-option value="comida">Comida</ion-select-option>
-      <ion-select-option value="atencion">Atencion</ion-select-option>
+      <ion-select-option value="atencion">Atención</ion-select-option>
       <ion-select-option value="ambiente">Ambiente</ion-select-option>
       <ion-select-option value="precios">Precios</ion-select-option>
-      <ion-select-option value="ubicacion">Ubicacion</ion-select-option>
+      <ion-select-option value="ubicacion">Ubicación</ion-select-option>
       <ion-select-option value="ninguna">Ninguna</ion-select-option>
     </ion-select>
   </ion-item>
@@ -137,7 +137,7 @@ Continuar
   <div class="question ion-margin-bottom ion-padding-horizontal">
     <h2><strong>Nadie es perfecto</strong></h2>
     <p><span class="question-sign">?</span>{{questions.Could_Improve}}</p>
-    <p class="aclaracion">*Puedes seleccionar mas de una opcion</p>
+    <p class="aclaracion">*Puedes seleccionar mas de una opción</p>
   </div>
   <ion-list class="ion-padding-bottom">
     <ion-item *ngFor="let entry of checkboxValues">
@@ -171,7 +171,7 @@ Continuar
     <ion-textarea [(ngModel)]="textValue" rows="6" cols="20" placeholder="Escribe tus pensamientos..."></ion-textarea>
   </ion-item>
   
-  <p class="ion-padding-bottom"> Opcionalmente, tambien puedes cargar hasta 3 fotos de tu experiencia.</p>
+  <p class="ion-padding-bottom"> Opcionalmente, también puedes cargar hasta 3 fotos de tu experiencia.</p>
   <ion-row>
     <ion-col size="4" offset-sm="2" class="ion-paddin-vertical">
       <app-image-picker
@@ -217,7 +217,7 @@ Enviar
   <h2><strong>¡Muchas gracias!</strong></h2>
   <p>Tus respuestas han sido recibidas.</p>   
   <p>Esperamos verte pronto.</p>
-  <ion-item class="signup" lines="none" (click)="navCtrl.navigateForward('/customer/main/home')">
+  <ion-item class="signup" lines="none" (click)="navCtrl.navigateForward('/customer')">
     <ion-icon slot="start" src="/assets/img/next.svg"></ion-icon>      
     <p slot="start"><strong>Volver</strong></p>
   </ion-item>  

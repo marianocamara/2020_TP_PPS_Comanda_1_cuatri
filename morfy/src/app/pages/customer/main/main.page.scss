@@ -3,6 +3,9 @@ ion-title {
     font-size: 22px !important;
     letter-spacing: 1px;
     color: rgba(0, 0, 0, 0.808);
+    span {
+        color: var(--ion-color-morfy);
+    }
 }
 .order-total{
     padding: 5px;
@@ -13,8 +16,10 @@ ion-title {
 }
 ion-fab{
     margin-bottom: 64px;
+    margin-right: -2px;
 }
 
 app-qr-picker{
     margin-bottom: 16px;
 }
+

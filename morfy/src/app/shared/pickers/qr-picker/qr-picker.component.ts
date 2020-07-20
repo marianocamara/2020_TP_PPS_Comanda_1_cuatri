@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ToastController, NavController } from '@ionic/angular';
+import { ToastController, NavController, Platform } from '@ionic/angular';
 import { BarcodeScanner, BarcodeScannerOptions } from '@ionic-native/barcode-scanner/ngx';
 import { Status, User } from 'src/app/models/user';
 import { DatabaseService } from 'src/app/services/database.service';
@@ -15,12 +15,12 @@ import { WaitingListEntry } from 'src/app/models/waiting-list-entry';
 export class QrPickerComponent implements OnInit {
 
   private user: User;
-  private isTesting: boolean = true;
   constructor(
     private toastController: ToastController,
     private barcodeScanner: BarcodeScanner,
     private database: DatabaseService,
     private authService: AuthService,
+    private platform: Platform,
     private navCtrl: NavController) { }
 
   private optionsQrScanner: BarcodeScannerOptions = {
@@ -58,7 +58,8 @@ export class QrPickerComponent implements OnInit {
   }
 
   scanCode() {
-    if (this.isTesting) {
+    if ((this.platform.is('mobile') && !this.platform.is('hybrid')) ||
+    this.platform.is('desktop')) {
       this.database.GetOne('users', this.user.id)
         .then((user) => {
           if ((user as User).table) {
@@ -131,7 +132,7 @@ export class QrPickerComponent implements OnInit {
           this.database.GetOne('users', this.user.id)
             .then((user) => {
               if ((user as User).table === number_table) {
-                this.database.UpdateSingleField('status', Status.Recent_Sit, 'users', this.user.id)
+                //this.database.UpdateSingleField('status', Status.Recent_Sit, 'users', this.user.id)
                 this.navCtrl.navigateForward('/customer/main/home');
               } else {
                 this.presentToast("Ingreso incorrecto. Su mesa asignada es la número " + (user as User).table + ".");

@@ -1,0 +1,60 @@
+<ion-header mode="ios" class="ion-no-border">
+  <ion-toolbar class="ion-no-border">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      Estadisticas
+    </ion-title>
+    <ion-avatar slot="end" style="height:40px; width: 40px; margin-right: 8px;" *ngIf="user">
+      <img [src]="user ? user.imageUrl : 'Loading...'" (click)="presentAlertLogout()">
+    </ion-avatar>
+    <ion-buttons slot="start">
+      <ion-buttons slot="start">
+        <ion-back-button text="" defaultHref="staff"></ion-back-button>
+      </ion-buttons>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  
+  <div class="ion-padding">
+    <div class="section-title">
+      Areas a mejorar
+    </div>
+    <ion-card>
+      <ion-card-header>
+        Encuesta clientes
+      </ion-card-header>
+      <ion-card-content>
+        <canvas #barCanvas></canvas>
+      </ion-card-content>
+    </ion-card>
+
+    <div class="section-title">
+      Satisfacción (1 a 5)
+    </div>
+    <ion-card>
+      <ion-card-header>
+        Cant. votos: {{satisfactionData.length}}
+      </ion-card-header>
+      <ion-card-content>
+        <canvas #doughnutCanvas></canvas>
+      </ion-card-content>
+    </ion-card>
+
+    <div class="section-title">
+      Ventas
+    </div>
+    <ion-card>
+      <ion-card-header>
+        Volumen de pedidos
+      </ion-card-header>
+      <ion-card-content>
+        <canvas #lineCanvas></canvas>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+</ion-content>

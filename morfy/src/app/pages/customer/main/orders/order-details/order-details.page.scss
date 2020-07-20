@@ -123,3 +123,27 @@ ion-toolbar{
         // margin: 20px 10px 0px 160px;
     }
 }
+
+.propina{
+    padding: 15px 20px;
+    .cantidad{
+        background: #f4f5f8;
+        border-radius: 10px;
+        text-align: center;
+        margin: 0 5px;
+    }
+    .selected{
+        background: #ee626e;
+        color: white;
+    }
+}
+
+
+
+.text-8pt { font-size: 8pt; }
+.text-9pt { font-size: 9pt; }
+.text-10pt { font-size: 10pt; }
+.text-11pt { font-size: 11pt; }
+.text-12pt { font-size: 12pt; }
+.text-15pt { font-size: 15pt; }
+.text-18pt { font-size: 18pt; }

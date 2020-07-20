@@ -100,12 +100,12 @@ div[img-custom ="0"] {
 
 .list {
     overflow: hidden;
-    height: 150px;
-    margin: 0 22px 40px 0px;
+    height: 175px;
+    margin: 0 22px 11px 0px;
     .price {
         color: orange;
         position: absolute;
-        bottom: 0;
+        bottom: 36px;
         margin-bottom: 10px;        
     }
     .title {
@@ -126,7 +126,7 @@ div[img-custom ="0"] {
         --border-radius: 3px;
         font-size: 12px;
         position: absolute;
-        bottom: 0;
+        bottom: 36px;
         right: 0;
     }
     .list-img {
@@ -237,3 +237,35 @@ div[img-custom ="0"] {
     }
 }
 
+.imgSlide{
+    overflow: hidden;
+    margin: 0 0 40px 0px;
+    height: 250px !important;
+    width: 90%;
+    border-radius: 10px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+
+.swiper-zoom-container>img, .swiper-zoom-container>svg, .swiper-zoom-container>canvas{
+    object-fit: cover !important;
+}
+
+.slideProducts{
+    max-width: calc(calc(5 / var(--ion-grid-columns, 12)) * 100%) !important;
+    object-fit: cover !important;
+}
+
+.imgProdSlide{
+    overflow: hidden;
+    margin: 0 0 40px 0px;
+    height: 136px !important;
+    width: 100%;
+    border-radius: 10px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}

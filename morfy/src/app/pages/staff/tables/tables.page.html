@@ -50,26 +50,17 @@
             <h2>{{customer.customerName}}</h2>
           </ion-label>
           <ion-icon slot="end" src="https://image.flaticon.com/icons/svg/93/93192.svg"></ion-icon>
-          <ion-select #C (ionChange)="onChange(customer.id, C.value)" style="opacity: 0;">
+          <ion-select #C (ionChange)="this.assingTable(customer.id, C.value)" style="opacity: 0;">
             <ion-select-option *ngFor="let table of aviableTables" value="{{table}}">{{table}}</ion-select-option>
           </ion-select>
         </ion-item>
-        <!-- <ion-item>
-          <ion-label>Mesas disponibles: </ion-label>
-          <ion-select>
-            <ion-select-option (click)="confirm(slidingItem, customer.id, table)" *ngFor="let table of aviableTables" value="{{table}}">{{table}}</ion-select-option>
-          </ion-select>
-        </ion-item> -->
-        <!-- <ion-item-options>
-          <ion-item-option *ngFor="let table of aviableTables" (click)="confirm(slidingItem, customer.id, table)" value="{{table}}" >
-            <p>{{table}}</p>
-          </ion-item-option>
-        </ion-item-options> -->
       </ion-item-sliding>
       <ion-row *ngIf="!waitingCustomers|| waitingCustomers.length == 0" class="types">
+        <div class="card">
         <ion-col>
-          <p>No se encontraron clientes en la sala de espera.</p>
+          <h5>No hay clientes en la sala de espera.</h5>
         </ion-col>
+      </div>
       </ion-row>
 
     </div>
@@ -88,9 +79,11 @@
         </ion-item>
       </ion-item-sliding>
       <ion-row *ngIf="!userTableAssigned|| userTableAssigned.length == 0" class="types">
+        <div class="card">
         <ion-col>
-          <p>No se encontraron clientes con mesa asignada.</p>
+          <h5>No se encontraron clientes con mesa asignada.</h5>
         </ion-col>
+      </div>
       </ion-row>
 
     </div>

@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css?family=Rubik&display=swap');
+
+
+.types {
+    flex-wrap: nowrap;
+    padding: 0 0 10px 40px;
+    overflow-y: scroll;
+    ion-col {
+        margin-right: 35px;
+        p {
+            font-weight: bold;
+            font-size: 13px;
+            color: rgba(0, 0, 0, 0.301);
+        }
+    }
+}
+
+.row-cards {
+    flex-wrap: nowrap;
+    padding: 20px 20px 5px 40px;
+    overflow-y: scroll;
+
+    ion-item {
+        --border-color: transparent!important;
+        padding: 0 !important;
+        --highlight-height: 0;
+        --background: none;
+        background: rgba(0, 0, 0, 0.034);
+        border-radius: 10px;
+        margin-bottom: 10px;
+        ion-icon {
+            color: rgb(158, 158, 158);
+        }
+        ion-input {
+            --color: rgb(158, 158, 158);
+        }
+    }
+
+    .card {
+        border-radius: 10px;
+        color: white;
+        height: 135px;
+        box-shadow: 0px 3px 14px -6px rgba(0,0,0,0.75);
+        position: relative;
+        margin-right: 20px;
+
+        .card-number {
+            font-size: 14px;
+            margin-bottom: 30px;
+            margin-top: 20px;
+        }
+        .card-holder {
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+        .card-person-name {
+            font-size: 12px;
+        }
+        .visa-logo {
+            position: absolute;
+            bottom: 0;
+            right: 5px;
+            width: 60px;
+        }
+    }
+}
+
+
+.list-transactions {
+    padding: 0 0 0 30px;
+    background: none;
+    --background: none;
+
+    ion-item {
+        border-radius: 10px;
+        margin-bottom: 10px;
+        --padding-start:10px;
+        h2 {
+            font-weight: bolder;
+            color: rgba(0, 0, 0, 0.705);
+        }
+        p {
+            color: rgba(0, 0, 0, 0.493);
+        }
+    }
+}
+
+.padding-20 {
+    padding: 20px;
+}
+
+.employee .approve ion-item-option{
+    padding: 10px;
+}
+
+.products {
+    margin-left: 70px;
+}
+
+ion-chip {
+    margin-top: 30px
+}

@@ -6,6 +6,8 @@ import { User, Status } from 'src/app/models/user';
 import { DatabaseService } from 'src/app/services/database.service';
 import { map } from 'rxjs/operators';
 import { WaitingListEntry } from 'src/app/models/waiting-list-entry';
+import { OrderStatus, Order } from 'src/app/models/order';
+import { Subscription } from 'rxjs/internal/Subscription';
 
 
 @Component({
@@ -23,7 +25,8 @@ export class WaitingListPage implements OnInit {
   myPosition = 8;
   // waitingList = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ];
   waitingList: WaitingListEntry[] = [];
-
+  private ordersSub: Subscription;
+  pendingOrder: Order[];
 
 
   // Optional parameters to pass to the swiper instance.
@@ -34,10 +37,10 @@ export class WaitingListPage implements OnInit {
     clickable: true
   };
 
-  constructor( public navCtrl: NavController,
-               private authService: AuthService,
-               private database: DatabaseService,
-               public alertController:AlertController ) { }
+  constructor(public navCtrl: NavController,
+    private authService: AuthService,
+    private database: DatabaseService,
+    public alertController: AlertController) { }
 
   ngOnInit() {
     this.isLoading = true;
@@ -58,6 +61,14 @@ export class WaitingListPage implements OnInit {
                   console.log(this.myPosition);
                 });
             });
+            this.ordersSub = this.database.GetWithQuery('idClient', '==', this.user.id, 'orders')
+            .subscribe(data => {
+              this.pendingOrder = (data as Order[]).filter(order => order.status === OrderStatus.Pending || order.status === OrderStatus.Confirmed
+                || order.status === OrderStatus.Delivered
+                || order.status === OrderStatus.Ready
+                || order.status === OrderStatus.Received
+                || order.status === OrderStatus.Submitted);
+              });
         }
         else {
           this.user = null;
@@ -90,7 +101,7 @@ export class WaitingListPage implements OnInit {
         }, {
           text: 'Cerrar Sesión',
           handler: () => {
-            this.logoutUser();          
+            this.logoutUser();
           }
         }
       ]
@@ -98,24 +109,24 @@ export class WaitingListPage implements OnInit {
 
     await alert.present();
   }
-  
-  logoutUser(){
+
+  logoutUser() {
     this.authService.logoutUser()
-    .then(res => {
-      // console.log(res);
-      this.navCtrl.navigateBack('');
-    })
-    .catch(error => {
-      console.log(error);
-    });
+      .then(res => {
+        // console.log(res);
+        this.navCtrl.navigateBack('');
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
   logout() {
-    if ((this.user as User).type === 'anonimo') {
+    if ((this.user as User).type !== undefined && (this.user as User).type === 'anonimo') {
       // Si el usuario anonimo esta comiendo o esperando el pedido, no lo dejo finalizar sesion
-      if((this.user as User).status === Status.Eating || (this.user as User).status === Status.Waiting_Order){
+      if(this.pendingOrder.length > 0){  
         this.presentAlert("Para finalizar sesión tiene que pagar la cuenta.", "Atención");
-      }else{
+      } else {
         this.presentAlertLogoutAnon();
       }
     } else {
@@ -151,7 +162,8 @@ export class WaitingListPage implements OnInit {
           handler: () => {
             this.authService.logoutUser()
               .then(res => {
-                this.navCtrl.navigateBack('');
+                this.database.UpdateSingleField('table', '', 'users', this.user.id)
+                .then(() =>{ this.navCtrl.navigateBack(''); });
               })
               .catch(error => {
                 console.log(error);
@@ -163,7 +175,6 @@ export class WaitingListPage implements OnInit {
 
     await alert.present();
   }
-
 
   formatTitle = () => {
     return this.user.table ? `${this.user.table}` : `${this.myPosition}`;

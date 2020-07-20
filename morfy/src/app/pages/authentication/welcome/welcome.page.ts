@@ -8,6 +8,9 @@ import { NavController } from '@ionic/angular';
 })
 export class WelcomePage implements OnInit {
 
+  splash = true;
+  animatione = false;
+
   constructor(
     private navCtrl: NavController
     ) { }
@@ -22,5 +25,11 @@ export class WelcomePage implements OnInit {
       autoplay: true,
       loop: true,
    };
+
+   
+  ionViewDidEnter(){
+    setTimeout(() => this.animatione = true, 100);    
+    setTimeout(() => this.splash = false, 3000);
+  }
 
 }

@@ -1,0 +1,139 @@
+<ion-header mode="ios" class="ion-no-border">
+  <ion-toolbar class="ion-no-border">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title *ngIf="user && user.type == 'cocinero'">
+      Platos
+    </ion-title>
+    <ion-title *ngIf="user && user.type == 'bartender'">
+      Bebidas
+    </ion-title>
+    <ion-avatar slot="end" style="height:40px; width: 40px; margin-right: 8px;" *ngIf="user">
+      <img [src]="user ? user.imageUrl : 'Loading...'" (click)="presentAlertLogout()">
+    </ion-avatar>
+    <ion-buttons slot="start">
+      <ion-buttons slot="start">
+        <ion-back-button text="" defaultHref="staff"></ion-back-button>
+      </ion-buttons>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="bg">  
+  <div class="aprobados">
+    
+    <ion-grid class="ion-no-padding">
+      <ion-row class="row-cards">
+        <ion-col>
+          <div>
+            <ion-item class="ion*no-padding">
+              <ion-icon slot="start" name="search"></ion-icon>
+              <ion-input placeholder="Buscar pedidos" required type="text" [(ngModel)]="input" (ngModelChange)="search(false)"></ion-input>
+            </ion-item>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    
+    <!-- <ion-grid class="ion-no-padding">
+      <ion-row class="types">
+        <ion-col *ngFor="let status of status | keyvalue:keepOriginalOrder" (click)="filterOrders(status.value)" >
+          <p>{{status.key}}</p>
+        </ion-col>
+      </ion-row>
+    </ion-grid> -->
+    
+    <ion-grid *ngIf="isLoading" class="ion-text-center">
+      <ion-row>
+        <ion-col size="12" size-sm="8" offset-sm="2" text-center>
+          <ion-spinner color="primary"></ion-spinner>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    
+    <div class="employee" *ngIf="!isLoading && user.type == 'cocinero' && foodOrders && foodOrders.length > 0" style="padding-left: 30px;">
+      <div *ngFor="let order of foodOrders" class="order">
+        <ng-container *ngIf="order.products.length > 0">
+          <ion-chip color="danger">
+            <ion-icon name="stopwatch-outline" ></ion-icon>
+            <ion-label >Pedido: {{order.id | slice:0:4}}</ion-label>
+          </ion-chip>
+          <!-- <h3 style="color:rgb(82, 81, 81)">Pedido: {{order.id | slice:0:4}}</h3> -->
+           <ion-item-sliding *ngFor="let product of order.products; let i = index" #slidingItem>
+            <ng-container *ngIf="!product.product.category.includes('bebida')">
+              <ion-item lines="none">
+                <ion-thumbnail slot="start" style="--border-radius: 10px;">
+                  <img [src]="product.product.imageUrl"/>
+                </ion-thumbnail>
+                <ion-label>
+                  <h2>{{product.product.name | slice:0:18}}  
+                    <ion-badge color="light">
+                      <ion-label >X  {{product.quantity}}</ion-label>
+                    </ion-badge>
+                  </h2>
+                  <p style="color:rgb(163, 163, 163)">{{order.date | dateAgo}}</p>
+                </ion-label>
+                <!-- <ion-icon color="medium" name="chevron-back-circle-outline" *ngIf="!product.isPrepared"></ion-icon> ver si hay estado 'en preparacion'-->
+                <ion-icon style="color: orange" name="stopwatch-outline" *ngIf="!product.isPrepared"></ion-icon>
+                <ion-icon style="color: #26b52b;" slot="end" name="checkmark-circle-outline" *ngIf="product.isPrepared"></ion-icon>
+              </ion-item>
+              <ion-item-options class="approve" *ngIf="!product.isPrepared">
+                <ion-item-option style="background:#26b52b" (click)="prepare(slidingItem, order, i)">
+                  <p>Preparar</p>
+                </ion-item-option>
+              </ion-item-options>
+            </ng-container>
+          </ion-item-sliding>
+        </ng-container>
+      </div>
+    </div>
+    <div class="employee" *ngIf="!isLoading && user.type == 'bartender' && drinkOrders && drinkOrders.length > 0" style="padding-left: 30px;">
+      <div *ngFor="let order of drinkOrders" class="order">
+        <ng-container *ngIf="order.products.length > 0">
+          <ion-chip color="danger">
+            <ion-icon name="stopwatch-outline" ></ion-icon>
+            <ion-label >Pedido: {{order.id | slice:0:4}}</ion-label>
+          </ion-chip>
+          <!-- <h3 style="color:rgb(82, 81, 81)">Pedido: {{order.id | slice:0:4}}</h3> -->
+           <ion-item-sliding *ngFor="let product of order.products; let i = index" #slidingItem>
+            <ng-container *ngIf="product.product.category.includes('bebida')">
+              <ion-item lines="none">
+                <ion-thumbnail slot="start" style="--border-radius: 10px;">
+                  <img [src]="product.product.imageUrl"/>
+                </ion-thumbnail>
+                <ion-label>
+                  <h2>{{product.product.name | slice:0:18}}  
+                    <ion-badge color="light">
+                      <ion-label >X  {{product.quantity}}</ion-label>
+                    </ion-badge>
+                  </h2>
+                  <p style="color:rgb(163, 163, 163)">{{order.date | dateAgo}}</p>
+                </ion-label>
+                <!-- <ion-icon color="medium" name="chevron-back-circle-outline" *ngIf="!product.isPrepared"></ion-icon> ver si hay estado 'en preparacion'-->
+                <ion-icon style="color: orange" name="stopwatch-outline" *ngIf="!product.isPrepared"></ion-icon>
+                <ion-icon style="color: #26b52b;" slot="end" name="checkmark-circle-outline" *ngIf="product.isPrepared"></ion-icon>
+              </ion-item>
+              <ion-item-options class="approve" *ngIf="!product.isPrepared">
+                <ion-item-option style="background:#26b52b" (click)="prepare(slidingItem, order, i)">
+                  <p>Preparar</p>
+                </ion-item-option>
+              </ion-item-options>
+            </ng-container>
+          </ion-item-sliding>
+        </ng-container>
+      </div>
+    </div>
+    <ion-row class="types">
+      <ion-col>
+        <p *ngIf="!isLoading && user.type == 'cocinero' && !foodOrders || !isLoading && user.type == 'cocinero' && foodOrders.length == 0" >
+          No se encontraron platos a preparar.
+        </p>
+        <p *ngIf="!isLoading && user.type == 'bartender' && !drinkOrders || !isLoading && user.type == 'bartender' && drinkOrders.length == 0" >
+          No se encontraron bebidas a preparar.
+        </p>
+      </ion-col>
+    </ion-row>
+  </div>
+  
+</ion-content>

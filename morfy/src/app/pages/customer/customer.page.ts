@@ -6,6 +6,8 @@ import { User, Status } from 'src/app/models/user';
 import { DatabaseService } from 'src/app/services/database.service';
 import { WaitingListEntry } from 'src/app/models/waiting-list-entry';
 import { NotificationMessages } from 'src/app/models/notification';
+import { Subscription } from 'rxjs/internal/Subscription';
+import { Order, OrderStatus } from 'src/app/models/order';
 
 
 @Component({
@@ -20,6 +22,8 @@ export class CustomerPage implements OnInit {
   @ViewChild('slides') slides: IonSlides;
   disablePrevBtn = true;
   disableNextBtn = false;
+  private ordersSub: Subscription;
+  pendingOrder: Order[];
 
 
   // Optional parameters to pass to the swiper instance.
@@ -40,6 +44,14 @@ export class CustomerPage implements OnInit {
       (userData) => {
         if (userData.value) {
           this.user = JSON.parse(userData.value);
+          this.ordersSub = this.database.GetWithQuery('idClient', '==', this.user.id, 'orders')
+          .subscribe(data => {
+            this.pendingOrder = (data as Order[]).filter(order => order.status === OrderStatus.Pending || order.status === OrderStatus.Confirmed
+              || order.status === OrderStatus.Delivered
+              || order.status === OrderStatus.Ready
+              || order.status === OrderStatus.Received
+              || order.status === OrderStatus.Submitted);
+            });
         }
         else {
           this.user = null;
@@ -109,7 +121,7 @@ export class CustomerPage implements OnInit {
   logout() {
     if ((this.user as User).type === 'anonimo') {
       // Si el usuario anonimo esta comiendo o esperando el pedido, no lo dejo finalizar sesion
-      if((this.user as User).status === Status.Eating || (this.user as User).status === Status.Waiting_Order){
+      if(this.pendingOrder.length > 0){  
         this.presentAlert("Para finalizar sesión tiene que pagar la cuenta.", "Atención");
       }else{
         this.presentAlertLogoutAnon();
@@ -147,7 +159,8 @@ export class CustomerPage implements OnInit {
           handler: () => {
             this.authService.logoutUser()
               .then(res => {
-                this.navCtrl.navigateBack('');
+                this.database.UpdateSingleField('table', '', 'users', this.user.id)
+                .then(() =>{ this.navCtrl.navigateBack(''); });
               })
               .catch(error => {
                 console.log(error);
