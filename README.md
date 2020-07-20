@@ -23,7 +23,7 @@ Queremos que todo el trabajo que realicemos garantice la comodidad de la totalid
 <br>
 <h1>[Sprint 1] 23/05/2020 - 30/05/2020</h1>
 <br>
-Objetivos planteados: <br>
+Objetivos planteados:  <br>
 1 - Generación del Repositorio.<br>
 2 - Generación de la estructura del proyecto.<br>
 <ul>
